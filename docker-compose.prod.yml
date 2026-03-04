@@ -1,0 +1,54 @@
+# Production docker-compose - pulls pre-built images from Docker Hub
+# Usage: DOCKER_REGISTRY=yourusername docker compose -f docker-compose.prod.yml up -d
+
+services:
+  backend:
+    image: ${DOCKER_REGISTRY:-mohan1711}/pip-backend:${IMAGE_TAG:-latest}
+    container_name: pip-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=false
+      - HOST=0.0.0.0
+      - PORT=8000
+      - CORS_ORIGINS=["http://localhost","https://biofield.live","http://biofield.live"]
+    volumes:
+      - uploads:/app/uploads
+    networks:
+      - pip-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  frontend:
+    image: ${DOCKER_REGISTRY:-mohan1711}/pip-frontend:${IMAGE_TAG:-latest}
+    container_name: pip-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      backend:
+        condition: service_healthy
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/www/certbot:/var/www/certbot:ro
+    networks:
+      - pip-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:80/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+networks:
+  pip-network:
+    driver: bridge
+
+volumes:
+  uploads:

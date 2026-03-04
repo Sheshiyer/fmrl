@@ -1,0 +1,526 @@
+{
+  "depsByFile": {
+    " UI_Design_Specification.md": [],
+    ".claude/settings.local.json": [],
+    ".cursor/mcp.json": [],
+    ".cursor/rules/cursor_rules.mdc": [],
+    ".cursor/rules/dev_workflow.mdc": [],
+    ".cursor/rules/self_improve.mdc": [],
+    ".cursor/rules/taskmaster.mdc": [],
+    ".env.example": [],
+    ".github/workflows/deploy.yml": [],
+    ".gitignore": [],
+    ".windsurfrules": [],
+    "CHANGELOG.md": [],
+    "METRICS_IMPLEMENTATION_STATUS.md": [],
+    "METRICS_TOOLTIP_FIX.md": [],
+    "PIP_Analysis_System_Specification.md": [],
+    "PIP_Implementation_Plan.md": [],
+    "PIP_Segmentation_Specification.md": [],
+    "PIP_Shader_Implementation_Scientific_Article.md": [],
+    "README-task-master.md": [],
+    "backend/.dockerignore": [],
+    "backend/.env.example": [],
+    "backend/Dockerfile": [],
+    "backend/api/__init__.py": [],
+    "backend/api/routes/__init__.py": [],
+    "backend/api/routes/analysis.py": [
+      "backend/core/metrics/basic.py",
+      "backend/core/metrics/color.py",
+      "backend/core/metrics/contour.py",
+      "backend/core/metrics/geometric.py",
+      "backend/core/metrics/nonlinear.py",
+      "backend/core/metrics/symmetry.py",
+      "backend/core/scores/coherence.py",
+      "backend/core/scores/color_balance.py",
+      "backend/core/scores/complexity.py",
+      "backend/core/scores/energy.py",
+      "backend/core/scores/regulation.py",
+      "backend/core/scores/symmetry.py",
+      "backend/core/segmentation/body.py",
+      "backend/core/segmentation/face.py",
+      "backend/core/segmentation/zones.py"
+    ],
+    "backend/api/routes/baseline.py": [],
+    "backend/api/routes/capture.py": [],
+    "backend/api/routes/export.py": [],
+    "backend/api/routes/websocket.py": [],
+    "backend/config.py": [],
+    "backend/core/__init__.py": [],
+    "backend/core/entrainment/__init__.py": [],
+    "backend/core/metrics/__init__.py": [],
+    "backend/core/metrics/basic.py": [],
+    "backend/core/metrics/color.py": [],
+    "backend/core/metrics/contour.py": [],
+    "backend/core/metrics/geometric.py": [],
+    "backend/core/metrics/nonlinear.py": [],
+    "backend/core/metrics/symmetry.py": [],
+    "backend/core/scores/__init__.py": [],
+    "backend/core/scores/coherence.py": [],
+    "backend/core/scores/color_balance.py": [],
+    "backend/core/scores/complexity.py": [],
+    "backend/core/scores/energy.py": [],
+    "backend/core/scores/regulation.py": [],
+    "backend/core/scores/symmetry.py": [],
+    "backend/core/segmentation/__init__.py": [],
+    "backend/core/segmentation/body.py": [],
+    "backend/core/segmentation/face.py": [],
+    "backend/core/segmentation/zones.py": [],
+    "backend/db/__init__.py": [],
+    "backend/db/repositories/__init__.py": [],
+    "backend/main.py": [
+      "backend/api/routes/__init__.py",
+      "backend/config.py"
+    ],
+    "backend/models/__init__.py": [],
+    "backend/requirements.txt": [],
+    "backend/utils/__init__.py": [],
+    "docker-compose.prod.yml": [],
+    "docker-compose.yml": [],
+    "frontend/.dockerignore": [],
+    "frontend/.gitignore": [],
+    "frontend/Dockerfile": [],
+    "frontend/README.md": [],
+    "frontend/eslint.config.js": [],
+    "frontend/index.html": [],
+    "frontend/nginx-initial.conf": [],
+    "frontend/nginx.conf": [],
+    "frontend/package-lock.json": [],
+    "frontend/package.json": [],
+    "frontend/postcss.config.js": [],
+    "frontend/src/App.css": [],
+    "frontend/src/App.tsx": [
+      "frontend/src/components/Layout/Shell.tsx",
+      "frontend/src/components/Panels/MetricsScoresPanel.tsx",
+      "frontend/src/components/Panels/PIPCanvasPanel.tsx",
+      "frontend/src/context/AppContext.tsx",
+      "frontend/src/hooks/useRealTimeMetrics.ts",
+      "frontend/src/pages/DetailedAnalysis.tsx",
+      "frontend/src/pages/MetricsGuide.tsx"
+    ],
+    "frontend/src/components/Cards/GlassCard.tsx": [],
+    "frontend/src/components/Cards/LiveMetricsCard.tsx": [
+      "frontend/src/components/Cards/GlassCard.tsx"
+    ],
+    "frontend/src/components/Cards/ScoreTile.tsx": [],
+    "frontend/src/components/Cards/SymmetrySnapshotCard.tsx": [
+      "frontend/src/components/Cards/GlassCard.tsx"
+    ],
+    "frontend/src/components/GraphPanel/index.tsx": [
+      "frontend/src/context/appState.ts"
+    ],
+    "frontend/src/components/Header/index.tsx": [
+      "frontend/src/context/appState.ts"
+    ],
+    "frontend/src/components/Layout/Header.tsx": [
+      "frontend/src/components/UI/MetricsTooltip.tsx"
+    ],
+    "frontend/src/components/Layout/Shell.tsx": [
+      "frontend/src/components/Layout/Header.tsx",
+      "frontend/src/components/Layout/TimelineStrip.tsx"
+    ],
+    "frontend/src/components/Layout/TimelineStrip.tsx": [
+      "frontend/src/components/Cards/GlassCard.tsx"
+    ],
+    "frontend/src/components/MetricsPanel/ScoreCard.tsx": [],
+    "frontend/src/components/MetricsPanel/index.tsx": [
+      "frontend/src/components/MetricsPanel/ScoreCard.tsx",
+      "frontend/src/context/appState.ts"
+    ],
+    "frontend/src/components/Modals/CaptureModal.tsx": [
+      "frontend/src/components/Cards/GlassCard.tsx"
+    ],
+    "frontend/src/components/PIPCanvas/PIPShader.tsx": [
+      "frontend/src/services/segmentation/index.ts"
+    ],
+    "frontend/src/components/PIPCanvas/index.ts": [
+      "frontend/src/components/PIPCanvas/PIPShader.tsx"
+    ],
+    "frontend/src/components/Panels/MetricsScoresPanel.tsx": [
+      "frontend/src/components/Cards/LiveMetricsCard.tsx",
+      "frontend/src/components/Cards/ScoreTile.tsx",
+      "frontend/src/components/Cards/SymmetrySnapshotCard.tsx"
+    ],
+    "frontend/src/components/Panels/PIPCanvasPanel.tsx": [
+      "frontend/src/components/Cards/GlassCard.tsx",
+      "frontend/src/components/PIPCanvas/PIPShader.tsx"
+    ],
+    "frontend/src/components/UI/MetricsTooltip.tsx": [],
+    "frontend/src/components/VideoPanel/AnalysisModeSelector.tsx": [
+      "frontend/src/context/appState.ts",
+      "frontend/src/types/index.ts"
+    ],
+    "frontend/src/components/VideoPanel/AnalysisResultModal.tsx": [
+      "frontend/src/types/index.ts"
+    ],
+    "frontend/src/components/VideoPanel/CaptureButton.tsx": [],
+    "frontend/src/components/VideoPanel/PIPControlPanel.tsx": [
+      "frontend/src/types/index.ts"
+    ],
+    "frontend/src/components/VideoPanel/index.tsx": [
+      "frontend/src/components/VideoPanel/AnalysisModeSelector.tsx",
+      "frontend/src/components/VideoPanel/AnalysisResultModal.tsx",
+      "frontend/src/components/VideoPanel/CaptureButton.tsx",
+      "frontend/src/components/VideoPanel/PIPControlPanel.tsx",
+      "frontend/src/context/appState.ts",
+      "frontend/src/hooks/useCamera.ts",
+      "frontend/src/hooks/useFrameCapture.ts",
+      "frontend/src/hooks/usePIPRenderer.ts",
+      "frontend/src/types/index.ts"
+    ],
+    "frontend/src/context/AppContext.tsx": [
+      "frontend/src/context/appState.ts",
+      "frontend/src/types/index.ts"
+    ],
+    "frontend/src/context/appState.ts": [
+      "frontend/src/types/index.ts"
+    ],
+    "frontend/src/hooks/index.ts": [
+      "frontend/src/hooks/useCamera.ts",
+      "frontend/src/hooks/useFrameCapture.ts",
+      "frontend/src/hooks/useMetricsWorker.ts",
+      "frontend/src/hooks/usePIPRenderer.ts",
+      "frontend/src/hooks/useSegmentation.ts",
+      "frontend/src/hooks/useWebSocket.ts"
+    ],
+    "frontend/src/hooks/useCamera.ts": [
+      "frontend/src/types/index.ts"
+    ],
+    "frontend/src/hooks/useFrameCapture.ts": [
+      "frontend/src/types/index.ts"
+    ],
+    "frontend/src/hooks/useMetricsWorker.ts": [
+      "frontend/src/services/segmentation/index.ts"
+    ],
+    "frontend/src/hooks/usePIPRenderer.ts": [
+      "frontend/src/services/PIPRenderer.ts",
+      "frontend/src/types/index.ts"
+    ],
+    "frontend/src/hooks/useRealTimeMetrics.ts": [
+      "frontend/src/services/MetricsCalculator.ts",
+      "frontend/src/services/ScoreCalculator.ts"
+    ],
+    "frontend/src/hooks/useSegmentation.ts": [
+      "frontend/src/services/segmentation/index.ts",
+      "frontend/src/types/index.ts"
+    ],
+    "frontend/src/hooks/useWebSocket.ts": [
+      "frontend/src/types/index.ts"
+    ],
+    "frontend/src/index.css": [],
+    "frontend/src/main.tsx": [],
+    "frontend/src/pages/DetailedAnalysis.tsx": [
+      "frontend/src/components/Cards/GlassCard.tsx",
+      "frontend/src/services/PDFExportService.ts"
+    ],
+    "frontend/src/pages/MetricsGuide.tsx": [],
+    "frontend/src/services/MetricsCalculator.ts": [
+      "frontend/src/services/segmentation/index.ts"
+    ],
+    "frontend/src/services/PDFExportService.ts": [
+      "frontend/src/pages/DetailedAnalysis.tsx"
+    ],
+    "frontend/src/services/PIPRenderer.ts": [
+      "frontend/src/types/index.ts"
+    ],
+    "frontend/src/services/ScoreCalculator.ts": [
+      "frontend/src/types/index.ts"
+    ],
+    "frontend/src/services/segmentation/BodySegmenter.ts": [],
+    "frontend/src/services/segmentation/FaceSegmenter.ts": [],
+    "frontend/src/services/segmentation/ZoneCreator.ts": [
+      "frontend/src/services/segmentation/BodySegmenter.ts"
+    ],
+    "frontend/src/services/segmentation/index.ts": [
+      "frontend/src/services/segmentation/BodySegmenter.ts",
+      "frontend/src/services/segmentation/FaceSegmenter.ts",
+      "frontend/src/services/segmentation/ZoneCreator.ts"
+    ],
+    "frontend/src/types/index.ts": [],
+    "frontend/src/workers/metrics.worker.ts": [],
+    "frontend/tailwind.config.js": [],
+    "frontend/tsconfig.app.json": [],
+    "frontend/tsconfig.json": [],
+    "frontend/tsconfig.node.json": [],
+    "frontend/vite.config.ts": [],
+    "scripts/build-push.sh": [],
+    "scripts/code_indexer.py": [],
+    "scripts/deploy-digitalocean.sh": [],
+    "scripts/deploy-prod.sh": [],
+    "scripts/docker-local.sh": [],
+    "scripts/example_prd.txt": [],
+    "technical-blog.md": [],
+    "touchdesigner-embed.html": [],
+    "touchdesigner-style.html": []
+  },
+  "dependentsByFile": {
+    " UI_Design_Specification.md": [],
+    ".claude/settings.local.json": [],
+    ".cursor/mcp.json": [],
+    ".cursor/rules/cursor_rules.mdc": [],
+    ".cursor/rules/dev_workflow.mdc": [],
+    ".cursor/rules/self_improve.mdc": [],
+    ".cursor/rules/taskmaster.mdc": [],
+    ".env.example": [],
+    ".github/workflows/deploy.yml": [],
+    ".gitignore": [],
+    ".windsurfrules": [],
+    "CHANGELOG.md": [],
+    "METRICS_IMPLEMENTATION_STATUS.md": [],
+    "METRICS_TOOLTIP_FIX.md": [],
+    "PIP_Analysis_System_Specification.md": [],
+    "PIP_Implementation_Plan.md": [],
+    "PIP_Segmentation_Specification.md": [],
+    "PIP_Shader_Implementation_Scientific_Article.md": [],
+    "README-task-master.md": [],
+    "backend/.dockerignore": [],
+    "backend/.env.example": [],
+    "backend/Dockerfile": [],
+    "backend/api/__init__.py": [],
+    "backend/api/routes/__init__.py": [
+      "backend/main.py"
+    ],
+    "backend/api/routes/analysis.py": [],
+    "backend/api/routes/baseline.py": [],
+    "backend/api/routes/capture.py": [],
+    "backend/api/routes/export.py": [],
+    "backend/api/routes/websocket.py": [],
+    "backend/config.py": [
+      "backend/main.py"
+    ],
+    "backend/core/__init__.py": [],
+    "backend/core/entrainment/__init__.py": [],
+    "backend/core/metrics/__init__.py": [],
+    "backend/core/metrics/basic.py": [
+      "backend/api/routes/analysis.py"
+    ],
+    "backend/core/metrics/color.py": [
+      "backend/api/routes/analysis.py"
+    ],
+    "backend/core/metrics/contour.py": [
+      "backend/api/routes/analysis.py"
+    ],
+    "backend/core/metrics/geometric.py": [
+      "backend/api/routes/analysis.py"
+    ],
+    "backend/core/metrics/nonlinear.py": [
+      "backend/api/routes/analysis.py"
+    ],
+    "backend/core/metrics/symmetry.py": [
+      "backend/api/routes/analysis.py"
+    ],
+    "backend/core/scores/__init__.py": [],
+    "backend/core/scores/coherence.py": [
+      "backend/api/routes/analysis.py"
+    ],
+    "backend/core/scores/color_balance.py": [
+      "backend/api/routes/analysis.py"
+    ],
+    "backend/core/scores/complexity.py": [
+      "backend/api/routes/analysis.py"
+    ],
+    "backend/core/scores/energy.py": [
+      "backend/api/routes/analysis.py"
+    ],
+    "backend/core/scores/regulation.py": [
+      "backend/api/routes/analysis.py"
+    ],
+    "backend/core/scores/symmetry.py": [
+      "backend/api/routes/analysis.py"
+    ],
+    "backend/core/segmentation/__init__.py": [],
+    "backend/core/segmentation/body.py": [
+      "backend/api/routes/analysis.py"
+    ],
+    "backend/core/segmentation/face.py": [
+      "backend/api/routes/analysis.py"
+    ],
+    "backend/core/segmentation/zones.py": [
+      "backend/api/routes/analysis.py"
+    ],
+    "backend/db/__init__.py": [],
+    "backend/db/repositories/__init__.py": [],
+    "backend/main.py": [],
+    "backend/models/__init__.py": [],
+    "backend/requirements.txt": [],
+    "backend/utils/__init__.py": [],
+    "docker-compose.prod.yml": [],
+    "docker-compose.yml": [],
+    "frontend/.dockerignore": [],
+    "frontend/.gitignore": [],
+    "frontend/Dockerfile": [],
+    "frontend/README.md": [],
+    "frontend/eslint.config.js": [],
+    "frontend/index.html": [],
+    "frontend/nginx-initial.conf": [],
+    "frontend/nginx.conf": [],
+    "frontend/package-lock.json": [],
+    "frontend/package.json": [],
+    "frontend/postcss.config.js": [],
+    "frontend/src/App.css": [],
+    "frontend/src/App.tsx": [],
+    "frontend/src/components/Cards/GlassCard.tsx": [
+      "frontend/src/components/Cards/LiveMetricsCard.tsx",
+      "frontend/src/components/Cards/SymmetrySnapshotCard.tsx",
+      "frontend/src/components/Layout/TimelineStrip.tsx",
+      "frontend/src/components/Modals/CaptureModal.tsx",
+      "frontend/src/components/Panels/PIPCanvasPanel.tsx",
+      "frontend/src/pages/DetailedAnalysis.tsx"
+    ],
+    "frontend/src/components/Cards/LiveMetricsCard.tsx": [
+      "frontend/src/components/Panels/MetricsScoresPanel.tsx"
+    ],
+    "frontend/src/components/Cards/ScoreTile.tsx": [
+      "frontend/src/components/Panels/MetricsScoresPanel.tsx"
+    ],
+    "frontend/src/components/Cards/SymmetrySnapshotCard.tsx": [
+      "frontend/src/components/Panels/MetricsScoresPanel.tsx"
+    ],
+    "frontend/src/components/GraphPanel/index.tsx": [],
+    "frontend/src/components/Header/index.tsx": [],
+    "frontend/src/components/Layout/Header.tsx": [
+      "frontend/src/components/Layout/Shell.tsx"
+    ],
+    "frontend/src/components/Layout/Shell.tsx": [
+      "frontend/src/App.tsx"
+    ],
+    "frontend/src/components/Layout/TimelineStrip.tsx": [
+      "frontend/src/components/Layout/Shell.tsx"
+    ],
+    "frontend/src/components/MetricsPanel/ScoreCard.tsx": [
+      "frontend/src/components/MetricsPanel/index.tsx"
+    ],
+    "frontend/src/components/MetricsPanel/index.tsx": [],
+    "frontend/src/components/Modals/CaptureModal.tsx": [],
+    "frontend/src/components/PIPCanvas/PIPShader.tsx": [
+      "frontend/src/components/PIPCanvas/index.ts",
+      "frontend/src/components/Panels/PIPCanvasPanel.tsx"
+    ],
+    "frontend/src/components/PIPCanvas/index.ts": [],
+    "frontend/src/components/Panels/MetricsScoresPanel.tsx": [
+      "frontend/src/App.tsx"
+    ],
+    "frontend/src/components/Panels/PIPCanvasPanel.tsx": [
+      "frontend/src/App.tsx"
+    ],
+    "frontend/src/components/UI/MetricsTooltip.tsx": [
+      "frontend/src/components/Layout/Header.tsx"
+    ],
+    "frontend/src/components/VideoPanel/AnalysisModeSelector.tsx": [
+      "frontend/src/components/VideoPanel/index.tsx"
+    ],
+    "frontend/src/components/VideoPanel/AnalysisResultModal.tsx": [
+      "frontend/src/components/VideoPanel/index.tsx"
+    ],
+    "frontend/src/components/VideoPanel/CaptureButton.tsx": [
+      "frontend/src/components/VideoPanel/index.tsx"
+    ],
+    "frontend/src/components/VideoPanel/PIPControlPanel.tsx": [
+      "frontend/src/components/VideoPanel/index.tsx"
+    ],
+    "frontend/src/components/VideoPanel/index.tsx": [],
+    "frontend/src/context/AppContext.tsx": [
+      "frontend/src/App.tsx"
+    ],
+    "frontend/src/context/appState.ts": [
+      "frontend/src/components/GraphPanel/index.tsx",
+      "frontend/src/components/Header/index.tsx",
+      "frontend/src/components/MetricsPanel/index.tsx",
+      "frontend/src/components/VideoPanel/AnalysisModeSelector.tsx",
+      "frontend/src/components/VideoPanel/index.tsx",
+      "frontend/src/context/AppContext.tsx"
+    ],
+    "frontend/src/hooks/index.ts": [],
+    "frontend/src/hooks/useCamera.ts": [
+      "frontend/src/components/VideoPanel/index.tsx",
+      "frontend/src/hooks/index.ts"
+    ],
+    "frontend/src/hooks/useFrameCapture.ts": [
+      "frontend/src/components/VideoPanel/index.tsx",
+      "frontend/src/hooks/index.ts"
+    ],
+    "frontend/src/hooks/useMetricsWorker.ts": [
+      "frontend/src/hooks/index.ts"
+    ],
+    "frontend/src/hooks/usePIPRenderer.ts": [
+      "frontend/src/components/VideoPanel/index.tsx",
+      "frontend/src/hooks/index.ts"
+    ],
+    "frontend/src/hooks/useRealTimeMetrics.ts": [
+      "frontend/src/App.tsx"
+    ],
+    "frontend/src/hooks/useSegmentation.ts": [
+      "frontend/src/hooks/index.ts"
+    ],
+    "frontend/src/hooks/useWebSocket.ts": [
+      "frontend/src/hooks/index.ts"
+    ],
+    "frontend/src/index.css": [],
+    "frontend/src/main.tsx": [],
+    "frontend/src/pages/DetailedAnalysis.tsx": [
+      "frontend/src/App.tsx",
+      "frontend/src/services/PDFExportService.ts"
+    ],
+    "frontend/src/pages/MetricsGuide.tsx": [
+      "frontend/src/App.tsx"
+    ],
+    "frontend/src/services/MetricsCalculator.ts": [
+      "frontend/src/hooks/useRealTimeMetrics.ts"
+    ],
+    "frontend/src/services/PDFExportService.ts": [
+      "frontend/src/pages/DetailedAnalysis.tsx"
+    ],
+    "frontend/src/services/PIPRenderer.ts": [
+      "frontend/src/hooks/usePIPRenderer.ts"
+    ],
+    "frontend/src/services/ScoreCalculator.ts": [
+      "frontend/src/hooks/useRealTimeMetrics.ts"
+    ],
+    "frontend/src/services/segmentation/BodySegmenter.ts": [
+      "frontend/src/services/segmentation/ZoneCreator.ts",
+      "frontend/src/services/segmentation/index.ts"
+    ],
+    "frontend/src/services/segmentation/FaceSegmenter.ts": [
+      "frontend/src/services/segmentation/index.ts"
+    ],
+    "frontend/src/services/segmentation/ZoneCreator.ts": [
+      "frontend/src/services/segmentation/index.ts"
+    ],
+    "frontend/src/services/segmentation/index.ts": [
+      "frontend/src/components/PIPCanvas/PIPShader.tsx",
+      "frontend/src/hooks/useMetricsWorker.ts",
+      "frontend/src/hooks/useSegmentation.ts",
+      "frontend/src/services/MetricsCalculator.ts"
+    ],
+    "frontend/src/types/index.ts": [
+      "frontend/src/components/VideoPanel/AnalysisModeSelector.tsx",
+      "frontend/src/components/VideoPanel/AnalysisResultModal.tsx",
+      "frontend/src/components/VideoPanel/PIPControlPanel.tsx",
+      "frontend/src/components/VideoPanel/index.tsx",
+      "frontend/src/context/AppContext.tsx",
+      "frontend/src/context/appState.ts",
+      "frontend/src/hooks/useCamera.ts",
+      "frontend/src/hooks/useFrameCapture.ts",
+      "frontend/src/hooks/usePIPRenderer.ts",
+      "frontend/src/hooks/useSegmentation.ts",
+      "frontend/src/hooks/useWebSocket.ts",
+      "frontend/src/services/PIPRenderer.ts",
+      "frontend/src/services/ScoreCalculator.ts"
+    ],
+    "frontend/src/workers/metrics.worker.ts": [],
+    "frontend/tailwind.config.js": [],
+    "frontend/tsconfig.app.json": [],
+    "frontend/tsconfig.json": [],
+    "frontend/tsconfig.node.json": [],
+    "frontend/vite.config.ts": [],
+    "scripts/build-push.sh": [],
+    "scripts/code_indexer.py": [],
+    "scripts/deploy-digitalocean.sh": [],
+    "scripts/deploy-prod.sh": [],
+    "scripts/docker-local.sh": [],
+    "scripts/example_prd.txt": [],
+    "technical-blog.md": [],
+    "touchdesigner-embed.html": [],
+    "touchdesigner-style.html": []
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bv-pip-analysis.code-index.schema.json",
+  "title": "BV PIP Analysis Code Index",
+  "type": "object",
+  "required": [
+    "version",
+    "root",
+    "generatedAt",
+    "files",
+    "symbols",
+    "graphs",
+    "modules",
+    "api",
+    "tests"
+  ],
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "root": {
+      "type": "string"
+    },
+    "generatedAt": {
+      "type": "string"
+    },
+    "files": {
+      "type": "array"
+    },
+    "symbols": {
+      "type": "array"
+    },
+    "graphs": {
+      "type": "object"
+    },
+    "modules": {
+      "type": "array"
+    },
+    "api": {
+      "type": "object"
+    },
+    "tests": {
+      "type": "object"
+    }
+  }
+}

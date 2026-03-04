@@ -1,0 +1,20 @@
+{
+  "metrics": {
+    "basic.intensity_mean": 0.08,
+    "basic.intensity_std_dev": 0.08,
+    "basic.dynamic_range": 0.1,
+    "color.channel_balance": 0.12,
+    "color.saturation_mean": 0.12,
+    "color.chroma_energy": 0.12,
+    "geometric.horizontal_symmetry": 0.12,
+    "geometric.vertical_symmetry": 0.12,
+    "nonlinear.hurst_exponent": 0.15,
+    "nonlinear.fractal_dimension": 0.2,
+    "advanced_symmetry.body_symmetry": 0.15
+  },
+  "scores": {
+    "energy_score": 12,
+    "coherence_score": 12
+  },
+  "maxFailingFields": 0
+}

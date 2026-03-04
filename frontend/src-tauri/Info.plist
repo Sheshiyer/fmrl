@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>NSCameraUsageDescription</key>
+  <string>Biofield Mirror needs camera access to analyze live frames and compute wellness metrics.</string>
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Biofield Mirror may use microphone access for future guided session features.</string>
+</dict>
+</plist>

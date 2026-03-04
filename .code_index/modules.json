@@ -1,0 +1,19 @@
+[
+  {
+    "name": "backend",
+    "type": "python-fastapi",
+    "root": "backend",
+    "entrypoints": [
+      "backend/main.py"
+    ]
+  },
+  {
+    "name": "frontend",
+    "type": "vite-react",
+    "root": "frontend",
+    "entrypoints": [
+      "frontend/src/main.tsx",
+      "frontend/src/App.tsx"
+    ]
+  }
+]

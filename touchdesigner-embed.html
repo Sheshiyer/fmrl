@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TouchDesigner Noise Effect - Embeddable</title>
+  <style>
+    html, body { 
+      margin: 0; 
+      padding: 0; 
+      height: 100%; 
+      overflow: hidden; 
+      background: #000; 
+    }
+    canvas { 
+      width: 100%; 
+      height: 100%; 
+      display: block; 
+    }
+    #controls {
+      position: absolute;
+      top:10px; left:10px;
+      color:#fff; font-family:sans-serif;
+      user-select: none;
+      background: rgba(0,0,0,0.7);
+      padding: 15px;
+      border-radius: 8px;
+      min-width: 200px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    #controls label {
+      display: block;
+      margin: 8px 0;
+      font-size: 12px;
+    }
+    #controls input[type="range"] {
+      width: 150px;
+      margin-left: 10px;
+    }
+    #controls input[type="checkbox"] {
+      margin-right: 8px;
+    }
+    .control-group {
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
+    .control-group:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+    .group-title {
+      font-weight: bold;
+      color: #ccc;
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Hidden video source -->
+  <video id="cam" playsinline muted style="display:none;"></video>
+  <!-- Color lookup image -->
+  <img id="colorLookup" style="display:none;" crossorigin="anonymous">
+  <!-- WebGL canvas -->
+  <canvas id="gl"></canvas>
+
+  <!-- TouchDesigner-style controls -->
+  <div id="controls">
+    <div class="group-title">PIP Controls</div>
+    
+    <div class="control-group">
+      <div class="group-title">Noise Parameters</div>
+      <label>Seed: <span id="seedVal">8057</span>
+        <input type="range" id="seed" min="0" max="9999" step="1" value="8057">
+      </label>
+      <label>Period: <span id="periodVal">0.06</span>
+        <input type="range" id="period" min="0.01" max="2.0" step="0.01" value="0.06">
+      </label>
+      <label>Harmonics: <span id="harmonicsVal">4</span>
+        <input type="range" id="harmonics" min="0" max="8" step="1" value="4">
+      </label>
+      <label>Harmonic Spread: <span id="spreadVal">2.0</span>
+        <input type="range" id="spread" min="1.0" max="4.0" step="0.1" value="2.0">
+      </label>
+      <label>Harmonic Gain: <span id="gainVal">0.29</span>
+        <input type="range" id="gain" min="0.0" max="1.0" step="0.01" value="0.29">
+      </label>
+      <label>Roughness: <span id="roughnessVal">0.33</span>
+        <input type="range" id="roughness" min="0.0" max="1.0" step="0.01" value="0.33">
+      </label>
+      <label>Exponent: <span id="exponentVal">1.04</span>
+        <input type="range" id="exponent" min="0.1" max="3.0" step="0.01" value="1.04">
+      </label>
+      <label>Amplitude: <span id="amplitudeVal">0.96</span>
+        <input type="range" id="amplitude" min="0.0" max="2.0" step="0.01" value="0.96">
+      </label>
+      <label>Offset: <span id="offsetVal">0.47</span>
+        <input type="range" id="offset" min="0.0" max="1.0" step="0.01" value="0.47">
+      </label>
+    </div>
+    
+    <div class="control-group">
+      <div class="group-title">Animation</div>
+      <label>Speed: <span id="speedVal">1.0</span>
+        <input type="range" id="speed" min="0.0" max="3.0" step="0.1" value="1.0">
+      </label>
+      <label><input type="checkbox" id="monochrome"> Monochrome</label>
+    </div>
+    
+    <div class="control-group">
+      <div class="group-title">Blend</div>
+      <label>Intensity: <span id="intensityVal">0.96</span>
+        <input type="range" id="intensity" min="0.0" max="2.0" step="0.01" value="0.96">
+      </label>
+      <label>Video Influence: <span id="videoInfluenceVal">0.3</span>
+        <input type="range" id="videoInfluence" min="0.0" max="1.0" step="0.01" value="0.3">
+      </label>
+      <label>Color Saturation: <span id="colorSaturationVal">0.83</span>
+        <input type="range" id="colorSaturation" min="0.0" max="1.0" step="0.01" value="0.83">
+      </label>
+      <label>Hue Shift: <span id="hueShiftVal">0.82</span>
+        <input type="range" id="hueShift" min="0.0" max="1.0" step="0.01" value="0.82">
+      </label>
+    </div>
+    
+    <div class="control-group">
+      <div class="group-title">Effects</div>
+      <label>Blur Amount: <span id="blurAmountVal">5.9</span>
+        <input type="range" id="blurAmount" min="0.0" max="10.0" step="0.1" value="5.9">
+      </label>
+    </div>
+  </div>
+
+  <script type="module">
+  // ———————————— Boilerplate & getUserMedia ————————————
+  const video = document.getElementById('cam');
+  const canvas = document.getElementById('gl');
+  const gl = canvas.getContext('webgl2', {premultipliedAlpha: false});
+  if (!gl) throw new Error("WebGL2 required");
+
+  // Resize canvas to fill container
+  function resize() {
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width = w; 
+      canvas.height = h;
+      gl.viewport(0, 0, w, h);
+    }
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  // Request camera access
+  navigator.mediaDevices.getUserMedia({video: {width: 640, height: 480}})
+    .then(s => { video.srcObject = s; return video.play(); })
+    .then(init)
+    .catch(e => {
+      console.warn("Camera not available, using fallback");
+      // Create a simple gradient fallback
+      createFallbackVideo();
+      init();
+    });
+
+  function createFallbackVideo() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 640;
+    canvas.height = 480;
+    const ctx = canvas.getContext('2d');
+    
+    function drawGradient() {
+      const gradient = ctx.createRadialGradient(320, 240, 0, 320, 240, 300);
+      gradient.addColorStop(0, '#ff6b6b');
+      gradient.addColorStop(0.5, '#4ecdc4');
+      gradient.addColorStop(1, '#45b7d1');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 640, 480);
+      
+      // Add some animated noise
+      const time = Date.now() * 0.001;
+      for (let i = 0; i < 100; i++) {
+        const x = (Math.sin(time + i) * 0.5 + 0.5) * 640;
+        const y = (Math.cos(time + i * 0.7) * 0.5 + 0.5) * 480;
+        const size = Math.sin(time + i * 0.3) * 5 + 10;
+        ctx.fillStyle = `hsla(${(time + i) * 50 % 360}, 70%, 60%, 0.3)`;
+        ctx.beginPath();
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      
+      requestAnimationFrame(drawGradient);
+    }
+    drawGradient();
+    
+    // Convert canvas to video-like source
+    const stream = canvas.captureStream(30);
+    video.srcObject = stream;
+    video.play();
+  }
+
+  // ———————————— Initialize WebGL ————————————
+  function init() {
+    const prog = createProgram(gl, vertexSrc, fragmentSrc);
+    gl.useProgram(prog);
+
+    // Full-screen triangle
+    const vao = gl.createVertexArray();
+    gl.bindVertexArray(vao);
+    const posBuf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, posBuf);
+    gl.bufferData(gl.ARRAY_BUFFER,
+      new Float32Array([-1, -1, 3, -1, -1, 3]),
+      gl.STATIC_DRAW
+    );
+    const aPos = gl.getAttribLocation(prog, 'aPosition');
+    gl.enableVertexAttribArray(aPos);
+    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+    // Video texture
+    const videoTex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, videoTex);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+
+    // Color lookup texture
+    const colorTex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, colorTex);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+
+    // Create default psychedelic color pattern
+    const colorLookupImg = document.getElementById('colorLookup');
+    function createDefaultColorPattern() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 500;
+      canvas.height = 500;
+      const ctx = canvas.getContext('2d');
+      
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const maxRadius = Math.min(centerX, centerY);
+      
+      for (let r = maxRadius; r > 0; r -= 2) {
+        const hue = (r / maxRadius) * 360 + (r * 3) % 360;
+        const saturation = 85 + (r % 15);
+        const lightness = 45 + (r % 35);
+        ctx.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      
+      colorLookupImg.src = canvas.toDataURL();
+    }
+    
+    function loadColorTexture() {
+      gl.activeTexture(gl.TEXTURE1);
+      gl.bindTexture(gl.TEXTURE_2D, colorTex);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, colorLookupImg);
+    }
+    
+    createDefaultColorPattern();
+    colorLookupImg.onload = loadColorTexture;
+
+    // Uniform locations
+    const uni = {
+      uVideo: gl.getUniformLocation(prog, 'uVideo'),
+      uColorLookup: gl.getUniformLocation(prog, 'uColorLookup'),
+      uTime: gl.getUniformLocation(prog, 'uTime'),
+      uSeed: gl.getUniformLocation(prog, 'uSeed'),
+      uPeriod: gl.getUniformLocation(prog, 'uPeriod'),
+      uHarmonics: gl.getUniformLocation(prog, 'uHarmonics'),
+      uSpread: gl.getUniformLocation(prog, 'uSpread'),
+      uGain: gl.getUniformLocation(prog, 'uGain'),
+      uRoughness: gl.getUniformLocation(prog, 'uRoughness'),
+      uExponent: gl.getUniformLocation(prog, 'uExponent'),
+      uAmplitude: gl.getUniformLocation(prog, 'uAmplitude'),
+      uOffset: gl.getUniformLocation(prog, 'uOffset'),
+      uSpeed: gl.getUniformLocation(prog, 'uSpeed'),
+      uIntensity: gl.getUniformLocation(prog, 'uIntensity'),
+      uVideoInfluence: gl.getUniformLocation(prog, 'uVideoInfluence'),
+      uColorSaturation: gl.getUniformLocation(prog, 'uColorSaturation'),
+      uHueShift: gl.getUniformLocation(prog, 'uHueShift'),
+      uBlurAmount: gl.getUniformLocation(prog, 'uBlurAmount'),
+      uMonochrome: gl.getUniformLocation(prog, 'uMonochrome'),
+    };
+
+    // Bind samplers
+    gl.uniform1i(uni.uVideo, 0);
+    gl.uniform1i(uni.uColorLookup, 1);
+
+    // UI controls
+    const controls = {
+      seed: document.getElementById('seed'),
+      period: document.getElementById('period'),
+      harmonics: document.getElementById('harmonics'),
+      spread: document.getElementById('spread'),
+      gain: document.getElementById('gain'),
+      roughness: document.getElementById('roughness'),
+      exponent: document.getElementById('exponent'),
+      amplitude: document.getElementById('amplitude'),
+      offset: document.getElementById('offset'),
+      speed: document.getElementById('speed'),
+      intensity: document.getElementById('intensity'),
+      videoInfluence: document.getElementById('videoInfluence'),
+      colorSaturation: document.getElementById('colorSaturation'),
+      hueShift: document.getElementById('hueShift'),
+      blurAmount: document.getElementById('blurAmount'),
+      monochrome: document.getElementById('monochrome')
+    };
+
+    // Value display elements
+    const displays = {
+      seed: document.getElementById('seedVal'),
+      period: document.getElementById('periodVal'),
+      harmonics: document.getElementById('harmonicsVal'),
+      spread: document.getElementById('spreadVal'),
+      gain: document.getElementById('gainVal'),
+      roughness: document.getElementById('roughnessVal'),
+      exponent: document.getElementById('exponentVal'),
+      amplitude: document.getElementById('amplitudeVal'),
+      offset: document.getElementById('offsetVal'),
+      speed: document.getElementById('speedVal'),
+      intensity: document.getElementById('intensityVal'),
+      videoInfluence: document.getElementById('videoInfluenceVal'),
+      colorSaturation: document.getElementById('colorSaturationVal'),
+      hueShift: document.getElementById('hueShiftVal'),
+      blurAmount: document.getElementById('blurAmountVal')
+    };
+
+    // Update display values
+    function updateDisplays() {
+      Object.keys(displays).forEach(key => {
+        if(controls[key] && displays[key]) {
+          displays[key].textContent = controls[key].value;
+        }
+      });
+    }
+
+    // Add event listeners
+    Object.keys(controls).forEach(key => {
+      if(controls[key]) {
+        controls[key].addEventListener('input', updateDisplays);
+      }
+    });
+
+    // Initialize displays
+    updateDisplays();
+
+    // Animation loop
+    const t0 = performance.now();
+    function draw() {
+      resize();
+      gl.clear(gl.COLOR_BUFFER_BIT);
+
+      // Upload video frame
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, videoTex);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, video);
+
+      // Update uniforms from controls
+      const t = (performance.now() - t0) * 0.001 * parseFloat(controls.speed.value);
+      gl.uniform1f(uni.uTime, t);
+      gl.uniform1f(uni.uSeed, parseFloat(controls.seed.value));
+      gl.uniform1f(uni.uPeriod, parseFloat(controls.period.value));
+      gl.uniform1i(uni.uHarmonics, parseInt(controls.harmonics.value));
+      gl.uniform1f(uni.uSpread, parseFloat(controls.spread.value));
+      gl.uniform1f(uni.uGain, parseFloat(controls.gain.value));
+      gl.uniform1f(uni.uRoughness, parseFloat(controls.roughness.value));
+      gl.uniform1f(uni.uExponent, parseFloat(controls.exponent.value));
+      gl.uniform1f(uni.uAmplitude, parseFloat(controls.amplitude.value));
+      gl.uniform1f(uni.uOffset, parseFloat(controls.offset.value));
+      gl.uniform1f(uni.uSpeed, parseFloat(controls.speed.value));
+      gl.uniform1f(uni.uIntensity, parseFloat(controls.intensity.value));
+      gl.uniform1f(uni.uVideoInfluence, parseFloat(controls.videoInfluence.value));
+      gl.uniform1f(uni.uColorSaturation, parseFloat(controls.colorSaturation.value));
+      gl.uniform1f(uni.uHueShift, parseFloat(controls.hueShift.value));
+      gl.uniform1f(uni.uBlurAmount, parseFloat(controls.blurAmount.value));
+      gl.uniform1i(uni.uMonochrome, controls.monochrome.checked ? 1 : 0);
+
+      // Draw
+      gl.bindVertexArray(vao);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+      requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+  }
+
+  // ———————————— Shaders ————————————
+  const vertexSrc = `#version 300 es
+  in vec2 aPosition;
+  out vec2 vUV;
+  void main() {
+    vUV = aPosition * 0.5 + 0.5;
+    vUV.y = 1.0 - vUV.y;
+    gl_Position = vec4(aPosition, 0.0, 1.0);
+  }`;
+
+  const fragmentSrc = `#version 300 es
+  precision highp float;
+  in vec2 vUV;
+  out vec4 fragColor;
+
+  uniform sampler2D uVideo;
+  uniform sampler2D uColorLookup;
+  uniform float uTime;
+
+  // Optimized default parameters (will be overridden by controls)
+  float uSeed = 8057.0;
+  float uPeriod = 0.06;
+  int uHarmonics = 4;
+  float uSpread = 2.0;
+  float uGain = 0.29;
+  float uRoughness = 0.33;
+  float uExponent = 1.04;
+  float uAmplitude = 0.96;
+  float uOffset = 0.47;
+  float uSpeed = 1.0;
+  float uIntensity = 0.96;
+  float uVideoInfluence = 0.3;
+  float uColorSaturation = 0.83;
+  float uHueShift = 0.82;
+  int uColorMode = 1; // Enhanced HSL
+  int uBlendMode = 3; // Color
+  float uBlurAmount = 5.9;
+  int uMonochrome = 0;
+
+  // 3D Simplex noise (Ashima)
+  vec3 mod289(vec3 x) { return x - floor(x * (1.0/289.0)) * 289.0; }
+  vec4 mod289(vec4 x) { return x - floor(x * (1.0/289.0)) * 289.0; }
+  vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
+  vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+
+  float snoise(vec3 v) {
+    const vec2 C = vec2(1.0/6.0, 1.0/3.0);
+    const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+    vec3 i = floor(v + dot(v, C.yyy));
+    vec3 x0 = v - i + dot(i, C.xxx);
+    vec3 g = step(x0.yzx, x0.xyz);
+    vec3 l = 1.0 - g;
+    vec3 i1 = min(g.xyz, l.zxy), i2 = max(g.xyz, l.zxy);
+    vec3 x1 = x0 - i1 + C.xxx;
+    vec3 x2 = x0 - i2 + C.yyy;
+    vec3 x3 = x0 - D.yyy;
+    i = mod289(i);
+    vec4 p = permute(permute(permute(
+      i.z + vec4(0.0, i1.z, i2.z, 1.0))
+      + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+      + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+    vec4 j = p - 49.0 * floor(p * (1.0/49.0));
+    vec4 x_ = floor(j * (1.0/7.0));
+    vec4 y_ = floor(j - 7.0 * x_);
+    vec4 x = x_ * (1.0/7.0) + (1.0/14.0);
+    vec4 y = y_ * (1.0/7.0) + (1.0/14.0);
+    vec4 h = 1.0 - abs(x) - abs(y);
+    vec4 b0 = vec4(x.xy, y.xy), b1 = vec4(x.zw, y.zw);
+    vec4 s0 = floor(b0) * 2.0 + 1.0, s1 = floor(b1) * 2.0 + 1.0;
+    vec4 sh = -step(h, vec4(0.0));
+    vec4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
+    vec4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
+    vec3 p0 = vec3(a0.xy, h.x), p1 = vec3(a0.zw, h.y),
+         p2 = vec3(a1.xy, h.z), p3 = vec3(a1.zw, h.w);
+    vec4 norm = taylorInvSqrt(vec4(
+      dot(p0, p0), dot(p1, p1),
+      dot(p2, p2), dot(p3, p3)));
+    p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
+    vec4 m = max(0.6 - vec4(
+      dot(x0, x0), dot(x1, x1),
+      dot(x2, x2), dot(x3, x3)), 0.0);
+    m = m * m;
+    return 42.0 * dot(m * m, vec4(
+      dot(p0, x0), dot(p1, x1),
+      dot(p2, x2), dot(p3, x3)));
+  }
+
+  float fbm(vec3 p) {
+    p += vec3(uSeed * 0.001);
+    float f = 0.0;
+    float amp = 1.0;
+    float maxValue = 0.0;
+    
+    for (int i = 0; i < 4; i++) {
+      float n = snoise(p);
+      float roughAmp = amp * (1.0 - uRoughness * float(i) / 8.0);
+      f += roughAmp * n;
+      maxValue += roughAmp;
+      p *= uSpread;
+      amp *= uGain;
+    }
+    
+    if (maxValue > 0.0) {
+      f /= maxValue;
+    }
+    
+    return f;
+  }
+
+  // HSL helpers
+  vec3 rgb2hsl(vec3 c) {
+    float M = max(c.r, max(c.g, c.b)),
+          m = min(c.r, min(c.g, c.b)),
+          d = M - m,
+          l = (M + m) * 0.5,
+          s = d == 0.0 ? 0.0 : d / (1.0 - abs(2.0 * l - 1.0));
+    float h = 0.0;
+    if (d > 0.0) {
+      if (M == c.r) h = mod((c.g - c.b) / d + (c.g < c.b ? 6.0 : 0.0), 6.0);
+      else if (M == c.g) h = (c.b - c.r) / d + 2.0;
+      else h = (c.r - c.g) / d + 4.0;
+      h /= 6.0;
+    }
+    return vec3(h, s, l);
+  }
+
+  float hue2rgb(float p, float q, float t) {
+    if (t < 0.0) t += 1.0;
+    if (t > 1.0) t -= 1.0;
+    if (t < 1.0/6.0) return p + (q - p) * 6.0 * t;
+    if (t < 1.0/2.0) return q;
+    if (t < 2.0/3.0) return p + (q - p) * (2.0/3.0 - t) * 6.0;
+    return p;
+  }
+
+  vec3 hsl2rgb(vec3 c) {
+    float h = c.x, s = c.y, l = c.z;
+    if (s == 0.0) return vec3(l);
+    float q = l < 0.5 ? l * (1.0 + s) : l + s - l * s,
+          p = 2.0 * l - q;
+    return vec3(
+      hue2rgb(p, q, h + 1.0/3.0),
+      hue2rgb(p, q, h),
+      hue2rgb(p, q, h - 1.0/3.0)
+    );
+  }
+
+  vec3 touchDesignerColorComposite(vec3 base, vec3 overlay) {
+    vec3 hslBase = rgb2hsl(base);
+    vec3 hslOverlay = rgb2hsl(overlay);
+    float blendedSaturation = mix(hslBase.y, hslOverlay.y, 0.8);
+    return hsl2rgb(vec3(hslOverlay.x, blendedSaturation, hslBase.z));
+  }
+
+  vec3 gaussianBlur(sampler2D tex, vec2 uv, float blurAmount) {
+    if (blurAmount <= 0.0) {
+      return texture(tex, uv).rgb;
+    }
+    
+    vec2 texelSize = vec2(1.0) / vec2(textureSize(tex, 0));
+    vec3 result = vec3(0.0);
+    
+    float weights[9];
+    weights[0] = 0.0625; weights[1] = 0.125; weights[2] = 0.0625;
+    weights[3] = 0.125;  weights[4] = 0.25;  weights[5] = 0.125;
+    weights[6] = 0.0625; weights[7] = 0.125; weights[8] = 0.0625;
+    
+    vec2 offsets[9];
+    offsets[0] = vec2(-1.0, -1.0); offsets[1] = vec2(0.0, -1.0); offsets[2] = vec2(1.0, -1.0);
+    offsets[3] = vec2(-1.0,  0.0); offsets[4] = vec2(0.0,  0.0); offsets[5] = vec2(1.0,  0.0);
+    offsets[6] = vec2(-1.0,  1.0); offsets[7] = vec2(0.0,  1.0); offsets[8] = vec2(1.0,  1.0);
+    
+    for (int i = 0; i < 9; i++) {
+      vec2 sampleUV = uv + offsets[i] * texelSize * blurAmount;
+      result += texture(tex, sampleUV).rgb * weights[i];
+    }
+    
+    return result;
+  }
+
+  vec3 enhancedNoiseColor(float n, vec3 videoCol) {
+    vec3 videoHSL = rgb2hsl(videoCol);
+    float hueShift = n * uHueShift + videoHSL.x * (1.0 - uHueShift);
+    float saturation = mix(0.7, 1.0, fract(n + 0.33)) * uColorSaturation;
+    float lightness = mix(0.3, 0.9, fract(n + 0.66));
+    saturation = clamp(saturation, 0.0, 1.0);
+    return hsl2rgb(vec3(hueShift, saturation, lightness));
+  }
+
+  void main() {
+    vec3 videoCol = texture(uVideo, vUV).rgb;
+    
+    float scale = 1.0 / max(uPeriod, 0.0001);
+    vec3 spatialCoord = vec3(vUV * scale, uTime * 0.1);
+    vec3 videoCoord = videoCol * scale * 2.0;
+    vec3 noiseCoord = mix(spatialCoord, videoCoord, uVideoInfluence) + vec3(0.0, 0.0, uTime * 0.1);
+    
+    float n = fbm(noiseCoord);
+    n = sign(n) * pow(abs(n), uExponent);
+    n = n * uAmplitude + uOffset;
+    n = clamp(n, 0.0, 1.0);
+    
+    vec3 outCol;
+    
+    if(uMonochrome == 1) {
+      // Monochrome mode: modulate brightness/luminance
+      float noiseMultiplier = 1.0 + (n - 0.5) * uIntensity * 2.0;
+      outCol = videoCol * noiseMultiplier;
+    } else {
+      // Color mode: enhanced HSL blending
+      vec3 noiseCol = enhancedNoiseColor(n, videoCol);
+      outCol = touchDesignerColorComposite(videoCol, noiseCol);
+      outCol = mix(videoCol, outCol, uIntensity);
+    }
+    
+    if (uBlurAmount > 0.0) {
+      vec3 blurredVideo = gaussianBlur(uVideo, vUV, uBlurAmount * 0.01);
+      outCol = mix(outCol, blurredVideo, clamp(uBlurAmount * 0.1, 0.0, 0.8));
+    }
+    
+    outCol = clamp(outCol, 0.0, 1.0);
+    fragColor = vec4(outCol, 1.0);
+  }`;
+
+  // Helper functions
+  function createShader(gl, type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+      throw new Error(gl.getShaderInfoLog(s));
+    }
+    return s;
+  }
+
+  function createProgram(gl, vsrc, fsrc) {
+    const v = createShader(gl, gl.VERTEX_SHADER, vsrc);
+    const f = createShader(gl, gl.FRAGMENT_SHADER, fsrc);
+    const p = gl.createProgram();
+    gl.attachShader(p, v);
+    gl.attachShader(p, f);
+    gl.linkProgram(p);
+    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) {
+      throw new Error(gl.getProgramInfoLog(p));
+    }
+    return p;
+  }
+  </script>
+</body>
+</html> 

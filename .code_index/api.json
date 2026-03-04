@@ -1,0 +1,126 @@
+{
+  "http": [
+    {
+      "protocol": "http",
+      "method": "POST",
+      "path": "/capture",
+      "handler": "capture_and_analyze",
+      "line": 78,
+      "file": "backend/api/routes/analysis.py"
+    },
+    {
+      "protocol": "http",
+      "method": "GET",
+      "path": "/{analysis_id}",
+      "handler": "get_analysis",
+      "line": 212,
+      "file": "backend/api/routes/analysis.py"
+    },
+    {
+      "protocol": "http",
+      "method": "GET",
+      "path": "/history",
+      "handler": "get_analysis_history",
+      "line": 219,
+      "file": "backend/api/routes/analysis.py"
+    },
+    {
+      "protocol": "http",
+      "method": "POST",
+      "path": "/create",
+      "handler": "create_baseline",
+      "line": 27,
+      "file": "backend/api/routes/baseline.py"
+    },
+    {
+      "protocol": "http",
+      "method": "GET",
+      "path": "/current",
+      "handler": "get_current_baseline",
+      "line": 40,
+      "file": "backend/api/routes/baseline.py"
+    },
+    {
+      "protocol": "http",
+      "method": "PUT",
+      "path": "/{baseline_id}/activate",
+      "handler": "activate_baseline",
+      "line": 50,
+      "file": "backend/api/routes/baseline.py"
+    },
+    {
+      "protocol": "http",
+      "method": "DELETE",
+      "path": "/{baseline_id}",
+      "handler": "delete_baseline",
+      "line": 57,
+      "file": "backend/api/routes/baseline.py"
+    },
+    {
+      "protocol": "http",
+      "method": "POST",
+      "path": "/frame",
+      "handler": "capture_frame",
+      "line": 11,
+      "file": "backend/api/routes/capture.py"
+    },
+    {
+      "protocol": "http",
+      "method": "POST",
+      "path": "/batch",
+      "handler": "batch_capture",
+      "line": 30,
+      "file": "backend/api/routes/capture.py"
+    },
+    {
+      "protocol": "http",
+      "method": "GET",
+      "path": "/session/{session_id}",
+      "handler": "export_session",
+      "line": 13,
+      "file": "backend/api/routes/export.py"
+    },
+    {
+      "protocol": "http",
+      "method": "GET",
+      "path": "/analysis/{analysis_id}",
+      "handler": "export_analysis",
+      "line": 54,
+      "file": "backend/api/routes/export.py"
+    },
+    {
+      "protocol": "http",
+      "method": "GET",
+      "path": "/",
+      "handler": "root",
+      "line": 47,
+      "file": "backend/main.py"
+    },
+    {
+      "protocol": "http",
+      "method": "GET",
+      "path": "/health",
+      "handler": "health",
+      "line": 57,
+      "file": "backend/main.py"
+    }
+  ],
+  "websocket": [
+    {
+      "protocol": "websocket",
+      "method": "WEBSOCKET",
+      "path": "/metrics",
+      "handler": "websocket_metrics",
+      "line": 46,
+      "file": "backend/api/routes/websocket.py"
+    },
+    {
+      "protocol": "websocket",
+      "method": "WEBSOCKET",
+      "path": "/realtime",
+      "handler": "websocket_realtime",
+      "line": 82,
+      "file": "backend/api/routes/websocket.py"
+    }
+  ]
+}

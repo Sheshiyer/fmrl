@@ -1,0 +1,1123 @@
+!_TAG_FILE_FORMAT	2	/extended format/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted/
+API_BASE_URL	frontend/src/hooks/useFrameCapture.ts	/^const API_BASE_URL = import.meta.env.VITE_API_URL || 'http:\/\/localhost:8000';$/;"	v	line:21
+Action	frontend/src/context/appState.ts	/^export type Action =$/;"	t	line:29
+AnalysisMode	frontend/src/types/index.ts	/^export type AnalysisMode = 'fullBody' | 'face' | 'segmented';$/;"	t	line:73
+AnalysisModeSelector	frontend/src/components/VideoPanel/AnalysisModeSelector.tsx	/^export function AnalysisModeSelector() {$/;"	f	line:36
+AnalysisRegion	frontend/src/components/PIPCanvas/PIPShader.tsx	/^export type AnalysisRegion = 'full' | 'face' | 'body';$/;"	t	line:30
+AnalysisRequest	backend/api/routes/analysis.py	/^class AnalysisRequest(BaseModel):$/;"	c	line:53
+AnalysisResponse	backend/api/routes/analysis.py	/^class AnalysisResponse(BaseModel):$/;"	c	line:60
+AnalysisResult	frontend/src/types/index.ts	/^export interface AnalysisResult {$/;"	i	line:134
+AnalysisResultModal	frontend/src/components/VideoPanel/AnalysisResultModal.tsx	/^export function AnalysisResultModal({$/;"	f	line:105
+AnalysisResultModalProps	frontend/src/components/VideoPanel/AnalysisResultModal.tsx	/^interface AnalysisResultModalProps {$/;"	i	line:7
+App	frontend/src/App.tsx	/^function App() {$/;"	f	line:87
+AppContent	frontend/src/App.tsx	/^function AppContent() {$/;"	f	line:15
+AppContext	frontend/src/context/appState.ts	/^export const AppContext = createContext<AppContextValue | null>(null);$/;"	v	line:131
+AppContextValue	frontend/src/context/appState.ts	/^export interface AppContextValue {$/;"	i	line:118
+AppProvider	frontend/src/context/AppContext.tsx	/^export function AppProvider({ children }: AppProviderProps) {$/;"	f	line:14
+AppProviderProps	frontend/src/context/AppContext.tsx	/^interface AppProviderProps {$/;"	i	line:10
+AppState	frontend/src/context/appState.ts	/^export interface AppState {$/;"	i	line:12
+AppView	frontend/src/App.tsx	/^type AppView = 'dashboard' | 'analysis' | 'metricsGuide';$/;"	t	line:13
+BUFFER_SIZE	frontend/src/hooks/useMetricsWorker.ts	/^      const BUFFER_SIZE = 30;$/;"	v	line:50
+BUFFER_SIZE	frontend/src/workers/metrics.worker.ts	/^const BUFFER_SIZE = 30;$/;"	v	line:41
+BaselineCreate	backend/api/routes/baseline.py	/^class BaselineCreate(BaseModel):$/;"	c	line:11
+BaselineData	frontend/src/types/index.ts	/^export interface BaselineData {$/;"	i	line:76
+BaselineResponse	backend/api/routes/baseline.py	/^class BaselineResponse(BaseModel):$/;"	c	line:17
+BasicMetrics	backend/core/metrics/basic.py	/^class BasicMetrics:$/;"	c	line:8
+BodySegmenter	backend/core/segmentation/body.py	/^class BodySegmenter:$/;"	c	line:17
+BodySegmenter	frontend/src/services/segmentation/BodySegmenter.ts	/^export class BodySegmenter {$/;"	c	line:34
+BodySegmenterConfig	frontend/src/services/segmentation/BodySegmenter.ts	/^export interface BodySegmenterConfig {$/;"	i	line:22
+COLORS	frontend/src/components/GraphPanel/index.tsx	/^const COLORS = {$/;"	v	line:17
+CONFIG_FILE_NAMES	scripts/code_indexer.py	/^CONFIG_FILE_NAMES = {$/;"	v	line:45
+CameraDevice	frontend/src/types/index.ts	/^export interface CameraDevice {$/;"	i	line:86
+CaptureButton	frontend/src/components/VideoPanel/CaptureButton.tsx	/^export function CaptureButton({$/;"	f	line:16
+CaptureButtonProps	frontend/src/components/VideoPanel/CaptureButton.tsx	/^interface CaptureButtonProps {$/;"	i	line:7
+CaptureModal	frontend/src/components/Modals/CaptureModal.tsx	/^export const CaptureModal: React.FC<CaptureModalProps> = ({ isOpen, onClose }) => {$/;"	v	line:10
+CaptureModalProps	frontend/src/components/Modals/CaptureModal.tsx	/^interface CaptureModalProps {$/;"	i	line:5
+CaptureOptions	frontend/src/hooks/useFrameCapture.ts	/^interface CaptureOptions {$/;"	i	line:7
+CapturedAnalysisData	frontend/src/pages/DetailedAnalysis.tsx	/^export interface CapturedAnalysisData {$/;"	i	line:23
+CoherenceScoreCalculator	backend/core/scores/coherence.py	/^class CoherenceScoreCalculator:$/;"	c	line:13
+ColorBalanceScoreCalculator	backend/core/scores/color_balance.py	/^class ColorBalanceScoreCalculator:$/;"	c	line:15
+ColorMetrics	backend/core/metrics/color.py	/^class ColorMetrics:$/;"	c	line:10
+ComplexityScoreCalculator	backend/core/scores/complexity.py	/^class ComplexityScoreCalculator:$/;"	c	line:14
+CompositeScores	frontend/src/hooks/useRealTimeMetrics.ts	/^export interface CompositeScores {$/;"	i	line:8
+CompositeScores	frontend/src/types/index.ts	/^export interface CompositeScores {$/;"	i	line:56
+Config	backend/config.py	/^    class Config:$/;"	c	line:38
+ConnectionManager	backend/api/routes/websocket.py	/^class ConnectionManager:$/;"	c	line:15
+ContourMetrics	backend/core/metrics/contour.py	/^class ContourMetrics:$/;"	c	line:11
+ControlSlider	frontend/src/components/VideoPanel/PIPControlPanel.tsx	/^function ControlSlider({ label, value, min, max, step, onChange }: ControlSliderProps) {$/;"	f	line:17
+ControlSliderProps	frontend/src/components/VideoPanel/PIPControlPanel.tsx	/^interface ControlSliderProps {$/;"	i	line:8
+DEFAULT_CONFIG	frontend/src/services/segmentation/BodySegmenter.ts	/^const DEFAULT_CONFIG: BodySegmenterConfig = {$/;"	v	line:28
+DEFAULT_CONFIG	frontend/src/services/segmentation/FaceSegmenter.ts	/^const DEFAULT_CONFIG: FaceSegmenterConfig = {$/;"	v	line:76
+DEFAULT_EXCLUDES	scripts/code_indexer.py	/^DEFAULT_EXCLUDES = [$/;"	v	line:27
+DEFAULT_OPTIONS	frontend/src/hooks/useCamera.ts	/^const DEFAULT_OPTIONS: UseCameraOptions = {$/;"	v	line:30
+DEFAULT_PIP_SETTINGS	frontend/src/types/index.ts	/^export const DEFAULT_PIP_SETTINGS: PIPSettings = {$/;"	v	line:21
+DEFAULT_ZONE_CONFIG	frontend/src/services/segmentation/ZoneCreator.ts	/^const DEFAULT_ZONE_CONFIG: ZoneConfig = {$/;"	v	line:43
+DEFAULT_ZONE_CONFIG	frontend/src/types/index.ts	/^export const DEFAULT_ZONE_CONFIG: ZoneConfig = {$/;"	v	line:184
+DetailedAnalysis	frontend/src/pages/DetailedAnalysis.tsx	/^export const DetailedAnalysis: React.FC<DetailedAnalysisProps> = ({ onBack, capturedData }) => {$/;"	v	line:119
+DetailedAnalysisProps	frontend/src/pages/DetailedAnalysis.tsx	/^interface DetailedAnalysisProps {$/;"	i	line:52
+EnergyScoreCalculator	backend/core/scores/energy.py	/^class EnergyScoreCalculator:$/;"	c	line:13
+ExportFormat	frontend/src/types/index.ts	/^export type ExportFormat = 'csv' | 'json' | 'xlsx' | 'pdf';$/;"	t	line:200
+FACE_OVAL_INDICES	frontend/src/components/PIPCanvas/PIPShader.tsx	/^const FACE_OVAL_INDICES = FACE_REGIONS.face_oval;$/;"	v	line:52
+FACE_REGIONS	frontend/src/services/segmentation/FaceSegmenter.ts	/^export const FACE_REGIONS: Record<string, number[]> = {$/;"	v	line:30
+FRAGMENT_SHADER	frontend/src/services/PIPRenderer.ts	/^const FRAGMENT_SHADER = `#version 300 es$/;"	v	line:18
+FaceDetector	backend/core/segmentation/face.py	/^class FaceDetector:$/;"	c	line:17
+FaceLandmark	frontend/src/services/segmentation/FaceSegmenter.ts	/^export interface FaceLandmark {$/;"	i	line:8
+FaceRegion	frontend/src/services/segmentation/FaceSegmenter.ts	/^export interface FaceRegion {$/;"	i	line:14
+FaceSegmentationResult	frontend/src/services/segmentation/FaceSegmenter.ts	/^export interface FaceSegmentationResult {$/;"	i	line:20
+FaceSegmenter	frontend/src/services/segmentation/FaceSegmenter.ts	/^export class FaceSegmenter {$/;"	c	line:84
+FaceSegmenterConfig	frontend/src/services/segmentation/FaceSegmenter.ts	/^export interface FaceSegmenterConfig {$/;"	i	line:68
+FileRecord	scripts/code_indexer.py	/^class FileRecord:$/;"	c	line:114
+FrameData	frontend/src/components/PIPCanvas/PIPShader.tsx	/^interface FrameData {$/;"	i	line:37
+FrameMetrics	frontend/src/hooks/useMetricsWorker.ts	/^interface FrameMetrics {$/;"	i	line:7
+FrameMetrics	frontend/src/services/MetricsCalculator.ts	/^export interface FrameMetrics {$/;"	i	line:6
+FrameMetrics	frontend/src/workers/metrics.worker.ts	/^interface FrameMetrics {$/;"	i	line:24
+GeometricMetrics	backend/core/metrics/geometric.py	/^class GeometricMetrics:$/;"	c	line:9
+GlassCard	frontend/src/components/Cards/GlassCard.tsx	/^export const GlassCard: React.FC<GlassCardProps> = ({ $/;"	v	line:9
+GlassCardProps	frontend/src/components/Cards/GlassCard.tsx	/^interface GlassCardProps {$/;"	i	line:3
+GraphPanel	frontend/src/components/GraphPanel/index.tsx	/^export function GraphPanel() {$/;"	f	line:26
+H	frontend/src/hooks/useRealTimeMetrics.ts	/^    const H = Math.log(RS + 1) \/ Math.log(n);$/;"	v	line:309
+HTTP_DECORATOR_METHODS	scripts/code_indexer.py	/^HTTP_DECORATOR_METHODS = {$/;"	v	line:16
+Header	frontend/src/components/Header/index.tsx	/^export function Header() {$/;"	f	line:7
+Header	frontend/src/components/Layout/Header.tsx	/^export const Header: React.FC<HeaderProps> = ({ isConnected = false, onShowMetricsGuide }) => {$/;"	v	line:10
+HeaderProps	frontend/src/components/Layout/Header.tsx	/^interface HeaderProps {$/;"	i	line:5
+IMPORT_BARE_RE	scripts/code_indexer.py	/^IMPORT_BARE_RE = re.compile(r"""^\\s*import\\s+['"](?P<spec>[^'"]+)['"]\\s*;?\\s*$""")$/;"	v	line:86
+IMPORT_FROM_RE	scripts/code_indexer.py	/^IMPORT_FROM_RE = re.compile(r"""\\bfrom\\s+['"](?P<spec>[^'"]+)['"]""")$/;"	v	line:85
+IMPORT_LINE_START_RE	scripts/code_indexer.py	/^IMPORT_LINE_START_RE = re.compile(r"^\\s*(import|export)\\b")$/;"	v	line:84
+InsightItem	frontend/src/services/PDFExportService.ts	/^interface InsightItem {$/;"	i	line:7
+LiveMetrics	frontend/src/hooks/useRealTimeMetrics.ts	/^export interface LiveMetrics {$/;"	i	line:17
+LiveMetricsCard	frontend/src/components/Cards/LiveMetricsCard.tsx	/^export const LiveMetricsCard: React.FC<LiveMetricsCardProps> = ({ $/;"	v	line:31
+LiveMetricsCardProps	frontend/src/components/Cards/LiveMetricsCard.tsx	/^interface LiveMetricsCardProps {$/;"	i	line:11
+METRICS_INTERVAL_MS	frontend/src/components/PIPCanvas/PIPShader.tsx	/^  const METRICS_INTERVAL_MS = 100; \/\/ Compute metrics every 100ms (~10 fps for metrics)$/;"	v	line:297
+METRIC_DEFINITIONS	frontend/src/pages/MetricsGuide.tsx	/^const METRIC_DEFINITIONS: MetricDefinition[] = [$/;"	v	line:60
+MODE_OPTIONS	frontend/src/components/VideoPanel/AnalysisModeSelector.tsx	/^const MODE_OPTIONS: ModeOption[] = [$/;"	v	line:15
+MetricDefinition	frontend/src/pages/MetricsGuide.tsx	/^interface MetricDefinition {$/;"	i	line:7
+MetricItemProps	frontend/src/components/Cards/LiveMetricsCard.tsx	/^interface MetricItemProps {$/;"	i	line:5
+MetricRow	frontend/src/components/Cards/LiveMetricsCard.tsx	/^const MetricRow: React.FC<MetricItemProps> = ({ label, value, unit }) => ($/;"	v	line:21
+Metrics	frontend/src/components/Panels/MetricsScoresPanel.tsx	/^export interface Metrics {$/;"	i	line:15
+MetricsCalculator	frontend/src/services/MetricsCalculator.ts	/^export class MetricsCalculator {$/;"	c	line:41
+MetricsGuide	frontend/src/pages/MetricsGuide.tsx	/^export const MetricsGuide: React.FC<MetricsGuideProps> = ({ onBack }) => {$/;"	v	line:116
+MetricsGuideProps	frontend/src/pages/MetricsGuide.tsx	/^interface MetricsGuideProps {$/;"	i	line:112
+MetricsHistoryEntry	frontend/src/types/index.ts	/^export interface MetricsHistoryEntry {$/;"	i	line:66
+MetricsInput	frontend/src/services/ScoreCalculator.ts	/^export interface MetricsInput {$/;"	i	line:6
+MetricsPanel	frontend/src/components/MetricsPanel/index.tsx	/^export function MetricsPanel() {$/;"	f	line:16
+MetricsScoresPanel	frontend/src/components/Panels/MetricsScoresPanel.tsx	/^export const MetricsScoresPanel: React.FC<MetricsScoresPanelProps> = ({ $/;"	v	line:47
+MetricsScoresPanelProps	frontend/src/components/Panels/MetricsScoresPanel.tsx	/^interface MetricsScoresPanelProps {$/;"	i	line:25
+MetricsTooltip	frontend/src/components/UI/MetricsTooltip.tsx	/^export const MetricsTooltip: React.FC<MetricsTooltipProps> = ({ className = '', onShowMetricsGuide }) => {$/;"	v	line:12
+MetricsTooltipProps	frontend/src/components/UI/MetricsTooltip.tsx	/^interface MetricsTooltipProps {$/;"	i	line:7
+ModeOption	frontend/src/components/VideoPanel/AnalysisModeSelector.tsx	/^interface ModeOption {$/;"	i	line:8
+NonlinearMetrics	backend/core/metrics/nonlinear.py	/^class NonlinearMetrics:$/;"	c	line:10
+PDFExportService	frontend/src/services/PDFExportService.ts	/^export class PDFExportService {$/;"	c	line:12
+PIPCanvasPanel	frontend/src/components/Panels/PIPCanvasPanel.tsx	/^export const PIPCanvasPanel: React.FC<PIPCanvasPanelProps> = ({ onCapture, onMetricsUpdate }) => {$/;"	v	line:17
+PIPCanvasPanelProps	frontend/src/components/Panels/PIPCanvasPanel.tsx	/^interface PIPCanvasPanelProps {$/;"	i	line:6
+PIPControlPanel	frontend/src/components/VideoPanel/PIPControlPanel.tsx	/^export function PIPControlPanel({ pipRenderer }: PIPControlPanelProps) {$/;"	f	line:45
+PIPControlPanelProps	frontend/src/components/VideoPanel/PIPControlPanel.tsx	/^interface PIPControlPanelProps {$/;"	i	line:37
+PIPRenderer	frontend/src/services/PIPRenderer.ts	/^export class PIPRenderer {$/;"	c	line:172
+PIPSettings	frontend/src/types/index.ts	/^export interface PIPSettings {$/;"	i	line:6
+PIPShader	frontend/src/components/PIPCanvas/PIPShader.tsx	/^export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ className, analysisRegion = 'full', onFrameData }, ref) => {$/;"	v	line:281
+PIPShaderHandle	frontend/src/components/PIPCanvas/PIPShader.tsx	/^export interface PIPShaderHandle {$/;"	i	line:32
+PIPShaderProps	frontend/src/components/PIPCanvas/PIPShader.tsx	/^interface PIPShaderProps {$/;"	i	line:45
+Position	scripts/code_indexer.py	/^class Position:$/;"	c	line:91
+R	frontend/src/hooks/useRealTimeMetrics.ts	/^    const R = Math.max(...cumulativeDeviations) - Math.min(...cumulativeDeviations);$/;"	v	line:299
+REQUIRE_RE	scripts/code_indexer.py	/^REQUIRE_RE = re.compile(r"""require\\(\\s*['"](?P<spec>[^'"]+)['"]\\s*\\)""")$/;"	v	line:87
+RS	frontend/src/hooks/useRealTimeMetrics.ts	/^    const RS = R \/ S;$/;"	v	line:308
+Range	scripts/code_indexer.py	/^class Range:$/;"	c	line:97
+RealTimeMetrics	frontend/src/types/index.ts	/^export interface RealTimeMetrics {$/;"	i	line:37
+RealTimeMetricsState	frontend/src/hooks/useRealTimeMetrics.ts	/^export interface RealTimeMetricsState {$/;"	i	line:34
+RegulationScoreCalculator	backend/core/scores/regulation.py	/^class RegulationScoreCalculator:$/;"	c	line:14
+S	frontend/src/hooks/useRealTimeMetrics.ts	/^    const S = Math.sqrt(deviations.reduce((sum, d) => sum + d * d, 0) \/ n);$/;"	v	line:302
+SCORE_CONFIG	frontend/src/components/VideoPanel/AnalysisResultModal.tsx	/^const SCORE_CONFIG: Record<keyof CompositeScores, { label: string; color: string; description: string }> = {$/;"	v	line:13
+SCORE_DEFINITIONS	frontend/src/pages/MetricsGuide.tsx	/^const SCORE_DEFINITIONS: MetricDefinition[] = [$/;"	v	line:15
+SCORE_DESCRIPTIONS	frontend/src/components/MetricsPanel/index.tsx	/^const SCORE_DESCRIPTIONS: Record<string, string> = {$/;"	v	line:7
+SYMMETRY_PAIRS	frontend/src/services/segmentation/FaceSegmenter.ts	/^export const SYMMETRY_PAIRS: [string, string][] = [$/;"	v	line:62
+ScoreCalculator	frontend/src/services/ScoreCalculator.ts	/^export class ScoreCalculator {$/;"	c	line:50
+ScoreCard	frontend/src/components/MetricsPanel/ScoreCard.tsx	/^export function ScoreCard({$/;"	f	line:35
+ScoreCardProps	frontend/src/components/MetricsPanel/ScoreCard.tsx	/^interface ScoreCardProps {$/;"	i	line:6
+ScoreCardProps	frontend/src/types/index.ts	/^export interface ScoreCardProps {$/;"	i	line:124
+ScoreDisplay	frontend/src/components/VideoPanel/AnalysisResultModal.tsx	/^function ScoreDisplay({$/;"	f	line:46
+ScoreTile	frontend/src/components/Cards/ScoreTile.tsx	/^export const ScoreTile: React.FC<ScoreTileProps> = ({ title, score, trend = 'stable', label }) => {$/;"	v	line:22
+ScoreTileProps	frontend/src/components/Cards/ScoreTile.tsx	/^interface ScoreTileProps {$/;"	i	line:4
+Scores	frontend/src/components/Panels/MetricsScoresPanel.tsx	/^export interface Scores {$/;"	i	line:6
+SegmentationResult	frontend/src/services/segmentation/BodySegmenter.ts	/^export interface SegmentationResult {$/;"	i	line:11
+SegmentedAnalysis	frontend/src/types/index.ts	/^export interface SegmentedAnalysis {$/;"	i	line:162
+Settings	backend/config.py	/^class Settings(BaseSettings):$/;"	c	line:9
+ShaderUniforms	frontend/src/components/PIPCanvas/PIPShader.tsx	/^type ShaderUniforms = {$/;"	t	line:251
+Shell	frontend/src/components/Layout/Shell.tsx	/^export const Shell: React.FC<ShellProps> = ({$/;"	v	line:13
+ShellProps	frontend/src/components/Layout/Shell.tsx	/^interface ShellProps {$/;"	i	line:5
+Symbol	scripts/code_indexer.py	/^class Symbol:$/;"	c	line:103
+SymmetryMetrics	backend/core/metrics/symmetry.py	/^class SymmetryMetrics:$/;"	c	line:11
+SymmetryScoreCalculator	backend/core/scores/symmetry.py	/^class SymmetryScoreCalculator:$/;"	c	line:12
+SymmetrySnapshotCard	frontend/src/components/Cards/SymmetrySnapshotCard.tsx	/^export const SymmetrySnapshotCard: React.FC<SymmetrySnapshotCardProps> = ({ $/;"	v	line:40
+SymmetrySnapshotCardProps	frontend/src/components/Cards/SymmetrySnapshotCard.tsx	/^interface SymmetrySnapshotCardProps {$/;"	i	line:10
+SymmetrySnapshotData	frontend/src/components/Cards/SymmetrySnapshotCard.tsx	/^export interface SymmetrySnapshotData {$/;"	i	line:5
+TEMPORAL_BUFFER_SIZE	frontend/src/hooks/useRealTimeMetrics.ts	/^  const TEMPORAL_BUFFER_SIZE = 30; \/\/ Larger buffer for better temporal analysis$/;"	v	line:261
+TIMELINE_MAX_POINTS	frontend/src/hooks/useRealTimeMetrics.ts	/^const TIMELINE_MAX_POINTS = 60; \/\/ 1 minute of data at 1 point\/second$/;"	v	line:42
+TimelineDataPoint	frontend/src/components/Layout/TimelineStrip.tsx	/^export interface TimelineDataPoint {$/;"	i	line:5
+TimelineDataPoint	frontend/src/hooks/useRealTimeMetrics.ts	/^export interface TimelineDataPoint {$/;"	i	line:27
+TimelineStrip	frontend/src/components/Layout/TimelineStrip.tsx	/^export const TimelineStrip: React.FC<TimelineStripProps> = ({ $/;"	v	line:25
+TimelineStripProps	frontend/src/components/Layout/TimelineStrip.tsx	/^interface TimelineStripProps {$/;"	i	line:12
+UseCameraOptions	frontend/src/hooks/useCamera.ts	/^interface UseCameraOptions {$/;"	i	line:7
+UseCameraReturn	frontend/src/hooks/useCamera.ts	/^interface UseCameraReturn {$/;"	i	line:14
+UseFrameCaptureReturn	frontend/src/hooks/useFrameCapture.ts	/^interface UseFrameCaptureReturn {$/;"	i	line:13
+UseMetricsWorkerReturn	frontend/src/hooks/useMetricsWorker.ts	/^interface UseMetricsWorkerReturn {$/;"	i	line:27
+UsePIPRendererOptions	frontend/src/hooks/usePIPRenderer.ts	/^interface UsePIPRendererOptions {$/;"	i	line:9
+UsePIPRendererReturn	frontend/src/hooks/usePIPRenderer.ts	/^interface UsePIPRendererReturn {$/;"	i	line:13
+UseSegmentationOptions	frontend/src/hooks/useSegmentation.ts	/^interface UseSegmentationOptions {$/;"	i	line:17
+UseSegmentationReturn	frontend/src/hooks/useSegmentation.ts	/^interface UseSegmentationReturn {$/;"	i	line:22
+UseWebSocketOptions	frontend/src/hooks/useWebSocket.ts	/^interface UseWebSocketOptions {$/;"	i	line:7
+UseWebSocketReturn	frontend/src/hooks/useWebSocket.ts	/^interface UseWebSocketReturn {$/;"	i	line:19
+VERTEX_SHADER	frontend/src/services/PIPRenderer.ts	/^const VERTEX_SHADER = `#version 300 es$/;"	v	line:8
+VideoPanel	frontend/src/components/VideoPanel/index.tsx	/^export function VideoPanel() {$/;"	f	line:16
+WSMessage	frontend/src/types/index.ts	/^export interface WSMessage {$/;"	i	line:107
+WSMessageType	frontend/src/types/index.ts	/^export type WSMessageType = $/;"	t	line:93
+WSMetricsPayload	frontend/src/types/index.ts	/^export interface WSMetricsPayload {$/;"	i	line:112
+WorkerMessage	frontend/src/workers/metrics.worker.ts	/^interface WorkerMessage {$/;"	i	line:6
+ZoneConfig	frontend/src/services/segmentation/ZoneCreator.ts	/^export interface ZoneConfig {$/;"	i	line:7
+ZoneConfig	frontend/src/types/index.ts	/^export interface ZoneConfig {$/;"	i	line:178
+ZoneCreator	backend/core/segmentation/zones.py	/^class ZoneCreator:$/;"	c	line:16
+ZoneCreator	frontend/src/services/segmentation/ZoneCreator.ts	/^export class ZoneCreator {$/;"	c	line:49
+ZoneData	frontend/src/services/segmentation/ZoneCreator.ts	/^export interface ZoneData {$/;"	i	line:22
+ZoneMasks	frontend/src/services/segmentation/ZoneCreator.ts	/^export interface ZoneMasks {$/;"	i	line:13
+ZoneMasks	frontend/src/types/index.ts	/^export interface ZoneMasks {$/;"	i	line:190
+ZoneMetrics	frontend/src/hooks/useMetricsWorker.ts	/^interface ZoneMetrics extends FrameMetrics {$/;"	i	line:23
+ZoneMetrics	frontend/src/services/MetricsCalculator.ts	/^export interface ZoneMetrics extends FrameMetrics {$/;"	i	line:36
+_PythonIndexer	scripts/code_indexer.py	/^class _PythonIndexer(ast.NodeVisitor):$/;"	c	line:342
+__all__	backend/core/metrics/__init__.py	/^__all__ = ['BasicMetrics', 'GeometricMetrics', 'ColorMetrics']$/;"	v	line:6
+__all__	backend/core/scores/__init__.py	/^__all__ = [$/;"	v	line:9
+__all__	backend/core/segmentation/__init__.py	/^__all__ = ['BodySegmenter', 'FaceDetector', 'ZoneCreator']$/;"	v	line:6
+__enter__	backend/core/segmentation/body.py	/^    def __enter__(self):$/;"	f	line:105
+__enter__	backend/core/segmentation/face.py	/^    def __enter__(self):$/;"	f	line:185
+__exit__	backend/core/segmentation/body.py	/^    def __exit__(self, exc_type, exc_val, exc_tb):$/;"	f	line:108
+__exit__	backend/core/segmentation/face.py	/^    def __exit__(self, exc_type, exc_val, exc_tb):$/;"	f	line:188
+__init__	backend/api/routes/websocket.py	/^    def __init__(self):$/;"	f	line:18
+__init__	backend/core/metrics/contour.py	/^    def __init__(self, threshold: int = 128):$/;"	f	line:14
+__init__	backend/core/metrics/nonlinear.py	/^    def __init__(self, embedding_dim: int = 10, min_box_size: int = 2, max_box_size: int = 64):$/;"	f	line:13
+__init__	backend/core/metrics/symmetry.py	/^    def __init__(self, midline: Optional[int] = None):$/;"	f	line:14
+__init__	backend/core/segmentation/body.py	/^    def __init__(self, model_selection: int = 1):$/;"	f	line:22
+__init__	backend/core/segmentation/face.py	/^    def __init__(self, min_detection_confidence: float = 0.5):$/;"	f	line:22
+__init__	backend/core/segmentation/zones.py	/^    def __init__(self, zone_config: Optional[Dict[str, float]] = None):$/;"	f	line:28
+__init__	scripts/code_indexer.py	/^    def __init__(self, rel_path: str):$/;"	f	line:343
+_arg_str	scripts/code_indexer.py	/^    def _arg_str(arg: ast.arg, default: Optional[ast.expr]) -> str:$/;"	f	line:500
+_box_counting_dimension	backend/core/metrics/geometric.py	/^    def _box_counting_dimension(Z: np.ndarray, threshold: float = 0.5) -> float:$/;"	f	line:133
+_box_counting_dimension	backend/core/metrics/nonlinear.py	/^    def _box_counting_dimension(self, image: np.ndarray) -> float:$/;"	f	line:69
+_build_graphs	scripts/code_indexer.py	/^def _build_graphs(files: list[FileRecord]) -> dict[str, Any]:$/;"	f	line:705
+_calculate_contour_complexity	backend/core/metrics/contour.py	/^    def _calculate_contour_complexity($/;"	f	line:173
+_calculate_ec	backend/core/metrics/contour.py	/^    def _calculate_ec(self, perimeter: float, area: float) -> float:$/;"	f	line:153
+_calculate_fc	backend/core/metrics/contour.py	/^    def _calculate_fc(self, perimeter: float, area: float) -> float:$/;"	f	line:163
+_classify_contours	backend/core/metrics/contour.py	/^    def _classify_contours($/;"	f	line:101
+_collect_api	scripts/code_indexer.py	/^def _collect_api(files: list[FileRecord]) -> dict[str, Any]:$/;"	f	line:719
+_collect_api_endpoints	scripts/code_indexer.py	/^    def _collect_api_endpoints(self, node: ast.AST, fn_name: str) -> None:$/;"	f	line:418
+_collect_tests	scripts/code_indexer.py	/^def _collect_tests(files: list[FileRecord]) -> dict[str, Any]:$/;"	f	line:733
+_color_histogram_symmetry	backend/core/metrics/symmetry.py	/^    def _color_histogram_symmetry(self, left: np.ndarray, right: np.ndarray) -> float:$/;"	f	line:160
+_contour_balance	backend/core/metrics/symmetry.py	/^    def _contour_balance(self, left: np.ndarray, right: np.ndarray) -> float:$/;"	f	line:195
+_correlation_dimension	backend/core/metrics/nonlinear.py	/^    def _correlation_dimension(self, series: np.ndarray, tau: int = 1) -> float:$/;"	f	line:229
+_correlation_symmetry	backend/core/metrics/symmetry.py	/^    def _correlation_symmetry(self, left: np.ndarray, right: np.ndarray) -> float:$/;"	f	line:121
+_count_boxes	backend/core/metrics/nonlinear.py	/^    def _count_boxes(self, binary: np.ndarray, box_size: int) -> int:$/;"	f	line:111
+_decorator_http	scripts/code_indexer.py	/^    def _decorator_http(self, dec: ast.expr) -> Optional[dict[str, Any]]:$/;"	f	line:398
+_detect_file_kind	scripts/code_indexer.py	/^def _detect_file_kind(rel_path: str) -> str:$/;"	f	line:158
+_detect_language	scripts/code_indexer.py	/^def _detect_language(rel_path: str) -> str:$/;"	f	line:175
+_detect_modules	scripts/code_indexer.py	/^def _detect_modules(root: Path) -> list[dict[str, Any]]:$/;"	f	line:602
+_dfa	backend/core/metrics/nonlinear.py	/^    def _dfa(self, series: np.ndarray) -> float:$/;"	f	line:282
+_diff_state	scripts/code_indexer.py	/^def _diff_state(prev: dict[str, Any], curr: dict[str, Any]) -> tuple[set[str], set[str]]:$/;"	f	line:851
+_empty_metrics	backend/core/metrics/basic.py	/^    def _empty_metrics() -> Dict[str, Any]:$/;"	f	line:72
+_empty_metrics	backend/core/metrics/color.py	/^    def _empty_metrics() -> Dict[str, Any]:$/;"	f	line:78
+_empty_metrics	backend/core/metrics/contour.py	/^    def _empty_metrics(self) -> Dict:$/;"	f	line:192
+_empty_metrics	backend/core/metrics/geometric.py	/^    def _empty_metrics() -> Dict[str, Any]:$/;"	f	line:88
+_empty_metrics	backend/core/metrics/symmetry.py	/^    def _empty_metrics(self) -> Dict:$/;"	f	line:227
+_empty_zones	backend/core/segmentation/zones.py	/^    def _empty_zones(self, h: int, w: int) -> Dict[str, Any]:$/;"	f	line:158
+_expr_to_str	scripts/code_indexer.py	/^def _expr_to_str(expr: ast.AST) -> str:$/;"	f	line:543
+_extract_ts_imports	scripts/code_indexer.py	/^def _extract_ts_imports(rel_path: str, text: str) -> list[dict[str, Any]]:$/;"	f	line:239
+_extract_ts_symbols	scripts/code_indexer.py	/^def _extract_ts_symbols(rel_path: str, text: str) -> list[Symbol]:$/;"	f	line:212
+_fit_ellipse	backend/core/metrics/contour.py	/^    def _fit_ellipse(self, contour: np.ndarray) -> Dict:$/;"	f	line:127
+_format_python_signature	scripts/code_indexer.py	/^def _format_python_signature(node: ast.AST) -> Optional[str]:$/;"	f	line:494
+_fqname	scripts/code_indexer.py	/^    def _fqname(self, name: str) -> str:$/;"	f	line:350
+_histogram_symmetry	backend/core/metrics/symmetry.py	/^    def _histogram_symmetry(self, left: np.ndarray, right: np.ndarray) -> float:$/;"	f	line:142
+_hurst_exponent	backend/core/metrics/nonlinear.py	/^    def _hurst_exponent(self, series: np.ndarray, max_k: int = 100) -> float:$/;"	f	line:125
+_index_file	scripts/code_indexer.py	/^def _index_file(root: Path, rel_path: str) -> FileRecord:$/;"	f	line:629
+_is_probably_exported_ts	scripts/code_indexer.py	/^def _is_probably_exported_ts(kind: str, line: str) -> bool:$/;"	f	line:204
+_is_supported_source	scripts/code_indexer.py	/^def _is_supported_source(language: str) -> bool:$/;"	f	line:625
+_is_within_excludes	scripts/code_indexer.py	/^def _is_within_excludes(rel_path: str, excludes: list[str]) -> bool:$/;"	f	line:146
+_iter_repo_files	scripts/code_indexer.py	/^def _iter_repo_files(root: Path, excludes: list[str]) -> Iterable[str]:$/;"	f	line:688
+_line_at	scripts/code_indexer.py	/^def _line_at(path: Path, line: int) -> str:$/;"	f	line:776
+_lyapunov_exponent	backend/core/metrics/nonlinear.py	/^    def _lyapunov_exponent(self, series: np.ndarray, tau: int = 1) -> float:$/;"	f	line:174
+_make_index_schema	scripts/code_indexer.py	/^def _make_index_schema() -> dict[str, Any]:$/;"	f	line:581
+_pixel_symmetry	backend/core/metrics/symmetry.py	/^    def _pixel_symmetry(self, left: np.ndarray, right: np.ndarray) -> float:$/;"	f	line:185
+_pos	scripts/code_indexer.py	/^def _pos(line: int, col: int) -> Position:$/;"	f	line:134
+_range_from_ast	scripts/code_indexer.py	/^def _range_from_ast(node: ast.AST) -> Range:$/;"	f	line:138
+_read_text	scripts/code_indexer.py	/^def _read_text(path: Path) -> str:$/;"	f	line:130
+_resolve_python_import	scripts/code_indexer.py	/^def _resolve_python_import(module: Optional[str], level: int, from_file: Path, root: Path) -> Optional[str]:$/;"	f	line:314
+_resolve_ts_import	scripts/code_indexer.py	/^def _resolve_ts_import(from_file: Path, spec: str, root: Path) -> Optional[str]:$/;"	f	line:282
+_sample_entropy	backend/core/metrics/nonlinear.py	/^    def _sample_entropy(self, series: np.ndarray, m: int = 2, r: float = 0.2) -> float:$/;"	f	line:335
+_serialize_file_record	scripts/code_indexer.py	/^def _serialize_file_record(fr: FileRecord) -> dict[str, Any]:$/;"	f	line:567
+_serialize_symbol	scripts/code_indexer.py	/^def _serialize_symbol(s: Symbol) -> dict[str, Any]:$/;"	f	line:552
+_sha256_text	scripts/code_indexer.py	/^def _sha256_text(text: str) -> str:$/;"	f	line:126
+_snapshot_state	scripts/code_indexer.py	/^def _snapshot_state(root: Path, excludes: list[str]) -> dict[str, Any]:$/;"	f	line:839
+_split_at_midline	backend/core/metrics/symmetry.py	/^    def _split_at_midline($/;"	f	line:89
+_ssim_symmetry	backend/core/metrics/symmetry.py	/^    def _ssim_symmetry(self, left: np.ndarray, right: np.ndarray) -> float:$/;"	f	line:106
+_symbols_index	scripts/code_indexer.py	/^def _symbols_index(symbols: list[Symbol]) -> dict[str, Any]:$/;"	f	line:748
+_write_ctags	scripts/code_indexer.py	/^def _write_ctags(root: Path, out_path: Path, symbols: list[Symbol]) -> None:$/;"	f	line:787
+_write_json	scripts/code_indexer.py	/^def _write_json(path: Path, obj: Any) -> None:$/;"	f	line:764
+_write_jsonl	scripts/code_indexer.py	/^def _write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:$/;"	f	line:769
+a	frontend/src/components/VideoPanel/AnalysisResultModal.tsx	/^    const a = document.createElement('a');$/;"	v	line:114
+aPos	frontend/src/components/PIPCanvas/PIPShader.tsx	/^    const aPos = gl.getAttribLocation(program, 'aPosition');$/;"	v	line:529
+aPos	frontend/src/services/PIPRenderer.ts	/^    const aPos = gl.getAttribLocation(this.program, 'aPosition');$/;"	v	line:211
+abortControllerRef	frontend/src/hooks/useFrameCapture.ts	/^  const abortControllerRef = useRef<AbortController | null>(null);$/;"	v	line:28
+aboveThreshold	frontend/src/hooks/useMetricsWorker.ts	/^        const aboveThreshold = intensities.filter(i => i > threshold).length;$/;"	v	line:112
+aboveThreshold	frontend/src/services/MetricsCalculator.ts	/^    const aboveThreshold = intensities.filter(i => i > threshold).length;$/;"	v	line:89
+aboveThreshold	frontend/src/workers/metrics.worker.ts	/^  const aboveThreshold = intensities.filter((i) => i > threshold).length;$/;"	v	line:122
+activate_baseline	backend/api/routes/baseline.py	/^async def activate_baseline(baseline_id: str):$/;"	f	line:50
+analysisRegionRef	frontend/src/components/PIPCanvas/PIPShader.tsx	/^  const analysisRegionRef = useRef<AnalysisRegion>(analysisRegion);$/;"	v	line:288
+animationRef	frontend/src/components/PIPCanvas/PIPShader.tsx	/^  const animationRef = useRef<number>(0);$/;"	v	line:286
+app	backend/main.py	/^app = FastAPI($/;"	v	line:22
+appReducer	frontend/src/context/appState.ts	/^export function appReducer(state: AppState, action: Action): AppState {$/;"	f	line:72
+area	frontend/src/services/ScoreCalculator.ts	/^    const area = Math.min(this.safeNumber(metrics.normalizedArea, 0) \/ 1.5, 1);$/;"	v	line:94
+areas	frontend/src/services/segmentation/ZoneCreator.ts	/^    const areas = {$/;"	v	line:94
+asymmetryFactor	frontend/src/components/Cards/SymmetrySnapshotCard.tsx	/^  const asymmetryFactor = (100 - symmetry) \/ 200; \/\/ 0-0.5$/;"	v	line:29
+avg	frontend/src/hooks/useMetricsWorker.ts	/^        const avg = m ?? mean(arr);$/;"	v	line:156
+avg	frontend/src/workers/metrics.worker.ts	/^  const avg = m ?? mean(arr);$/;"	v	line:205
+avgBright	frontend/src/hooks/useRealTimeMetrics.ts	/^    const avgBright = brightnesses.reduce((a, b) => a + b, 0) \/ brightnesses.length;$/;"	v	line:467
+avgBrightness	frontend/src/components/PIPCanvas/PIPShader.tsx	/^              const avgBrightness = maskedPixels.reduce((a, b) => a + b, 0) \/ maskedPixels.length \/ 255;$/;"	v	line:700
+avgDivergence	frontend/src/hooks/useRealTimeMetrics.ts	/^    const avgDivergence = diffs.length > 1 ? divergenceSum \/ (diffs.length - 1) : 0;$/;"	v	line:333
+avgIntensity	frontend/src/hooks/useMetricsWorker.ts	/^        const avgIntensity = mean(intensities);$/;"	v	line:107
+avgIntensity	frontend/src/services/MetricsCalculator.ts	/^    const avgIntensity = this.mean(intensities);$/;"	v	line:82
+avgIntensity	frontend/src/workers/metrics.worker.ts	/^  const avgIntensity = mean(intensities);$/;"	v	line:115
+avgSym	frontend/src/hooks/useRealTimeMetrics.ts	/^    const avgSym = symValues.reduce((a, b) => a + b, 0) \/ symValues.length;$/;"	v	line:470
+b	frontend/src/components/PIPCanvas/PIPShader.tsx	/^                  const b = pixels[i * 4 + 2];$/;"	v	line:686
+b	frontend/src/hooks/useMetricsWorker.ts	/^          const b = data[idx + 2];$/;"	v	line:97
+b	frontend/src/services/MetricsCalculator.ts	/^      const b = data[idx + 2];$/;"	v	line:65
+b	frontend/src/workers/metrics.worker.ts	/^    const b = data[idx + 2];$/;"	v	line:98
+background	frontend/src/services/segmentation/ZoneCreator.ts	/^    const background = this.invertMask(dilatedExtended, width, height);$/;"	v	line:85
+baseMetrics	frontend/src/services/MetricsCalculator.ts	/^      const baseMetrics = this.calculateFromImageData(imageData, mask);$/;"	v	line:153
+basic_metrics	backend/api/routes/analysis.py	/^basic_metrics = BasicMetrics()$/;"	v	line:36
+batch_capture	backend/api/routes/capture.py	/^async def batch_capture(images: list[UploadFile] = File(...)):$/;"	f	line:30
+bin	frontend/src/services/MetricsCalculator.ts	/^      const bin = Math.floor(h \/ 10) % 36;$/;"	v	line:268
+bin	frontend/src/services/MetricsCalculator.ts	/^      const bin = Math.floor(v \/ binSize) % numBins;$/;"	v	line:283
+bin	frontend/src/workers/metrics.worker.ts	/^    const bin = Math.floor(h \/ 10) % 36;$/;"	v	line:287
+bin	frontend/src/workers/metrics.worker.ts	/^    const bin = Math.floor(v \/ binSize) % numBins;$/;"	v	line:302
+binSize	frontend/src/services/MetricsCalculator.ts	/^    const binSize = 360 \/ numBins;$/;"	v	line:280
+binSize	frontend/src/workers/metrics.worker.ts	/^  const binSize = 360 \/ numBins;$/;"	v	line:299
+bins	frontend/src/hooks/useMetricsWorker.ts	/^        const bins = new Array(36).fill(0);$/;"	v	line:194
+bins	frontend/src/hooks/useMetricsWorker.ts	/^        const bins = new Array(numBins).fill(0), binSize = 360 \/ numBins;$/;"	v	line:201
+bins	frontend/src/services/MetricsCalculator.ts	/^    const bins = new Array(36).fill(0);$/;"	v	line:266
+bins	frontend/src/services/MetricsCalculator.ts	/^    const bins = new Array(numBins).fill(0);$/;"	v	line:279
+bins	frontend/src/workers/metrics.worker.ts	/^  const bins = new Array(36).fill(0);$/;"	v	line:285
+bins	frontend/src/workers/metrics.worker.ts	/^  const bins = new Array(numBins).fill(0);$/;"	v	line:298
+blendshapes	frontend/src/services/segmentation/FaceSegmenter.ts	/^    const blendshapes = result.faceBlendshapes?.[0]?.categories?.map((c) => ({$/;"	v	line:190
+blob	frontend/src/components/VideoPanel/AnalysisResultModal.tsx	/^    const blob = new Blob([dataStr], { type: 'application\/json' });$/;"	v	line:112
+blob	frontend/src/hooks/useFrameCapture.ts	/^        const blob = await new Promise<Blob>((resolve, reject) => {$/;"	v	line:54
+blob	frontend/src/hooks/useMetricsWorker.ts	/^    const blob = new Blob([workerCode], { type: 'application\/javascript' });$/;"	v	line:223
+bodyDiagonal	frontend/src/services/segmentation/ZoneCreator.ts	/^    let bodyDiagonal = Math.sqrt(width * width + height * height) * 0.3; \/\/ Default$/;"	v	line:62
+bodyMask	frontend/src/services/segmentation/ZoneCreator.ts	/^    const bodyMask = new Uint8Array(mask);$/;"	v	line:81
+bodyRes	frontend/src/hooks/useSegmentation.ts	/^          const bodyRes = await bodySegmenterRef.current.segment(input, timestamp);$/;"	v	line:99
+bodyResult	frontend/src/components/PIPCanvas/PIPShader.tsx	/^      const bodyResult = await bodySegmenterRef.current.segment(video, timestamp);$/;"	v	line:470
+bodySegmenterRef	frontend/src/components/PIPCanvas/PIPShader.tsx	/^  const bodySegmenterRef = useRef<BodySegmenter | null>(null);$/;"	v	line:300
+bodySegmenterRef	frontend/src/hooks/useSegmentation.ts	/^  const bodySegmenterRef = useRef<BodySegmenter | null>(null);$/;"	v	line:51
+bodySymmetry	frontend/src/services/ScoreCalculator.ts	/^    const bodySymmetry = this.safeNumber(metrics.bodySymmetry ?? metrics.horizontalSymmetry, 0.5);$/;"	v	line:103
+body_segmenter	backend/api/routes/analysis.py	/^body_segmenter = BodySegmenter()$/;"	v	line:48
+bottomI	frontend/src/components/PIPCanvas/PIPShader.tsx	/^                    const bottomI = (pixels[bottomIdx * 4] + pixels[bottomIdx * 4 + 1] + pixels[bottomIdx * 4 + 2]) \/ 3;$/;"	v	line:739
+bottomIdx	frontend/src/components/PIPCanvas/PIPShader.tsx	/^                  const bottomIdx = (vh - 1 - y) * vw + x;$/;"	v	line:734
+bottomIdx	frontend/src/services/MetricsCalculator.ts	/^          const bottomIdx = (height - 1 - y) * width + x;$/;"	v	line:243
+bottomIntensity	frontend/src/services/MetricsCalculator.ts	/^          const bottomIntensity = 0.299 * data[bottomPixelIdx] + 0.587 * data[bottomPixelIdx + 1] + 0.114 * data[bottomPixelIdx + 2];$/;"	v	line:251
+bottomMasked	frontend/src/components/PIPCanvas/PIPShader.tsx	/^                  const bottomMasked = maskImageData.data[bottomIdx * 4] > 128;$/;"	v	line:736
+bottomPixelIdx	frontend/src/services/MetricsCalculator.ts	/^          const bottomPixelIdx = bottomIdx * 4;$/;"	v	line:248
+boundingBox	frontend/src/services/segmentation/FaceSegmenter.ts	/^    const boundingBox = this.calculateBoundingBox(landmarks);$/;"	v	line:178
+boxcount	backend/core/metrics/geometric.py	/^        def boxcount(img, k):$/;"	f	line:144
+brightVariance	frontend/src/hooks/useRealTimeMetrics.ts	/^    const brightVariance = brightnesses.reduce((sum, b) => sum + Math.pow(b - avgBright, 2), 0) \/ brightnesses.length;$/;"	v	line:468
+brightness	frontend/src/components/PIPCanvas/PIPShader.tsx	/^              const brightness = (pixels[centerIdx] + pixels[centerIdx + 1] + pixels[centerIdx + 2]) \/ (3 * 255);$/;"	v	line:750
+brightnessEdge	frontend/src/hooks/useRealTimeMetrics.ts	/^    const brightnessEdge = Math.abs(brightness - 0.5) * 0.3; \/\/ Edge cases add complexity$/;"	v	line:272
+brightnesses	frontend/src/hooks/useRealTimeMetrics.ts	/^    const brightnesses = prevFrameDataRef.current.map(f => f.brightness);$/;"	v	line:462
+broadcast	backend/api/routes/websocket.py	/^    async def broadcast(self, message: dict):$/;"	f	line:36
+build_index	scripts/code_indexer.py	/^def build_index(root: Path, excludes: list[str]) -> dict[str, Any]:$/;"	f	line:806
+buttonState	frontend/src/components/VideoPanel/CaptureButton.tsx	/^  const buttonState = getButtonState();$/;"	v	line:58
+calcDominantHue	frontend/src/hooks/useMetricsWorker.ts	/^      function calcDominantHue(hues) {$/;"	f	line:192
+calcEntropy	frontend/src/hooks/useMetricsWorker.ts	/^      function calcEntropy(values, numBins) {$/;"	f	line:199
+calcHorizontalSymmetry	frontend/src/hooks/useMetricsWorker.ts	/^      function calcHorizontalSymmetry(data, width, height, mask) {$/;"	f	line:175
+calculate	backend/core/metrics/contour.py	/^    def calculate(self, image: np.ndarray, mask: Optional[np.ndarray] = None) -> Dict:$/;"	f	line:17
+calculate	backend/core/metrics/nonlinear.py	/^    def calculate(self, image: np.ndarray, mask: Optional[np.ndarray] = None) -> Dict:$/;"	f	line:18
+calculate	backend/core/metrics/symmetry.py	/^    def calculate(self, image: np.ndarray, mask: Optional[np.ndarray] = None) -> Dict:$/;"	f	line:17
+calculate	backend/core/scores/coherence.py	/^    def calculate(self, metrics: Dict[str, Any]) -> int:$/;"	f	line:16
+calculate	backend/core/scores/color_balance.py	/^    def calculate(self, metrics: Dict[str, Any]) -> int:$/;"	f	line:18
+calculate	backend/core/scores/complexity.py	/^    def calculate(self, metrics: Dict[str, Any]) -> int:$/;"	f	line:17
+calculate	backend/core/scores/energy.py	/^    def calculate(self, metrics: Dict[str, Any], baseline: Optional[Dict[str, Any]] = None) -> int:$/;"	f	line:16
+calculate	backend/core/scores/regulation.py	/^    def calculate(self, metrics: Dict[str, Any]) -> int:$/;"	f	line:17
+calculate	backend/core/scores/symmetry.py	/^    def calculate(self, metrics: Dict[str, Any]) -> int:$/;"	f	line:15
+calculateBarWidths	frontend/src/components/Cards/SymmetrySnapshotCard.tsx	/^const calculateBarWidths = (symmetry: number): { left: number; gap: number; right: number } => {$/;"	v	line:22
+calculateDominantHue	frontend/src/workers/metrics.worker.ts	/^function calculateDominantHue(hues: number[]): number {$/;"	f	line:282
+calculateEntropy	frontend/src/workers/metrics.worker.ts	/^function calculateEntropy(values: number[], numBins: number): number {$/;"	f	line:295
+calculateHorizontalSymmetry	frontend/src/workers/metrics.worker.ts	/^function calculateHorizontalSymmetry($/;"	f	line:245
+calculateMetrics	frontend/src/hooks/useMetricsWorker.ts	/^      function calculateMetrics(data, width, height, mask) {$/;"	f	line:86
+calculateMetrics	frontend/src/workers/metrics.worker.ts	/^function calculateMetrics($/;"	f	line:81
+calculateMetricsCallback	frontend/src/hooks/useMetricsWorker.ts	/^  const calculateMetricsCallback = useCallback($/;"	v	line:255
+calculateZoneMetrics	frontend/src/hooks/useMetricsWorker.ts	/^      function calculateZoneMetrics(data, width, height, zoneMasks) {$/;"	f	line:130
+calculateZoneMetrics	frontend/src/workers/metrics.worker.ts	/^function calculateZoneMetrics($/;"	f	line:164
+calculateZoneMetricsCallback	frontend/src/hooks/useMetricsWorker.ts	/^  const calculateZoneMetricsCallback = useCallback($/;"	v	line:268
+calculate_all	backend/core/metrics/basic.py	/^    def calculate_all(image: np.ndarray, mask: Optional[np.ndarray] = None) -> Dict[str, Any]:$/;"	f	line:12
+calculate_all	backend/core/metrics/color.py	/^    def calculate_all(image_rgb: np.ndarray, mask: Optional[np.ndarray] = None) -> Dict[str, Any]:$/;"	f	line:14
+calculate_all	backend/core/metrics/geometric.py	/^    def calculate_all(binary_image: np.ndarray) -> Dict[str, Any]:$/;"	f	line:13
+calculate_coherence	backend/core/metrics/color.py	/^    def calculate_coherence($/;"	f	line:124
+calculate_coherence_score	backend/core/scores/coherence.py	/^def calculate_coherence_score(metrics: Dict[str, Any]) -> int:$/;"	f	line:25
+calculate_color_balance_score	backend/core/scores/color_balance.py	/^def calculate_color_balance_score(metrics: Dict[str, Any]) -> int:$/;"	f	line:27
+calculate_complexity_score	backend/core/scores/complexity.py	/^def calculate_complexity_score(metrics: Dict[str, Any]) -> int:$/;"	f	line:26
+calculate_contour_complexity	backend/core/metrics/geometric.py	/^    def calculate_contour_complexity(binary_image: np.ndarray) -> float:$/;"	f	line:106
+calculate_energy_score	backend/core/scores/energy.py	/^def calculate_energy_score($/;"	f	line:25
+calculate_entropy	backend/core/metrics/color.py	/^    def calculate_entropy(image_rgb: np.ndarray, mask: Optional[np.ndarray] = None) -> float:$/;"	f	line:92
+calculate_intensity	backend/core/metrics/basic.py	/^    def calculate_intensity(image: np.ndarray, mask: Optional[np.ndarray] = None) -> Dict[str, float]:$/;"	f	line:88
+calculate_lqd	backend/core/metrics/basic.py	/^    def calculate_lqd($/;"	f	line:112
+calculate_regulation_score	backend/core/scores/regulation.py	/^def calculate_regulation_score(metrics: Dict[str, Any]) -> int:$/;"	f	line:26
+calculate_symmetry	backend/core/metrics/color.py	/^    def calculate_symmetry(image_rgb: np.ndarray, midline_x: Optional[int] = None) -> float:$/;"	f	line:171
+calculate_symmetry_score	backend/core/scores/symmetry.py	/^def calculate_symmetry_score(metrics: Dict[str, Any]) -> int:$/;"	f	line:24
+calculate_zone_symmetry	backend/core/metrics/symmetry.py	/^    def calculate_zone_symmetry($/;"	f	line:213
+canvas	frontend/src/components/PIPCanvas/PIPShader.tsx	/^      const canvas = canvasRef.current;$/;"	v	line:308
+canvas	frontend/src/components/PIPCanvas/PIPShader.tsx	/^    const canvas = canvasRef.current;$/;"	v	line:504
+canvas	frontend/src/hooks/useRealTimeMetrics.ts	/^      const canvas = canvasRef.current;$/;"	v	line:235
+canvas	frontend/src/services/segmentation/BodySegmenter.ts	/^        const canvas = categoryMask.canvas;$/;"	v	line:208
+canvas	frontend/src/services/segmentation/BodySegmenter.ts	/^        const canvas = mask.canvas;$/;"	v	line:143
+canvasRef	frontend/src/components/PIPCanvas/PIPShader.tsx	/^  const canvasRef = useRef<HTMLCanvasElement>(null);$/;"	v	line:282
+canvasRef	frontend/src/hooks/usePIPRenderer.ts	/^  const canvasRef = useRef<HTMLCanvasElement>(null);$/;"	v	line:32
+capture	frontend/src/hooks/useFrameCapture.ts	/^  const capture = useCallback($/;"	v	line:30
+captureFrame	frontend/src/hooks/usePIPRenderer.ts	/^  const captureFrame = useCallback((): ImageData | null => {$/;"	v	line:119
+captureFrameAsDataURL	frontend/src/hooks/usePIPRenderer.ts	/^  const captureFrameAsDataURL = useCallback((): string | null => {$/;"	v	line:127
+captureInterval	frontend/src/hooks/useRealTimeMetrics.ts	/^    const captureInterval = setInterval(() => {$/;"	v	line:234
+capture_and_analyze	backend/api/routes/analysis.py	/^async def capture_and_analyze($/;"	f	line:78
+capture_frame	backend/api/routes/capture.py	/^async def capture_frame(image: UploadFile = File(...)):$/;"	f	line:11
+categoryMask	frontend/src/services/segmentation/BodySegmenter.ts	/^    const categoryMask = result.categoryMask;$/;"	v	line:96
+centerIdx	frontend/src/components/PIPCanvas/PIPShader.tsx	/^              const centerIdx = (Math.floor(vh \/ 2) * vw + Math.floor(vw \/ 2)) * 4;$/;"	v	line:749
+chartData	frontend/src/components/GraphPanel/index.tsx	/^  const chartData = useMemo(() => {$/;"	v	line:31
+chartData	frontend/src/components/Layout/TimelineStrip.tsx	/^  const chartData = data.length > 0 ? data : Array.from({ length: 30 }, (_, i) => ({$/;"	v	line:44
+circumferenceDesktop	frontend/src/components/Cards/ScoreTile.tsx	/^  const circumferenceDesktop = 2 * Math.PI * radiusDesktop;$/;"	v	line:48
+circumferenceMobile	frontend/src/components/Cards/ScoreTile.tsx	/^  const circumferenceMobile = 2 * Math.PI * radiusMobile;$/;"	v	line:47
+clear	frontend/src/hooks/useMetricsWorker.ts	/^  const clear = useCallback(() => {$/;"	v	line:281
+close	backend/core/segmentation/body.py	/^    def close(self):$/;"	f	line:101
+close	backend/core/segmentation/face.py	/^    def close(self):$/;"	f	line:181
+close	frontend/src/hooks/useSegmentation.ts	/^  const close = useCallback(() => {$/;"	v	line:142
+coherence	frontend/src/services/ScoreCalculator.ts	/^    const coherence = this.safeNumber(metrics.colorCoherence, 0.5);$/;"	v	line:209
+coherence_calc	backend/api/routes/analysis.py	/^coherence_calc = CoherenceScoreCalculator()$/;"	v	line:44
+col	frontend/src/services/PDFExportService.ts	/^      const col = index % 2;$/;"	v	line:164
+colWidth	frontend/src/services/PDFExportService.ts	/^    const colWidth = (this.pageWidth - this.margin * 2) \/ 2;$/;"	v	line:162
+color	frontend/src/services/PDFExportService.ts	/^      const color = this.getInsightColor(insight.type);$/;"	v	line:249
+color	frontend/src/services/PDFExportService.ts	/^    const color = this.getScoreColor(value);$/;"	v	line:188
+colorClass	frontend/src/components/MetricsPanel/ScoreCard.tsx	/^  const colorClass = color || getColorClasses(value);$/;"	v	line:44
+colorCoherence	frontend/src/hooks/useRealTimeMetrics.ts	/^    const colorCoherence = Math.max(0, Math.min(1, 1 - (data.colorEntropy * 0.3)));$/;"	v	line:479
+colorCoherence	frontend/src/services/ScoreCalculator.ts	/^    const colorCoherence = this.safeNumber(metrics.colorCoherence, 0.5);$/;"	v	line:123
+colorEntropy	frontend/src/components/PIPCanvas/PIPShader.tsx	/^              const colorEntropy = Math.min(1, Math.sqrt(variance) * 3 + 0.5);$/;"	v	line:702
+colorEntropy	frontend/src/hooks/useMetricsWorker.ts	/^        const colorEntropy = calcEntropy(hues, 36);$/;"	v	line:120
+colorEntropy	frontend/src/services/MetricsCalculator.ts	/^    const colorEntropy = this.calculateEntropy(hues, 36); \/\/ 36 bins (10 degrees each)$/;"	v	line:104
+colorEntropy	frontend/src/workers/metrics.worker.ts	/^  const colorEntropy = calculateEntropy(hues, 36);$/;"	v	line:137
+colorSymmetry	frontend/src/services/ScoreCalculator.ts	/^    const colorSymmetry = Math.max(0, this.safeNumber(metrics.colorSymmetry, 0.5));$/;"	v	line:107
+color_balance_calc	backend/api/routes/analysis.py	/^color_balance_calc = ColorBalanceScoreCalculator()$/;"	v	line:47
+color_metrics	backend/api/routes/analysis.py	/^color_metrics = ColorMetrics()$/;"	v	line:37
+combinedField	frontend/src/services/segmentation/ZoneCreator.ts	/^    const combinedField = new Uint8Array(width * height);$/;"	v	line:88
+complexity_calc	backend/api/routes/analysis.py	/^complexity_calc = ComplexityScoreCalculator()$/;"	v	line:45
+confidence	frontend/src/services/segmentation/BodySegmenter.ts	/^                const confidence = imageData.data[srcIdx * 4] \/ 255;$/;"	v	line:165
+confidence	frontend/src/services/segmentation/BodySegmenter.ts	/^              const confidence = imageData.data[i * 4] \/ 255;$/;"	v	line:154
+confidenceData	frontend/src/services/segmentation/BodySegmenter.ts	/^    const confidenceData: Float32Array = new Float32Array(width * height);$/;"	v	line:101
+confidenceMasks	frontend/src/services/segmentation/BodySegmenter.ts	/^    const confidenceMasks = result.confidenceMasks;$/;"	v	line:97
+config	frontend/src/components/VideoPanel/AnalysisResultModal.tsx	/^  const config = SCORE_CONFIG[name];$/;"	v	line:55
+connect	backend/api/routes/websocket.py	/^    async def connect(self, websocket: WebSocket, client_id: str):$/;"	f	line:21
+connect	frontend/src/hooks/useWebSocket.ts	/^  const connect = useCallback(() => {$/;"	v	line:56
+connectRef	frontend/src/hooks/useWebSocket.ts	/^  const connectRef = useRef<() => void>(() => {});$/;"	v	line:51
+connectWebSocket	frontend/src/hooks/useRealTimeMetrics.ts	/^    const connectWebSocket = () => {$/;"	v	line:89
+constraints	frontend/src/hooks/useCamera.ts	/^      const constraints: MediaStreamConstraints = {$/;"	v	line:81
+context	frontend/src/context/appState.ts	/^  const context = useContext(AppContext);$/;"	v	line:134
+contour	frontend/src/services/ScoreCalculator.ts	/^    const contour = this.safeNumber(metrics.contourComplexity, 1.2);$/;"	v	line:146
+contourBalance	frontend/src/services/ScoreCalculator.ts	/^    const contourBalance = this.safeNumber(metrics.horizontalSymmetry, 0.5);$/;"	v	line:106
+contourNorm	frontend/src/services/ScoreCalculator.ts	/^    const contourNorm = Math.max(0, Math.min(1, contour - 1.0));$/;"	v	line:147
+contour_metrics	backend/api/routes/analysis.py	/^contour_metrics = ContourMetrics()$/;"	v	line:39
+corrDim	frontend/src/services/ScoreCalculator.ts	/^    const corrDim = this.safeNumber(metrics.correlationDimension, 2);$/;"	v	line:142
+corrDimNorm	frontend/src/services/ScoreCalculator.ts	/^    const corrDimNorm = corrDim % 1;$/;"	v	line:143
+count	frontend/src/services/MetricsCalculator.ts	/^    let count = 0;$/;"	v	line:215
+count	frontend/src/services/MetricsCalculator.ts	/^    let count = 0;$/;"	v	line:324
+count	frontend/src/services/segmentation/ZoneCreator.ts	/^    let count = 0;$/;"	v	line:191
+count	frontend/src/workers/metrics.worker.ts	/^  let count = 0;$/;"	v	line:253
+count	frontend/src/workers/metrics.worker.ts	/^  let count = 0;$/;"	v	line:320
+countFps	frontend/src/components/Panels/PIPCanvasPanel.tsx	/^    const countFps = () => {$/;"	v	line:44
+countMaskPixels	frontend/src/workers/metrics.worker.ts	/^function countMaskPixels(mask: Uint8Array): number {$/;"	f	line:319
+count_matches	backend/core/metrics/nonlinear.py	/^        def count_matches(m_val):$/;"	f	line:350
+createProgram	frontend/src/components/PIPCanvas/PIPShader.tsx	/^  const createProgram = useCallback((gl: WebGL2RenderingContext) => {$/;"	v	line:402
+createShader	frontend/src/components/PIPCanvas/PIPShader.tsx	/^  const createShader = useCallback((gl: WebGL2RenderingContext, type: number, source: string) => {$/;"	v	line:389
+create_baseline	backend/api/routes/baseline.py	/^async def create_baseline(request: BaselineCreate):$/;"	f	line:27
+create_face_mask	backend/core/segmentation/face.py	/^    def create_face_mask(self, image_shape: tuple, face_result: Dict[str, Any], padding: float = 0.2) -> np.ndarray:$/;"	f	line:118
+create_zones	backend/core/segmentation/zones.py	/^    def create_zones($/;"	f	line:37
+ctx	frontend/src/hooks/useRealTimeMetrics.ts	/^      const ctx = canvas.getContext('2d');$/;"	v	line:238
+ctx	frontend/src/services/PIPRenderer.ts	/^    const ctx = document.createElement('canvas').getContext('2d');$/;"	v	line:282
+ctx	frontend/src/services/segmentation/BodySegmenter.ts	/^        const ctx = canvas.getContext('2d');$/;"	v	line:144
+ctx	frontend/src/services/segmentation/BodySegmenter.ts	/^        const ctx = canvas.getContext('2d');$/;"	v	line:209
+cumSum	frontend/src/hooks/useRealTimeMetrics.ts	/^    let cumSum = 0;$/;"	v	line:292
+cumSum	frontend/src/hooks/useRealTimeMetrics.ts	/^    let cumSum = 0;$/;"	v	line:355
+cumulativeDeviations	frontend/src/hooks/useRealTimeMetrics.ts	/^    const cumulativeDeviations: number[] = [];$/;"	v	line:291
+curr	frontend/src/services/MetricsCalculator.ts	/^    const curr = currentFrame.data;$/;"	v	line:309
+currIntensity	frontend/src/services/MetricsCalculator.ts	/^      const currIntensity = 0.299 * curr[i] + 0.587 * curr[i + 1] + 0.114 * curr[i + 2];$/;"	v	line:315
+d	frontend/src/services/MetricsCalculator.ts	/^    const d = max - min;$/;"	v	line:185
+d	frontend/src/workers/metrics.worker.ts	/^  const d = max - min;$/;"	v	line:222
+data	frontend/src/hooks/useRealTimeMetrics.ts	/^            const data = JSON.parse(event.data);$/;"	v	line:107
+dataStr	frontend/src/components/VideoPanel/AnalysisResultModal.tsx	/^    const dataStr = JSON.stringify(result, null, 2);$/;"	v	line:111
+dataUrl	frontend/src/components/PIPCanvas/PIPShader.tsx	/^        const dataUrl = canvas.toDataURL('image\/png');$/;"	v	line:314
+dateStr	frontend/src/services/PDFExportService.ts	/^    const dateStr = data.timestamp.toLocaleDateString('en-US', { $/;"	v	line:89
+defaultParams	frontend/src/components/PIPCanvas/PIPShader.tsx	/^const defaultParams = {$/;"	v	line:243
+delete_baseline	backend/api/routes/baseline.py	/^async def delete_baseline(baseline_id: str):$/;"	f	line:57
+delta	frontend/src/components/VideoPanel/AnalysisResultModal.tsx	/^  const delta = baseline !== undefined ? value - baseline : undefined;$/;"	v	line:56
+detect	backend/core/segmentation/face.py	/^    def detect(self, image: np.ndarray) -> Dict[str, Any]:$/;"	f	line:38
+deviations	frontend/src/hooks/useRealTimeMetrics.ts	/^    const deviations = values.map(v => v - mean);$/;"	v	line:290
+dfa	frontend/src/services/ScoreCalculator.ts	/^    const dfa = this.safeNumber(metrics.dfaAlpha, 1.0);$/;"	v	line:165
+dfaAlpha	frontend/src/hooks/useRealTimeMetrics.ts	/^    const dfaAlpha = estimateDfaAlpha(entropyValues);$/;"	v	line:485
+dfaNorm	frontend/src/services/ScoreCalculator.ts	/^    const dfaNorm = Math.max(0, Math.min(1, 1 - Math.abs(dfa - 1.0)));$/;"	v	line:166
+diffs	frontend/src/hooks/useRealTimeMetrics.ts	/^    const diffs: number[] = [];$/;"	v	line:323
+dilatedDistal	frontend/src/services/segmentation/ZoneCreator.ts	/^    const dilatedDistal = this.dilateMask(mask, width, height, distalDist);$/;"	v	line:77
+dilatedExtended	frontend/src/services/segmentation/ZoneCreator.ts	/^    const dilatedExtended = this.dilateMask(mask, width, height, extendedDist);$/;"	v	line:78
+dilatedProximal	frontend/src/services/segmentation/ZoneCreator.ts	/^    const dilatedProximal = this.dilateMask(mask, width, height, proximalDist);$/;"	v	line:76
+disconnect	backend/api/routes/websocket.py	/^    def disconnect(self, client_id: str):$/;"	f	line:26
+disconnect	frontend/src/hooks/useWebSocket.ts	/^  const disconnect = useCallback(() => {$/;"	v	line:123
+distalDist	frontend/src/services/segmentation/ZoneCreator.ts	/^    const distalDist = Math.max(proximalDist + 5, Math.round(bodyDiagonal * this.config.distal));$/;"	v	line:72
+distalField	frontend/src/services/segmentation/ZoneCreator.ts	/^    const distalField = this.subtractMasks(dilatedDistal, dilatedProximal, width, height);$/;"	v	line:83
+divergenceSum	frontend/src/hooks/useRealTimeMetrics.ts	/^    let divergenceSum = 0;$/;"	v	line:329
+dominantHue	frontend/src/hooks/useMetricsWorker.ts	/^        const dominantHue = calcDominantHue(hues);$/;"	v	line:118
+dominantHue	frontend/src/services/MetricsCalculator.ts	/^    const dominantHue = this.calculateDominantHue(hues);$/;"	v	line:102
+dominantHue	frontend/src/workers/metrics.worker.ts	/^  const dominantHue = calculateDominantHue(hues);$/;"	v	line:135
+drawSegmentationMask	frontend/src/components/PIPCanvas/PIPShader.tsx	/^  const drawSegmentationMask = useCallback(async ($/;"	v	line:420
+dstIdx	frontend/src/services/segmentation/BodySegmenter.ts	/^                const dstIdx = y * width + x;$/;"	v	line:129
+dstIdx	frontend/src/services/segmentation/BodySegmenter.ts	/^                const dstIdx = y * width + x;$/;"	v	line:164
+dstIdx	frontend/src/services/segmentation/BodySegmenter.ts	/^                const dstIdx = y * width + x;$/;"	v	line:196
+dstIdx	frontend/src/services/segmentation/BodySegmenter.ts	/^                const dstIdx = y * width + x;$/;"	v	line:225
+durationStr	frontend/src/services/PDFExportService.ts	/^    const durationStr = this.formatDuration(data.sessionDuration);$/;"	v	line:93
+emptyMetrics	frontend/src/hooks/useMetricsWorker.ts	/^      function emptyMetrics() {$/;"	f	line:213
+emptyMetrics	frontend/src/workers/metrics.worker.ts	/^function emptyMetrics(): FrameMetrics {$/;"	f	line:327
+emptyResult	frontend/src/services/segmentation/FaceSegmenter.ts	/^      const emptyResult: FaceSegmentationResult = {$/;"	v	line:150
+endSession	frontend/src/hooks/useWebSocket.ts	/^  const endSession = useCallback(() => {$/;"	v	line:167
+endX	frontend/src/services/segmentation/FaceSegmenter.ts	/^        const endX = Math.min(width - 1, Math.ceil(intersections[i + 1]));$/;"	v	line:292
+energyNorm	frontend/src/services/ScoreCalculator.ts	/^    let energyNorm = 0;$/;"	v	line:88
+energy_calc	backend/api/routes/analysis.py	/^energy_calc = EnergyScoreCalculator()$/;"	v	line:42
+entropy	frontend/src/hooks/useMetricsWorker.ts	/^        let entropy = 0;$/;"	v	line:203
+entropy	frontend/src/services/MetricsCalculator.ts	/^    let entropy = 0;$/;"	v	line:287
+entropy	frontend/src/services/ScoreCalculator.ts	/^    const entropy = this.safeNumber(metrics.colorEntropy, 5);$/;"	v	line:138
+entropy	frontend/src/workers/metrics.worker.ts	/^  let entropy = 0;$/;"	v	line:306
+entropyContrib	frontend/src/hooks/useRealTimeMetrics.ts	/^    const entropyContrib = entropy * 0.4; \/\/ 0-0.4 contribution from entropy$/;"	v	line:270
+entropyNorm	frontend/src/services/ScoreCalculator.ts	/^    const entropyNorm = Math.max(0, Math.min(1, (entropy - 3) \/ 5));$/;"	v	line:139
+entropyValues	frontend/src/hooks/useRealTimeMetrics.ts	/^    const entropyValues = prevFrameDataRef.current.map(f => f.entropy);$/;"	v	line:464
+epsilon	frontend/src/hooks/useRealTimeMetrics.ts	/^    const epsilon = threshold * range;$/;"	v	line:418
+error	frontend/src/services/PIPRenderer.ts	/^      const error = gl.getProgramInfoLog(program);$/;"	v	line:369
+error	frontend/src/services/PIPRenderer.ts	/^      const error = gl.getShaderInfoLog(shader);$/;"	v	line:348
+errorData	frontend/src/hooks/useFrameCapture.ts	/^          const errorData = await response.json().catch(() => ({}));$/;"	v	line:88
+estimateDfaAlpha	frontend/src/hooks/useRealTimeMetrics.ts	/^  const estimateDfaAlpha = (values: number[]): number => {$/;"	v	line:347
+estimateFractalDimension	frontend/src/hooks/useRealTimeMetrics.ts	/^  const estimateFractalDimension = (entropy: number, brightness: number, variance: number): number => {$/;"	v	line:268
+estimateHurstExponent	frontend/src/hooks/useRealTimeMetrics.ts	/^  const estimateHurstExponent = (values: number[]): number => {$/;"	v	line:283
+estimateLyapunovExponent	frontend/src/hooks/useRealTimeMetrics.ts	/^  const estimateLyapunovExponent = (values: number[]): number => {$/;"	v	line:319
+estimateRecurrenceRate	frontend/src/hooks/useRealTimeMetrics.ts	/^  const estimateRecurrenceRate = (values: number[]): number => {$/;"	v	line:408
+estimatedMetrics	frontend/src/hooks/useRealTimeMetrics.ts	/^    const estimatedMetrics: MetricsInput = {$/;"	v	line:489
+expectedLength	frontend/src/components/PIPCanvas/PIPShader.tsx	/^        const expectedLength = w * h;$/;"	v	line:481
+explanation	frontend/src/components/Cards/ScoreTile.tsx	/^  const explanation = scoreExplanations[title] || 'Composite score based on multiple metrics.';$/;"	v	line:52
+export_analysis	backend/api/routes/export.py	/^async def export_analysis($/;"	f	line:54
+export_session	backend/api/routes/export.py	/^async def export_session($/;"	f	line:13
+extendedDist	frontend/src/services/segmentation/ZoneCreator.ts	/^    const extendedDist = Math.max(distalDist + 5, Math.round(bodyDiagonal * this.config.extended));$/;"	v	line:73
+extendedField	frontend/src/services/segmentation/ZoneCreator.ts	/^    const extendedField = this.subtractMasks(dilatedExtended, dilatedDistal, width, height);$/;"	v	line:84
+faceLandmarks	frontend/src/services/segmentation/FaceSegmenter.ts	/^    const faceLandmarks = result.faceLandmarks[0];$/;"	v	line:162
+faceOvalPoints	frontend/src/components/PIPCanvas/PIPShader.tsx	/^        const faceOvalPoints = FACE_OVAL_INDICES$/;"	v	line:454
+faceRes	frontend/src/hooks/useSegmentation.ts	/^          const faceRes = await faceSegmenterRef.current.detect(input, timestamp);$/;"	v	line:111
+faceResult	frontend/src/components/PIPCanvas/PIPShader.tsx	/^      const faceResult = await faceSegmenterRef.current.detect(video, timestamp);$/;"	v	line:446
+faceSegmenterRef	frontend/src/components/PIPCanvas/PIPShader.tsx	/^  const faceSegmenterRef = useRef<FaceSegmenter | null>(null);$/;"	v	line:301
+faceSegmenterRef	frontend/src/hooks/useSegmentation.ts	/^  const faceSegmenterRef = useRef<FaceSegmenter | null>(null);$/;"	v	line:52
+face_detector	backend/api/routes/analysis.py	/^face_detector = FaceDetector()$/;"	v	line:49
+fd	frontend/src/hooks/useRealTimeMetrics.ts	/^    const fd = 1.0 + entropyContrib + varianceContrib + brightnessEdge;$/;"	v	line:274
+fd	frontend/src/services/ScoreCalculator.ts	/^    const fd = this.safeNumber(metrics.fractalDimension, 1.5);$/;"	v	line:134
+fdNorm	frontend/src/services/ScoreCalculator.ts	/^    const fdNorm = Math.max(0, Math.min(1, fd - 1.0));$/;"	v	line:135
+filename	frontend/src/services/PDFExportService.ts	/^      const filename = `PIP_Analysis_Report_${this.formatDateForFilename(data.timestamp)}.pdf`;$/;"	v	line:68
+firstValue	frontend/src/pages/DetailedAnalysis.tsx	/^      const firstValue = recentValues[0];$/;"	v	line:135
+floatData	frontend/src/services/segmentation/BodySegmenter.ts	/^          const floatData = mask.getAsFloat32Array();$/;"	v	line:111
+fluctuations	frontend/src/hooks/useRealTimeMetrics.ts	/^    const fluctuations: { scale: number; F: number }[] = [];$/;"	v	line:363
+footerY	frontend/src/services/PDFExportService.ts	/^    const footerY = this.pageHeight - 15;$/;"	v	line:291
+formData	frontend/src/hooks/useFrameCapture.ts	/^        const formData = new FormData();$/;"	v	line:68
+formatDuration	frontend/src/components/Layout/TimelineStrip.tsx	/^const formatDuration = (totalSeconds: number): string => {$/;"	v	line:18
+formatDuration	frontend/src/pages/DetailedAnalysis.tsx	/^  const formatDuration = (seconds: number): string => {$/;"	v	line:208
+found	frontend/src/services/segmentation/ZoneCreator.ts	/^        let found = false;$/;"	v	line:139
+fractalDimension	frontend/src/hooks/useRealTimeMetrics.ts	/^    const fractalDimension = estimateFractalDimension(data.colorEntropy, data.brightness, brightVariance);$/;"	v	line:482
+fragShader	frontend/src/services/PIPRenderer.ts	/^    const fragShader = this.createShader(gl.FRAGMENT_SHADER, fragSrc);$/;"	v	line:359
+fragmentSrc	frontend/src/components/PIPCanvas/PIPShader.tsx	/^const fragmentSrc = `#version 300 es$/;"	v	line:63
+frameBuffer	frontend/src/hooks/useMetricsWorker.ts	/^      const frameBuffer = [];$/;"	v	line:49
+frameBuffer	frontend/src/workers/metrics.worker.ts	/^const frameBuffer: FrameMetrics[] = [];$/;"	v	line:40
+frameCapture	frontend/src/components/VideoPanel/index.tsx	/^  const frameCapture = useFrameCapture();$/;"	v	line:31
+frameCount	frontend/src/components/Panels/PIPCanvasPanel.tsx	/^    let frameCount = 0;$/;"	v	line:41
+frameCountRef	frontend/src/components/PIPCanvas/PIPShader.tsx	/^  const frameCountRef = useRef<number>(0);$/;"	v	line:295
+frameMetrics	frontend/src/hooks/useRealTimeMetrics.ts	/^    const frameMetrics = metricsCalculator.current.calculateFromImageData(imageData);$/;"	v	line:160
+frameToFrameChange	frontend/src/services/MetricsCalculator.ts	/^    const frameToFrameChange = this.calculateFrameChange(imageData);$/;"	v	line:107
+fs	frontend/src/components/PIPCanvas/PIPShader.tsx	/^    const fs = createShader(gl, gl.FRAGMENT_SHADER, fragmentSrc);$/;"	v	line:404
+g	frontend/src/components/PIPCanvas/PIPShader.tsx	/^                  const g = pixels[i * 4 + 1];$/;"	v	line:685
+g	frontend/src/hooks/useMetricsWorker.ts	/^          const g = data[idx + 1];$/;"	v	line:96
+g	frontend/src/services/MetricsCalculator.ts	/^      const g = data[idx + 1];$/;"	v	line:64
+g	frontend/src/workers/metrics.worker.ts	/^    const g = data[idx + 1];$/;"	v	line:97
+gapPercent	frontend/src/components/Cards/SymmetrySnapshotCard.tsx	/^  const gapPercent = Math.max(4, (100 - symmetry) * 0.3); \/\/ 4-30% gap$/;"	v	line:25
+generateInsights	frontend/src/pages/DetailedAnalysis.tsx	/^const generateInsights = (scores: CapturedAnalysisData['scores'], metrics: CapturedAnalysisData['metrics']): Array<{ type: 'positive' | 'warning' | 'info'; text: string }> => {$/;"	v	line:58
+geometric_metrics	backend/api/routes/analysis.py	/^geometric_metrics = GeometricMetrics()$/;"	v	line:38
+getButtonState	frontend/src/components/VideoPanel/CaptureButton.tsx	/^  const getButtonState = () => {$/;"	v	line:51
+getButtonStyles	frontend/src/components/VideoPanel/CaptureButton.tsx	/^  const getButtonStyles = () => {$/;"	v	line:60
+getColorClasses	frontend/src/components/MetricsPanel/ScoreCard.tsx	/^const getColorClasses = (value: number): string => {$/;"	v	line:15
+getHistory	frontend/src/pages/DetailedAnalysis.tsx	/^    const getHistory = (metricName: 'energy' | 'symmetry' | 'coherence', currentValue: number): number[] => {$/;"	v	line:142
+getLabel	frontend/src/components/Panels/MetricsScoresPanel.tsx	/^const getLabel = (score: number): string => {$/;"	v	line:31
+getModeLabel	frontend/src/components/Panels/PIPCanvasPanel.tsx	/^  const getModeLabel = (region: AnalysisRegion): string => {$/;"	v	line:31
+getRingColor	frontend/src/components/Cards/ScoreTile.tsx	/^  const getRingColor = (s: number) => {$/;"	v	line:38
+getScoreColor	frontend/src/components/Cards/ScoreTile.tsx	/^  const getScoreColor = (s: number) => {$/;"	v	line:32
+getScoreColor	frontend/src/components/VideoPanel/AnalysisResultModal.tsx	/^  const getScoreColor = (score: number) => {$/;"	v	line:65
+getScoreColor	frontend/src/pages/DetailedAnalysis.tsx	/^  const getScoreColor = (value: number) => {$/;"	v	line:198
+getSymmetryColor	frontend/src/components/Cards/SymmetrySnapshotCard.tsx	/^const getSymmetryColor = (value: number): string => {$/;"	v	line:15
+getTrend	frontend/src/components/Panels/MetricsScoresPanel.tsx	/^const getTrend = (score: number): 'up' | 'down' | 'stable' => {$/;"	v	line:40
+getTrend	frontend/src/pages/DetailedAnalysis.tsx	/^    const getTrend = (metricName: 'energy' | 'symmetry' | 'coherence', currentValue: number): 'up' | 'down' | 'stable' => {$/;"	v	line:132
+getTrendIcon	frontend/src/components/Cards/ScoreTile.tsx	/^  const getTrendIcon = () => {$/;"	v	line:24
+getTrendIcon	frontend/src/components/MetricsPanel/ScoreCard.tsx	/^const getTrendIcon = (trend?: 'up' | 'down' | 'stable') => {$/;"	v	line:23
+getTrendIcon	frontend/src/components/VideoPanel/AnalysisResultModal.tsx	/^  const getTrendIcon = () => {$/;"	v	line:58
+getTrendIcon	frontend/src/pages/DetailedAnalysis.tsx	/^  const getTrendIcon = (trend: 'up' | 'down' | 'stable') => {$/;"	v	line:190
+get_analysis	backend/api/routes/analysis.py	/^async def get_analysis(analysis_id: str):$/;"	f	line:212
+get_analysis_history	backend/api/routes/analysis.py	/^async def get_analysis_history($/;"	f	line:219
+get_centroid	backend/core/metrics/geometric.py	/^    def get_centroid(binary_image: np.ndarray) -> Tuple[int, int]:$/;"	f	line:188
+get_current_baseline	backend/api/routes/baseline.py	/^async def get_current_baseline():$/;"	f	line:40
+get_face_region_normalized	backend/core/segmentation/face.py	/^    def get_face_region_normalized(self, face_result: Dict[str, Any], padding: float = 0.2) -> Optional[Dict[str, float]]:$/;"	f	line:154
+get_midline_x	backend/core/segmentation/body.py	/^    def get_midline_x(self, segmentation_result: Dict[str, Any]) -> int:$/;"	f	line:89
+gl	frontend/src/components/PIPCanvas/PIPShader.tsx	/^        const gl = glRef.current;$/;"	v	line:326
+gl	frontend/src/components/PIPCanvas/PIPShader.tsx	/^    const gl = canvas.getContext('webgl2', {$/;"	v	line:514
+gl	frontend/src/services/PIPRenderer.ts	/^    const gl = canvas.getContext('webgl2', { premultipliedAlpha: false });$/;"	v	line:186
+glRef	frontend/src/components/PIPCanvas/PIPShader.tsx	/^  const glRef = useRef<WebGL2RenderingContext | null>(null);$/;"	v	line:285
+h	frontend/src/hooks/useMetricsWorker.ts	/^        let h = 0;$/;"	v	line:163
+h	frontend/src/services/MetricsCalculator.ts	/^    let h = 0;$/;"	v	line:187
+h	frontend/src/services/PIPRenderer.ts	/^    const h = this.canvas.clientHeight;$/;"	v	line:301
+h	frontend/src/workers/metrics.worker.ts	/^  let h = 0;$/;"	v	line:224
+hSym	frontend/src/hooks/useRealTimeMetrics.ts	/^    const hSym = data.horizontalSymmetry ?? 0.5;$/;"	v	line:445
+hSymSum	frontend/src/components/PIPCanvas/PIPShader.tsx	/^              let hSymSum = 0, hSymCount = 0;$/;"	v	line:711
+handleBackToDashboard	frontend/src/App.tsx	/^  const handleBackToDashboard = () => {$/;"	v	line:52
+handleCapture	frontend/src/App.tsx	/^  const handleCapture = useCallback((imageUrl: string | null) => {$/;"	v	line:39
+handleCapture	frontend/src/components/Panels/PIPCanvasPanel.tsx	/^  const handleCapture = useCallback(() => {$/;"	v	line:24
+handleCapture	frontend/src/components/VideoPanel/index.tsx	/^  const handleCapture = useCallback(async () => {$/;"	v	line:63
+handleDownload	frontend/src/components/VideoPanel/AnalysisResultModal.tsx	/^  const handleDownload = () => {$/;"	v	line:110
+handleExportPDF	frontend/src/pages/DetailedAnalysis.tsx	/^  const handleExportPDF = useCallback(async () => {$/;"	v	line:216
+handleFrameData	frontend/src/components/Panels/PIPCanvasPanel.tsx	/^  const handleFrameData = useCallback((data: {$/;"	v	line:64
+handleMetricsUpdate	frontend/src/App.tsx	/^  const handleMetricsUpdate = useCallback((data: {$/;"	v	line:29
+handlePauseResume	frontend/src/components/VideoPanel/index.tsx	/^  const handlePauseResume = useCallback(() => {$/;"	v	line:50
+handleSetMode	frontend/src/hooks/useSegmentation.ts	/^  const handleSetMode = useCallback($/;"	v	line:124
+handleShowMetricsGuide	frontend/src/App.tsx	/^  const handleShowMetricsGuide = () => {$/;"	v	line:57
+handleStart	frontend/src/components/VideoPanel/index.tsx	/^  const handleStart = useCallback(async () => {$/;"	v	line:45
+health	backend/main.py	/^async def health():$/;"	f	line:57
+hideTimer	frontend/src/components/VideoPanel/CaptureButton.tsx	/^      const hideTimer = setTimeout(() => setShowError(false), 3000);$/;"	v	line:43
+hideTimer	frontend/src/components/VideoPanel/CaptureButton.tsx	/^      const hideTimer = setTimeout(() => setShowSuccess(false), 2000);$/;"	v	line:31
+historyFromTimeline	frontend/src/pages/DetailedAnalysis.tsx	/^      const historyFromTimeline = timeline.slice(-4).map(t => t[metricName]);$/;"	v	line:143
+horizontalSymmetry	frontend/src/components/PIPCanvas/PIPShader.tsx	/^              const horizontalSymmetry = hSymCount > 0 ? hSymSum \/ hSymCount : 0.5;$/;"	v	line:726
+horizontalSymmetry	frontend/src/hooks/useMetricsWorker.ts	/^        const horizontalSymmetry = calcHorizontalSymmetry(data, width, height, mask);$/;"	v	line:117
+horizontalSymmetry	frontend/src/services/MetricsCalculator.ts	/^    const horizontalSymmetry = this.calculateSymmetry(imageData, 'horizontal', mask);$/;"	v	line:98
+horizontalSymmetry	frontend/src/workers/metrics.worker.ts	/^  const horizontalSymmetry = calculateHorizontalSymmetry(data, width, height, mask);$/;"	v	line:132
+hours	frontend/src/components/Layout/TimelineStrip.tsx	/^  const hours = Math.floor(totalSeconds \/ 3600);$/;"	v	line:19
+hsv	frontend/src/hooks/useMetricsWorker.ts	/^          const hsv = rgbToHsv(r, g, b);$/;"	v	line:100
+hueBalance	frontend/src/services/ScoreCalculator.ts	/^    const hueBalance = this.safeNumber(metrics.saturationMean, 0.5);$/;"	v	line:202
+hues	frontend/src/hooks/useMetricsWorker.ts	/^        const hues = [];$/;"	v	line:89
+hues	frontend/src/services/MetricsCalculator.ts	/^    const hues: number[] = [];$/;"	v	line:55
+hues	frontend/src/workers/metrics.worker.ts	/^  const hues: number[] = [];$/;"	v	line:89
+hurst	frontend/src/services/ScoreCalculator.ts	/^    const hurst = this.safeNumber(metrics.hurstExponent, 0.5);$/;"	v	line:120
+hurstExponent	frontend/src/hooks/useRealTimeMetrics.ts	/^    const hurstExponent = estimateHurstExponent(brightnesses);$/;"	v	line:483
+hurstNorm	frontend/src/services/ScoreCalculator.ts	/^    const hurstNorm = Math.max(0, Math.min(1, (hurst - 0.5) * 2));$/;"	v	line:121
+i	frontend/src/components/PIPCanvas/PIPShader.tsx	/^                const i = y * vw + x;$/;"	v	line:682
+icon	frontend/src/services/PDFExportService.ts	/^      const icon = insight.type === 'positive' ? '✓' : insight.type === 'warning' ? '!' : 'i';$/;"	v	line:248
+idx	frontend/src/hooks/useMetricsWorker.ts	/^          const idx = i * 4;$/;"	v	line:94
+idx	frontend/src/services/MetricsCalculator.ts	/^      const idx = i * 4;$/;"	v	line:62
+idx	frontend/src/services/segmentation/BodySegmenter.ts	/^        const idx = y * width + x;$/;"	v	line:280
+idx	frontend/src/services/segmentation/ZoneCreator.ts	/^        const idx = y * width + x;$/;"	v	line:136
+idx	frontend/src/workers/metrics.worker.ts	/^    const idx = i * 4;$/;"	v	line:95
+imageData	frontend/src/components/PIPCanvas/PIPShader.tsx	/^        const imageData = ctx.createImageData(w, h);$/;"	v	line:480
+imageData	frontend/src/hooks/useRealTimeMetrics.ts	/^        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);$/;"	v	line:242
+imageData	frontend/src/services/segmentation/BodySegmenter.ts	/^          const imageData = ctx.getImageData(0, 0, maskWidth, maskHeight);$/;"	v	line:148
+imageData	frontend/src/services/segmentation/BodySegmenter.ts	/^          const imageData = ctx.getImageData(0, 0, maskWidth, maskHeight);$/;"	v	line:213
+imageUrl	frontend/src/components/Panels/PIPCanvasPanel.tsx	/^    const imageUrl = pipShaderRef.current?.captureImage() ?? null;$/;"	v	line:25
+image_to_base64	backend/api/routes/analysis.py	/^def image_to_base64(img: Image.Image, format: str = "PNG") -> str:$/;"	f	line:70
+imgHeight	frontend/src/services/PDFExportService.ts	/^      const imgHeight = imgWidth * 0.75; \/\/ 4:3 aspect ratio$/;"	v	line:120
+imgWidth	frontend/src/services/PDFExportService.ts	/^      const imgWidth = this.pageWidth - (this.margin * 2);$/;"	v	line:119
+indices	frontend/src/services/segmentation/FaceSegmenter.ts	/^    const indices = FACE_REGIONS[regionName];$/;"	v	line:242
+info	frontend/src/components/PIPCanvas/PIPShader.tsx	/^      const info = gl.getShaderInfoLog(shader);$/;"	v	line:395
+init	frontend/src/hooks/usePIPRenderer.ts	/^  const init = useCallback(async (video: HTMLVideoElement) => {$/;"	v	line:39
+initModels	frontend/src/components/PIPCanvas/PIPShader.tsx	/^    const initModels = async () => {$/;"	v	line:361
+initialState	frontend/src/context/appState.ts	/^export const initialState: AppState = {$/;"	v	line:48
+initialize	frontend/src/hooks/useSegmentation.ts	/^  const initialize = useCallback(async () => {$/;"	v	line:56
+innerColor	frontend/src/components/Cards/SymmetrySnapshotCard.tsx	/^  const innerColor = getSymmetryColor(data.innerSymmetry);$/;"	v	line:45
+innerNoise	frontend/src/hooks/useMetricsWorker.ts	/^        const innerNoise = intensityStdDev;$/;"	v	line:115
+innerNoise	frontend/src/services/MetricsCalculator.ts	/^    const innerNoise = intensityStdDev;$/;"	v	line:94
+innerNoise	frontend/src/workers/metrics.worker.ts	/^  const innerNoise = intensityStdDev;$/;"	v	line:127
+innerNoisePercent	frontend/src/hooks/useMetricsWorker.ts	/^        const innerNoisePercent = avgIntensity > 0 ? (intensityStdDev \/ avgIntensity) * 100 : 0;$/;"	v	line:116
+innerNoisePercent	frontend/src/services/MetricsCalculator.ts	/^    const innerNoisePercent = avgIntensity > 0 ? (intensityStdDev \/ avgIntensity) * 100 : 0;$/;"	v	line:95
+innerNoisePercent	frontend/src/workers/metrics.worker.ts	/^  const innerNoisePercent =$/;"	v	line:128
+innerWidths	frontend/src/components/Cards/SymmetrySnapshotCard.tsx	/^  const innerWidths = calculateBarWidths(data.innerSymmetry);$/;"	v	line:43
+insights	frontend/src/pages/DetailedAnalysis.tsx	/^  const insights = useMemo(() => generateInsights(capturedData.scores, capturedData.metrics), [capturedData]);$/;"	v	line:188
+insights	frontend/src/pages/DetailedAnalysis.tsx	/^  const insights: Array<{ type: 'positive' | 'warning' | 'info'; text: string }> = [];$/;"	v	line:59
+integrated	frontend/src/hooks/useRealTimeMetrics.ts	/^    const integrated: number[] = [];$/;"	v	line:354
+intensities	frontend/src/hooks/useMetricsWorker.ts	/^        const intensities = [];$/;"	v	line:88
+intensities	frontend/src/services/MetricsCalculator.ts	/^    const intensities = this.frameBuffer.map(f => f.avgIntensity);$/;"	v	line:354
+intensities	frontend/src/services/MetricsCalculator.ts	/^    const intensities: number[] = [];$/;"	v	line:54
+intensities	frontend/src/workers/metrics.worker.ts	/^  const intensities: number[] = [];$/;"	v	line:88
+intensity	frontend/src/components/PIPCanvas/PIPShader.tsx	/^                  const intensity = (r + g + b) \/ 3;$/;"	v	line:687
+intensity	frontend/src/hooks/useMetricsWorker.ts	/^          const intensity = 0.299 * r + 0.587 * g + 0.114 * b;$/;"	v	line:98
+intensity	frontend/src/services/MetricsCalculator.ts	/^      const intensity = 0.299 * r + 0.587 * g + 0.114 * b;$/;"	v	line:68
+intensity	frontend/src/services/ScoreCalculator.ts	/^    const intensity = this.safeNumber(metrics.avgIntensity, 0) \/ 255;$/;"	v	line:85
+intensity	frontend/src/workers/metrics.worker.ts	/^    const intensity = 0.299 * r + 0.587 * g + 0.114 * b;$/;"	v	line:101
+intensityStdDev	frontend/src/hooks/useMetricsWorker.ts	/^        const intensityStdDev = stdDev(intensities, avgIntensity);$/;"	v	line:108
+intensityStdDev	frontend/src/services/MetricsCalculator.ts	/^    const intensityStdDev = this.stdDev(intensities, avgIntensity);$/;"	v	line:83
+intensityStdDev	frontend/src/workers/metrics.worker.ts	/^  const intensityStdDev = stdDev(intensities, avgIntensity);$/;"	v	line:116
+interpret	backend/core/scores/coherence.py	/^    def interpret(self, score: int) -> str:$/;"	f	line:20
+interpret	backend/core/scores/color_balance.py	/^    def interpret(self, score: int) -> str:$/;"	f	line:22
+interpret	backend/core/scores/complexity.py	/^    def interpret(self, score: int) -> str:$/;"	f	line:21
+interpret	backend/core/scores/energy.py	/^    def interpret(self, score: int) -> str:$/;"	f	line:20
+interpret	backend/core/scores/regulation.py	/^    def interpret(self, score: int) -> str:$/;"	f	line:21
+interpret	backend/core/scores/symmetry.py	/^    def interpret(self, score: int) -> str:$/;"	f	line:19
+interpret_coherence_score	backend/core/scores/coherence.py	/^def interpret_coherence_score(score: int) -> str:$/;"	f	line:59
+interpret_color_balance_score	backend/core/scores/color_balance.py	/^def interpret_color_balance_score(score: int) -> str:$/;"	f	line:76
+interpret_complexity_score	backend/core/scores/complexity.py	/^def interpret_complexity_score(score: int) -> str:$/;"	f	line:68
+interpret_energy_score	backend/core/scores/energy.py	/^def interpret_energy_score(score: int) -> str:$/;"	f	line:74
+interpret_regulation_score	backend/core/scores/regulation.py	/^def interpret_regulation_score(score: int) -> str:$/;"	f	line:69
+interpret_symmetry_score	backend/core/scores/symmetry.py	/^def interpret_symmetry_score(score: int) -> str:$/;"	f	line:60
+intersections	frontend/src/services/segmentation/FaceSegmenter.ts	/^      const intersections: number[] = [];$/;"	v	line:276
+interval	frontend/src/hooks/useRealTimeMetrics.ts	/^    const interval = setInterval(() => {$/;"	v	line:77
+isBody	frontend/src/components/PIPCanvas/PIPShader.tsx	/^          const isBody = bodyResult.mask[i] > 128;$/;"	v	line:485
+lInt	frontend/src/hooks/useMetricsWorker.ts	/^            const lInt = 0.299 * data[li] + 0.587 * data[li+1] + 0.114 * data[li+2];$/;"	v	line:183
+landmarks	frontend/src/services/segmentation/FaceSegmenter.ts	/^    const landmarks = this.lastResult.landmarks;$/;"	v	line:246
+landmarks	frontend/src/services/segmentation/FaceSegmenter.ts	/^    const landmarks: FaceLandmark[] = faceLandmarks.map($/;"	v	line:165
+lastMetricsTimeRef	frontend/src/components/PIPCanvas/PIPShader.tsx	/^  const lastMetricsTimeRef = useRef<number>(0);$/;"	v	line:296
+lastTime	frontend/src/components/Panels/PIPCanvasPanel.tsx	/^    let lastTime = performance.now();$/;"	v	line:42
+leftI	frontend/src/components/PIPCanvas/PIPShader.tsx	/^                    const leftI = (pixels[leftIdx * 4] + pixels[leftIdx * 4 + 1] + pixels[leftIdx * 4 + 2]) \/ 3;$/;"	v	line:719
+leftIdx	frontend/src/components/PIPCanvas/PIPShader.tsx	/^                  const leftIdx = y * vw + x;$/;"	v	line:714
+leftIdx	frontend/src/hooks/useMetricsWorker.ts	/^            const leftIdx = y * width + x, rightIdx = y * width + (width - 1 - x);$/;"	v	line:180
+leftIdx	frontend/src/services/MetricsCalculator.ts	/^          const leftIdx = y * width + x;$/;"	v	line:222
+leftIdx	frontend/src/workers/metrics.worker.ts	/^      const leftIdx = y * width + x;$/;"	v	line:257
+leftIntensity	frontend/src/services/MetricsCalculator.ts	/^          const leftIntensity = 0.299 * data[leftPixelIdx] + 0.587 * data[leftPixelIdx + 1] + 0.114 * data[leftPixelIdx + 2];$/;"	v	line:230
+leftIntensity	frontend/src/workers/metrics.worker.ts	/^      const leftIntensity =$/;"	v	line:265
+leftMasked	frontend/src/components/PIPCanvas/PIPShader.tsx	/^                  const leftMasked = maskImageData.data[leftIdx * 4] > 128;$/;"	v	line:716
+leftPixelIdx	frontend/src/services/MetricsCalculator.ts	/^          const leftPixelIdx = leftIdx * 4;$/;"	v	line:227
+leftPixelIdx	frontend/src/workers/metrics.worker.ts	/^      const leftPixelIdx = leftIdx * 4;$/;"	v	line:262
+leftWidth	frontend/src/components/Cards/SymmetrySnapshotCard.tsx	/^  const leftWidth = (remainingWidth \/ 2) * (1 - asymmetryFactor);$/;"	v	line:30
+li	frontend/src/hooks/useMetricsWorker.ts	/^            const li = leftIdx * 4, ri = rightIdx * 4;$/;"	v	line:182
+lifespan	backend/main.py	/^async def lifespan(app: FastAPI):$/;"	f	line:13
+lightQuantaDensity	frontend/src/hooks/useMetricsWorker.ts	/^        const lightQuantaDensity = aboveThreshold \/ intensities.length;$/;"	v	line:113
+lightQuantaDensity	frontend/src/services/MetricsCalculator.ts	/^    const lightQuantaDensity = aboveThreshold \/ intensities.length;$/;"	v	line:90
+lightQuantaDensity	frontend/src/workers/metrics.worker.ts	/^  const lightQuantaDensity = aboveThreshold \/ intensities.length;$/;"	v	line:123
+lines	frontend/src/services/PDFExportService.ts	/^      const lines = this.doc.splitTextToSize(insight.text, textWidth);$/;"	v	line:260
+lines	frontend/src/services/PDFExportService.ts	/^    const lines = this.doc.splitTextToSize(notes, textWidth);$/;"	v	line:285
+loadPreset	frontend/src/hooks/usePIPRenderer.ts	/^  const loadPreset = useCallback((preset: Partial<PIPSettings>) => {$/;"	v	line:111
+logF	frontend/src/hooks/useRealTimeMetrics.ts	/^      const logF = fluctuations.map(f => Math.log(f.F + 0.001));$/;"	v	line:388
+logScales	frontend/src/hooks/useRealTimeMetrics.ts	/^      const logScales = fluctuations.map(f => Math.log(f.scale));$/;"	v	line:387
+lqd	frontend/src/services/ScoreCalculator.ts	/^    const lqd = Math.min(this.safeNumber(metrics.lightQuantaDensity, 0), 1);$/;"	v	line:84
+lyap	frontend/src/hooks/useRealTimeMetrics.ts	/^    const lyap = (avgDivergence - 0.1) * 2; \/\/ Center around typical divergence$/;"	v	line:337
+lyap	frontend/src/services/ScoreCalculator.ts	/^    const lyap = this.safeNumber(metrics.lyapunovExponent, 0);$/;"	v	line:161
+lyapNorm	frontend/src/services/ScoreCalculator.ts	/^    const lyapNorm = Math.max(0, Math.min(1, 0.5 - lyap));$/;"	v	line:162
+lyapunovExponent	frontend/src/hooks/useRealTimeMetrics.ts	/^    const lyapunovExponent = estimateLyapunovExponent(brightnesses);$/;"	v	line:484
+m	frontend/src/services/MetricsCalculator.ts	/^    const m = mean ?? this.mean(arr);$/;"	v	line:173
+main	scripts/code_indexer.py	/^def main(argv: list[str]) -> int:$/;"	f	line:900
+manager	backend/api/routes/websocket.py	/^manager = ConnectionManager()$/;"	v	line:42
+mask	frontend/src/services/segmentation/BodySegmenter.ts	/^      const mask = confidenceMasks[0];$/;"	v	line:106
+mask	frontend/src/services/segmentation/FaceSegmenter.ts	/^    const mask = new Uint8Array(width * height);$/;"	v	line:245
+maskCanvas	frontend/src/components/PIPCanvas/PIPShader.tsx	/^    const maskCanvas = document.createElement('canvas');$/;"	v	line:508
+maskCanvasRef	frontend/src/components/PIPCanvas/PIPShader.tsx	/^  const maskCanvasRef = useRef<HTMLCanvasElement | null>(null);$/;"	v	line:284
+maskCtx	frontend/src/components/PIPCanvas/PIPShader.tsx	/^    const maskCtx = maskCanvas.getContext('2d')!;$/;"	v	line:512
+maskData	frontend/src/services/segmentation/BodySegmenter.ts	/^    const maskData: Uint8Array = new Uint8Array(width * height);$/;"	v	line:100
+maskExtracted	frontend/src/services/segmentation/BodySegmenter.ts	/^    let maskExtracted = false;$/;"	v	line:102
+maskHeight	frontend/src/services/segmentation/BodySegmenter.ts	/^          const maskHeight = canvas.height;$/;"	v	line:147
+maskHeight	frontend/src/services/segmentation/BodySegmenter.ts	/^          const maskHeight = canvas.height;$/;"	v	line:212
+maskHeight	frontend/src/services/segmentation/BodySegmenter.ts	/^          const maskHeight = categoryMask.height;$/;"	v	line:182
+maskHeight	frontend/src/services/segmentation/BodySegmenter.ts	/^          const maskHeight = mask.height;$/;"	v	line:113
+maskImageData	frontend/src/components/PIPCanvas/PIPShader.tsx	/^            let maskImageData: ImageData;$/;"	v	line:661
+maskTex	frontend/src/components/PIPCanvas/PIPShader.tsx	/^    const maskTex = gl.createTexture();$/;"	v	line:541
+maskWidth	frontend/src/services/segmentation/BodySegmenter.ts	/^          const maskWidth = canvas.width;$/;"	v	line:146
+maskWidth	frontend/src/services/segmentation/BodySegmenter.ts	/^          const maskWidth = canvas.width;$/;"	v	line:211
+maskWidth	frontend/src/services/segmentation/BodySegmenter.ts	/^          const maskWidth = categoryMask.width;$/;"	v	line:181
+maskWidth	frontend/src/services/segmentation/BodySegmenter.ts	/^          const maskWidth = mask.width;$/;"	v	line:112
+maskedPixels	frontend/src/components/PIPCanvas/PIPShader.tsx	/^            const maskedPixels: number[] = [];$/;"	v	line:676
+max	frontend/src/components/PIPCanvas/PIPShader.tsx	/^                  const max = Math.max(r, g, b);$/;"	v	line:691
+max	frontend/src/hooks/useMetricsWorker.ts	/^        const max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min;$/;"	v	line:162
+max	frontend/src/hooks/useRealTimeMetrics.ts	/^    const max = Math.max(...values);$/;"	v	line:416
+max	frontend/src/services/MetricsCalculator.ts	/^    const max = Math.max(r, g, b);$/;"	v	line:183
+max	frontend/src/workers/metrics.worker.ts	/^  const max = Math.max(r, g, b);$/;"	v	line:220
+maxBin	frontend/src/services/MetricsCalculator.ts	/^    const maxBin = bins.indexOf(Math.max(...bins));$/;"	v	line:272
+maxBin	frontend/src/workers/metrics.worker.ts	/^  const maxBin = bins.indexOf(Math.max(...bins));$/;"	v	line:291
+maxEnergy	frontend/src/services/ScoreCalculator.ts	/^      const maxEnergy = metrics.pixelCount * 255;$/;"	v	line:90
+maxIntensity	frontend/src/hooks/useMetricsWorker.ts	/^        const maxIntensity = Math.max(...intensities);$/;"	v	line:109
+maxIntensity	frontend/src/services/MetricsCalculator.ts	/^    const maxIntensity = Math.max(...intensities);$/;"	v	line:84
+maxIntensity	frontend/src/workers/metrics.worker.ts	/^  const maxIntensity = Math.max(...intensities);$/;"	v	line:117
+maxX	frontend/src/services/segmentation/FaceSegmenter.ts	/^    const maxX = Math.min(this.imageWidth, Math.max(...xs) + padding);$/;"	v	line:221
+maxY	frontend/src/services/segmentation/FaceSegmenter.ts	/^    const maxY = Math.min($/;"	v	line:269
+maxY	frontend/src/services/segmentation/FaceSegmenter.ts	/^    const maxY = Math.min(this.imageHeight, Math.max(...ys) + padding);$/;"	v	line:223
+mean	frontend/src/hooks/useMetricsWorker.ts	/^      function mean(arr) {$/;"	f	line:149
+mean	frontend/src/hooks/useRealTimeMetrics.ts	/^    const mean = values.reduce((a, b) => a + b, 0) \/ n;$/;"	v	line:287
+mean	frontend/src/hooks/useRealTimeMetrics.ts	/^    const mean = values.reduce((a, b) => a + b, 0) \/ n;$/;"	v	line:351
+mean	frontend/src/services/MetricsCalculator.ts	/^    const mean = this.mean(intensities);$/;"	v	line:355
+mean	frontend/src/workers/metrics.worker.ts	/^function mean(arr: number[]): number {$/;"	f	line:198
+mediaDevices	frontend/src/hooks/useCamera.ts	/^      const mediaDevices = await navigator.mediaDevices.enumerateDevices();$/;"	v	line:51
+mediaStream	frontend/src/hooks/useCamera.ts	/^      const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);$/;"	v	line:91
+message	frontend/src/hooks/useCamera.ts	/^      const message = err instanceof Error ? err.message : 'Failed to access camera';$/;"	v	line:103
+message	frontend/src/hooks/useFrameCapture.ts	/^        const message = err instanceof Error ? err.message : 'Capture failed';$/;"	v	line:104
+message	frontend/src/hooks/useSegmentation.ts	/^      const message = err instanceof Error ? err.message : 'Failed to initialize segmentation';$/;"	v	line:80
+message	frontend/src/hooks/useWebSocket.ts	/^          const message: WSMessage = JSON.parse(event.data);$/;"	v	line:79
+metricItems	frontend/src/services/PDFExportService.ts	/^    const metricItems = [$/;"	v	line:204
+metrics	frontend/src/hooks/useMetricsWorker.ts	/^              const metrics = calculateMetrics($/;"	v	line:58
+metrics	frontend/src/hooks/useMetricsWorker.ts	/^          const metrics = calculateMetrics(data, width, height, mask);$/;"	v	line:141
+metrics	frontend/src/services/MetricsCalculator.ts	/^    const metrics: FrameMetrics = {$/;"	v	line:110
+metrics	frontend/src/workers/metrics.worker.ts	/^        const metrics = calculateMetrics($/;"	v	line:49
+metrics	frontend/src/workers/metrics.worker.ts	/^    const metrics = calculateMetrics(data, width, height, mask);$/;"	v	line:189
+metrics	frontend/src/workers/metrics.worker.ts	/^  const metrics: FrameMetrics = {$/;"	v	line:139
+metricsCalculator	frontend/src/hooks/useRealTimeMetrics.ts	/^  const metricsCalculator = useRef(new MetricsCalculator());$/;"	v	line:45
+metricsInput	frontend/src/hooks/useRealTimeMetrics.ts	/^    const metricsInput: MetricsInput = {$/;"	v	line:163
+metricsList	frontend/src/pages/DetailedAnalysis.tsx	/^  const metricsList = useMemo(() => {$/;"	v	line:158
+midX	frontend/src/components/PIPCanvas/PIPShader.tsx	/^              const midX = Math.floor(vw \/ 2);$/;"	v	line:710
+midX	frontend/src/hooks/useMetricsWorker.ts	/^        const midX = Math.floor(width \/ 2);$/;"	v	line:176
+midX	frontend/src/services/MetricsCalculator.ts	/^      const midX = Math.floor(width \/ 2);$/;"	v	line:218
+midX	frontend/src/workers/metrics.worker.ts	/^  const midX = Math.floor(width \/ 2);$/;"	v	line:251
+midY	frontend/src/components/PIPCanvas/PIPShader.tsx	/^              const midY = Math.floor(vh \/ 2);$/;"	v	line:729
+midY	frontend/src/services/MetricsCalculator.ts	/^      const midY = Math.floor(height \/ 2);$/;"	v	line:238
+midlineX	frontend/src/services/segmentation/FaceSegmenter.ts	/^    const midlineX = noseTip?.x ?? this.imageWidth \/ 2;$/;"	v	line:175
+min	frontend/src/components/PIPCanvas/PIPShader.tsx	/^                  const min = Math.min(r, g, b);$/;"	v	line:692
+min	frontend/src/hooks/useRealTimeMetrics.ts	/^    const min = Math.min(...values);$/;"	v	line:415
+min	frontend/src/services/MetricsCalculator.ts	/^    const min = Math.min(r, g, b);$/;"	v	line:184
+min	frontend/src/workers/metrics.worker.ts	/^  const min = Math.min(r, g, b);$/;"	v	line:221
+minIntensity	frontend/src/hooks/useMetricsWorker.ts	/^        const minIntensity = Math.min(...intensities);$/;"	v	line:110
+minIntensity	frontend/src/services/MetricsCalculator.ts	/^    const minIntensity = Math.min(...intensities);$/;"	v	line:85
+minIntensity	frontend/src/workers/metrics.worker.ts	/^  const minIntensity = Math.min(...intensities);$/;"	v	line:118
+minX	frontend/src/services/segmentation/BodySegmenter.ts	/^    let minX = width,$/;"	v	line:270
+minX	frontend/src/services/segmentation/FaceSegmenter.ts	/^    const minX = Math.max(0, Math.min(...xs) - padding);$/;"	v	line:220
+minY	frontend/src/services/segmentation/FaceSegmenter.ts	/^    const minY = Math.max(0, Math.floor(Math.min(...points.map((p) => p.y))));$/;"	v	line:268
+minY	frontend/src/services/segmentation/FaceSegmenter.ts	/^    const minY = Math.max(0, Math.min(...ys) - padding);$/;"	v	line:222
+mins	frontend/src/pages/DetailedAnalysis.tsx	/^    const mins = Math.floor(seconds \/ 60);$/;"	v	line:209
+mins	frontend/src/services/PDFExportService.ts	/^    const mins = Math.floor(seconds \/ 60);$/;"	v	line:333
+minutes	frontend/src/components/Layout/TimelineStrip.tsx	/^  const minutes = Math.floor((totalSeconds % 3600) \/ 60);$/;"	v	line:20
+modelsReadyRef	frontend/src/components/PIPCanvas/PIPShader.tsx	/^  const modelsReadyRef = useRef(false);$/;"	v	line:302
+mp	backend/core/segmentation/body.py	/^    mp = None$/;"	v	line:14
+mp	backend/core/segmentation/face.py	/^    mp = None$/;"	v	line:14
+n	frontend/src/hooks/useRealTimeMetrics.ts	/^    const n = values.length;$/;"	v	line:286
+n	frontend/src/hooks/useRealTimeMetrics.ts	/^    const n = values.length;$/;"	v	line:350
+n	frontend/src/hooks/useRealTimeMetrics.ts	/^    const n = values.length;$/;"	v	line:411
+n	frontend/src/services/MetricsCalculator.ts	/^    const n = values.length;$/;"	v	line:365
+n2	frontend/src/hooks/useRealTimeMetrics.ts	/^      const n2 = logScales.length;$/;"	v	line:390
+newDataPoint	frontend/src/hooks/useRealTimeMetrics.ts	/^    const newDataPoint: TimelineDataPoint = {$/;"	v	line:186
+newDataPoint	frontend/src/hooks/useRealTimeMetrics.ts	/^    const newDataPoint: TimelineDataPoint = {$/;"	v	line:514
+newHistory	frontend/src/context/appState.ts	/^      const newHistory = [...state.metricsHistory, action.payload].slice(-300);$/;"	v	line:88
+next	frontend/src/components/GraphPanel/index.tsx	/^      const next = new Set(prev);$/;"	v	line:59
+next	frontend/src/components/Layout/TimelineStrip.tsx	/^      const next = new Set(prev);$/;"	v	line:33
+nidx	frontend/src/services/segmentation/ZoneCreator.ts	/^              const nidx = ny * width + nx;$/;"	v	line:150
+noiseNorm	frontend/src/services/ScoreCalculator.ts	/^    const noiseNorm = Math.min(this.safeNumber(metrics.innerNoisePercent, 20) \/ 50, 1);$/;"	v	line:150
+nonlinear_metrics	backend/api/routes/analysis.py	/^nonlinear_metrics = NonlinearMetrics()$/;"	v	line:40
+normalizedArea	frontend/src/hooks/useMetricsWorker.ts	/^        const normalizedArea = intensities.length \/ totalPixels;$/;"	v	line:114
+normalizedArea	frontend/src/services/MetricsCalculator.ts	/^    const normalizedArea = intensities.length \/ totalPixels;$/;"	v	line:91
+normalizedArea	frontend/src/workers/metrics.worker.ts	/^  const normalizedArea = intensities.length \/ totalPixels;$/;"	v	line:124
+noseTip	frontend/src/services/segmentation/FaceSegmenter.ts	/^    const noseTip = landmarks[4];$/;"	v	line:174
+now	frontend/src/components/PIPCanvas/PIPShader.tsx	/^          const now = performance.now();$/;"	v	line:651
+now	frontend/src/components/Panels/PIPCanvasPanel.tsx	/^      const now = performance.now();$/;"	v	line:46
+numPixels	frontend/src/services/MetricsCalculator.ts	/^    const numPixels = curr.length \/ 4;$/;"	v	line:312
+numSegments	frontend/src/hooks/useRealTimeMetrics.ts	/^      let numSegments = 0;$/;"	v	line:369
+nx	frontend/src/services/segmentation/ZoneCreator.ts	/^            const nx = x + dx;$/;"	v	line:145
+ny	frontend/src/services/segmentation/ZoneCreator.ts	/^          const ny = y + dy;$/;"	v	line:141
+offsetDesktop	frontend/src/components/Cards/ScoreTile.tsx	/^  const offsetDesktop = circumferenceDesktop - (score \/ 100) * circumferenceDesktop;$/;"	v	line:50
+offsetMobile	frontend/src/components/Cards/ScoreTile.tsx	/^  const offsetMobile = circumferenceMobile - (score \/ 100) * circumferenceMobile;$/;"	v	line:49
+opts	frontend/src/hooks/useCamera.ts	/^  const opts = { ...DEFAULT_OPTIONS, ...options };$/;"	v	line:37
+outerColor	frontend/src/components/Cards/SymmetrySnapshotCard.tsx	/^  const outerColor = getSymmetryColor(data.outerSymmetry);$/;"	v	line:46
+outerWidths	frontend/src/components/Cards/SymmetrySnapshotCard.tsx	/^  const outerWidths = calculateBarWidths(data.outerSymmetry);$/;"	v	line:44
+p	frontend/src/hooks/useMetricsWorker.ts	/^            const p = count \/ values.length;$/;"	v	line:206
+p	frontend/src/services/MetricsCalculator.ts	/^        const p = count \/ total;$/;"	v	line:292
+p	frontend/src/workers/metrics.worker.ts	/^      const p = count \/ total;$/;"	v	line:311
+p1	frontend/src/services/segmentation/FaceSegmenter.ts	/^        const p1 = points[i];$/;"	v	line:279
+p2	frontend/src/services/segmentation/FaceSegmenter.ts	/^        const p2 = points[(i + 1) % points.length];$/;"	v	line:280
+padding	frontend/src/services/segmentation/FaceSegmenter.ts	/^    const padding = 20;$/;"	v	line:216
+params	frontend/src/components/PIPCanvas/PIPShader.tsx	/^          const params = paramsRef.current;$/;"	v	line:619
+params	frontend/src/components/PIPCanvas/PIPShader.tsx	/^        const params = paramsRef.current;$/;"	v	line:328
+paramsRef	frontend/src/components/PIPCanvas/PIPShader.tsx	/^  const paramsRef = useRef({ ...defaultParams });$/;"	v	line:291
+patternReg	frontend/src/services/ScoreCalculator.ts	/^    const patternReg = this.safeNumber(metrics.patternRegularity, 0.5);$/;"	v	line:116
+patternRegularity	frontend/src/hooks/useRealTimeMetrics.ts	/^    const patternRegularity = Math.max(0, Math.min(1, 1 - Math.sqrt(symVariance) * 3));$/;"	v	line:475
+pause	frontend/src/hooks/useCamera.ts	/^  const pause = useCallback(() => {$/;"	v	line:124
+pause	frontend/src/hooks/usePIPRenderer.ts	/^  const pause = useCallback(() => {$/;"	v	line:84
+pdfExportService	frontend/src/services/PDFExportService.ts	/^export const pdfExportService = new PDFExportService();$/;"	v	line:345
+percentage	frontend/src/components/MetricsPanel/ScoreCard.tsx	/^  const percentage = Math.min((value \/ maxValue) * 100, 100);$/;"	v	line:43
+pip	frontend/src/components/VideoPanel/index.tsx	/^  const pip = usePIPRenderer();$/;"	v	line:29
+pipShaderRef	frontend/src/components/Panels/PIPCanvasPanel.tsx	/^  const pipShaderRef = useRef<PIPShaderHandle>(null);$/;"	v	line:22
+pixelCount	frontend/src/hooks/useMetricsWorker.ts	/^          let pixelCount = 0;$/;"	v	line:142
+pixelCount	frontend/src/services/MetricsCalculator.ts	/^      const pixelCount = this.countMaskPixels(mask);$/;"	v	line:154
+pixelCount	frontend/src/workers/metrics.worker.ts	/^    const pixelCount = countMaskPixels(mask);$/;"	v	line:190
+pixels	frontend/src/components/PIPCanvas/PIPShader.tsx	/^            const pixels = new Uint8Array(vw * vh * 4);$/;"	v	line:656
+points	frontend/src/services/segmentation/FaceSegmenter.ts	/^    const points = indices$/;"	v	line:249
+posBuf	frontend/src/components/PIPCanvas/PIPShader.tsx	/^    const posBuf = gl.createBuffer();$/;"	v	line:526
+posBuf	frontend/src/services/PIPRenderer.ts	/^    const posBuf = gl.createBuffer();$/;"	v	line:203
+presets	frontend/src/components/VideoPanel/PIPControlPanel.tsx	/^  const presets = {$/;"	v	line:49
+prev	frontend/src/services/MetricsCalculator.ts	/^    const prev = this.previousFrame.data;$/;"	v	line:310
+prevFrameDataRef	frontend/src/hooks/useRealTimeMetrics.ts	/^  const prevFrameDataRef = useRef<{$/;"	v	line:254
+prevIntensity	frontend/src/services/MetricsCalculator.ts	/^      const prevIntensity = 0.299 * prev[i] + 0.587 * prev[i + 1] + 0.114 * prev[i + 2];$/;"	v	line:316
+previousFrameData	frontend/src/hooks/useMetricsWorker.ts	/^      let previousFrameData = null;$/;"	v	line:48
+processFrame	frontend/src/hooks/useRealTimeMetrics.ts	/^  const processFrame = useCallback((imageData: ImageData) => {$/;"	v	line:156
+processFrame	frontend/src/hooks/useSegmentation.ts	/^  const processFrame = useCallback($/;"	v	line:87
+processFrameData	frontend/src/hooks/useRealTimeMetrics.ts	/^  const processFrameData = useCallback((data: {$/;"	v	line:437
+program	frontend/src/components/PIPCanvas/PIPShader.tsx	/^    const program = createProgram(gl);$/;"	v	line:521
+program	frontend/src/components/PIPCanvas/PIPShader.tsx	/^    const program = gl.createProgram();$/;"	v	line:405
+program	frontend/src/services/PIPRenderer.ts	/^    const program = gl.createProgram();$/;"	v	line:361
+proximalDist	frontend/src/services/segmentation/ZoneCreator.ts	/^    const proximalDist = Math.max(5, Math.round(bodyDiagonal * this.config.proximal));$/;"	v	line:71
+proximalField	frontend/src/services/segmentation/ZoneCreator.ts	/^    const proximalField = this.subtractMasks(dilatedProximal, mask, width, height);$/;"	v	line:82
+r	frontend/src/components/PIPCanvas/PIPShader.tsx	/^                  const r = pixels[i * 4];$/;"	v	line:684
+r	frontend/src/hooks/useMetricsWorker.ts	/^          const r = data[idx];$/;"	v	line:95
+r	frontend/src/services/MetricsCalculator.ts	/^      const r = data[idx];$/;"	v	line:63
+r	frontend/src/workers/metrics.worker.ts	/^    const r = data[idx];$/;"	v	line:96
+rInt	frontend/src/hooks/useMetricsWorker.ts	/^            const rInt = 0.299 * data[ri] + 0.587 * data[ri+1] + 0.114 * data[ri+2];$/;"	v	line:184
+radiusDesktop	frontend/src/components/Cards/ScoreTile.tsx	/^  const radiusDesktop = 24;$/;"	v	line:46
+radiusMobile	frontend/src/components/Cards/ScoreTile.tsx	/^  const radiusMobile = 16;$/;"	v	line:45
+radiusSquared	frontend/src/services/segmentation/ZoneCreator.ts	/^    const radiusSquared = radius * radius;$/;"	v	line:132
+range	frontend/src/hooks/useRealTimeMetrics.ts	/^    const range = max - min || 1;$/;"	v	line:417
+rawScores	frontend/src/services/ScoreCalculator.ts	/^    const rawScores: CompositeScores = {$/;"	v	line:55
+recentValues	frontend/src/pages/DetailedAnalysis.tsx	/^      const recentValues = timeline.slice(-5).map(t => t[metricName]);$/;"	v	line:134
+reconnectAttemptsRef	frontend/src/hooks/useWebSocket.ts	/^  const reconnectAttemptsRef = useRef(0);$/;"	v	line:52
+reconnectTimeoutRef	frontend/src/hooks/useWebSocket.ts	/^  const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);$/;"	v	line:53
+recurrence	frontend/src/services/ScoreCalculator.ts	/^    const recurrence = Math.max(0, Math.min(1, this.safeNumber(metrics.recurrenceRate, 0.5)));$/;"	v	line:173
+recurrenceRate	frontend/src/hooks/useRealTimeMetrics.ts	/^    const recurrenceRate = estimateRecurrenceRate(brightnesses);$/;"	v	line:486
+recurrences	frontend/src/hooks/useRealTimeMetrics.ts	/^    let recurrences = 0;$/;"	v	line:421
+refreshDevices	frontend/src/hooks/useCamera.ts	/^  const refreshDevices = useCallback(async () => {$/;"	v	line:49
+region	frontend/src/components/PIPCanvas/PIPShader.tsx	/^          const region = analysisRegionRef.current;$/;"	v	line:606
+regions	frontend/src/services/segmentation/FaceSegmenter.ts	/^    const regions = new Map<string, FaceRegion>();$/;"	v	line:181
+regulation_calc	backend/api/routes/analysis.py	/^regulation_calc = RegulationScoreCalculator()$/;"	v	line:46
+remainingWidth	frontend/src/components/Cards/SymmetrySnapshotCard.tsx	/^  const remainingWidth = 100 - gapPercent;$/;"	v	line:26
+render	frontend/src/components/PIPCanvas/PIPShader.tsx	/^        const render = async () => {$/;"	v	line:587
+renderIcon	frontend/src/components/VideoPanel/CaptureButton.tsx	/^  const renderIcon = () => {$/;"	v	line:73
+renderer	frontend/src/hooks/usePIPRenderer.ts	/^    const renderer = new PIPRenderer(canvasRef.current);$/;"	v	line:50
+rendererRef	frontend/src/hooks/usePIPRenderer.ts	/^  const rendererRef = useRef<PIPRenderer | null>(null);$/;"	v	line:33
+resetSession	frontend/src/hooks/useRealTimeMetrics.ts	/^  const resetSession = useCallback(() => {$/;"	v	line:543
+response	frontend/src/hooks/useFrameCapture.ts	/^        const response = await fetch(`${API_BASE_URL}\/api\/v1\/analysis\/capture`, {$/;"	v	line:79
+result	frontend/src/components/VideoPanel/index.tsx	/^    const result = await frameCapture.capture(canvasRef.current, {$/;"	v	line:68
+result	frontend/src/hooks/useFrameCapture.ts	/^        const result: AnalysisResult = await response.json();$/;"	v	line:92
+result	frontend/src/services/ScoreCalculator.ts	/^    const result = Math.round(score * 100);$/;"	v	line:110
+result	frontend/src/services/ScoreCalculator.ts	/^    const result = Math.round(score * 100);$/;"	v	line:126
+result	frontend/src/services/ScoreCalculator.ts	/^    const result = Math.round(score * 100);$/;"	v	line:153
+result	frontend/src/services/ScoreCalculator.ts	/^    const result = Math.round(score * 100);$/;"	v	line:181
+result	frontend/src/services/ScoreCalculator.ts	/^    const result = Math.round(score * 100);$/;"	v	line:215
+result	frontend/src/services/ScoreCalculator.ts	/^    const result = Math.round(score * 100);$/;"	v	line:97
+result	frontend/src/services/segmentation/BodySegmenter.ts	/^    let result: ImageSegmenterResult;$/;"	v	line:79
+result	frontend/src/services/segmentation/FaceSegmenter.ts	/^    let result: FaceLandmarkerResult;$/;"	v	line:136
+result	frontend/src/services/segmentation/ZoneCreator.ts	/^    const result = new Uint8Array(width * height);$/;"	v	line:131
+result	frontend/src/services/segmentation/ZoneCreator.ts	/^    const result = new Uint8Array(width * height);$/;"	v	line:171
+result	frontend/src/services/segmentation/ZoneCreator.ts	/^    const result = new Uint8Array(width * height);$/;"	v	line:183
+results	frontend/src/hooks/useMetricsWorker.ts	/^        const results = {};$/;"	v	line:131
+results	frontend/src/services/MetricsCalculator.ts	/^    const results = new Map<string, ZoneMetrics>();$/;"	v	line:141
+results	frontend/src/workers/metrics.worker.ts	/^  const results: Record<string, FrameMetrics & { pixelCount: number }> = {};$/;"	v	line:177
+resume	frontend/src/hooks/useCamera.ts	/^  const resume = useCallback(() => {$/;"	v	line:132
+resume	frontend/src/hooks/usePIPRenderer.ts	/^  const resume = useCallback(() => {$/;"	v	line:92
+rgbToHsv	frontend/src/hooks/useMetricsWorker.ts	/^      function rgbToHsv(r, g, b) {$/;"	f	line:160
+rgbToHsv	frontend/src/workers/metrics.worker.ts	/^function rgbToHsv($/;"	f	line:211
+rightI	frontend/src/components/PIPCanvas/PIPShader.tsx	/^                    const rightI = (pixels[rightIdx * 4] + pixels[rightIdx * 4 + 1] + pixels[rightIdx * 4 + 2]) \/ 3;$/;"	v	line:720
+rightIdx	frontend/src/components/PIPCanvas/PIPShader.tsx	/^                  const rightIdx = y * vw + (vw - 1 - x);$/;"	v	line:715
+rightIdx	frontend/src/services/MetricsCalculator.ts	/^          const rightIdx = y * width + (width - 1 - x);$/;"	v	line:223
+rightIdx	frontend/src/workers/metrics.worker.ts	/^      const rightIdx = y * width + (width - 1 - x);$/;"	v	line:258
+rightIntensity	frontend/src/services/MetricsCalculator.ts	/^          const rightIntensity = 0.299 * data[rightPixelIdx] + 0.587 * data[rightPixelIdx + 1] + 0.114 * data[rightPixelIdx + 2];$/;"	v	line:231
+rightIntensity	frontend/src/workers/metrics.worker.ts	/^      const rightIntensity =$/;"	v	line:269
+rightMasked	frontend/src/components/PIPCanvas/PIPShader.tsx	/^                  const rightMasked = maskImageData.data[rightIdx * 4] > 128;$/;"	v	line:717
+rightPixelIdx	frontend/src/services/MetricsCalculator.ts	/^          const rightPixelIdx = rightIdx * 4;$/;"	v	line:228
+rightPixelIdx	frontend/src/workers/metrics.worker.ts	/^      const rightPixelIdx = rightIdx * 4;$/;"	v	line:263
+rightWidth	frontend/src/components/Cards/SymmetrySnapshotCard.tsx	/^  const rightWidth = (remainingWidth \/ 2) * (1 + asymmetryFactor);$/;"	v	line:31
+root	backend/main.py	/^async def root():$/;"	f	line:47
+router	backend/api/routes/analysis.py	/^router = APIRouter()$/;"	v	line:33
+router	backend/api/routes/baseline.py	/^router = APIRouter()$/;"	v	line:8
+router	backend/api/routes/capture.py	/^router = APIRouter()$/;"	v	line:7
+router	backend/api/routes/export.py	/^router = APIRouter()$/;"	v	line:9
+router	backend/api/routes/websocket.py	/^router = APIRouter()$/;"	v	line:9
+s	frontend/src/hooks/useMetricsWorker.ts	/^        const s = max === 0 ? 0 : d \/ max, v = max;$/;"	v	line:164
+s	frontend/src/services/MetricsCalculator.ts	/^    const s = max === 0 ? 0 : d \/ max;$/;"	v	line:188
+s	frontend/src/workers/metrics.worker.ts	/^  const s = max === 0 ? 0 : d \/ max;$/;"	v	line:225
+satConsistency	frontend/src/services/ScoreCalculator.ts	/^    const satConsistency = satMean > 0 ? Math.min(satMean * 2, 1) : 0.5;$/;"	v	line:206
+satMean	frontend/src/hooks/useRealTimeMetrics.ts	/^    const satMean = data.saturationMean ?? 0.5;$/;"	v	line:447
+satMean	frontend/src/services/ScoreCalculator.ts	/^    const satMean = this.safeNumber(metrics.saturationMean, 0.5);$/;"	v	line:205
+saturation	frontend/src/components/PIPCanvas/PIPShader.tsx	/^                  const saturation = max === 0 ? 0 : (max - min) \/ max;$/;"	v	line:693
+saturationMean	frontend/src/components/PIPCanvas/PIPShader.tsx	/^              const saturationMean = saturations.length > 0$/;"	v	line:705
+saturationMean	frontend/src/hooks/useMetricsWorker.ts	/^        const saturationMean = mean(saturations);$/;"	v	line:119
+saturationMean	frontend/src/services/MetricsCalculator.ts	/^    const saturationMean = this.mean(saturations);$/;"	v	line:103
+saturationMean	frontend/src/workers/metrics.worker.ts	/^  const saturationMean = mean(saturations);$/;"	v	line:136
+saturations	frontend/src/components/PIPCanvas/PIPShader.tsx	/^            const saturations: number[] = [];$/;"	v	line:677
+saturations	frontend/src/hooks/useMetricsWorker.ts	/^        const saturations = [];$/;"	v	line:90
+saturations	frontend/src/services/MetricsCalculator.ts	/^    const saturations: number[] = [];$/;"	v	line:56
+saturations	frontend/src/workers/metrics.worker.ts	/^  const saturations: number[] = [];$/;"	v	line:90
+scales	frontend/src/hooks/useRealTimeMetrics.ts	/^    const scales = [2, 4, Math.min(8, Math.floor(n \/ 2))];$/;"	v	line:362
+score	frontend/src/services/ScoreCalculator.ts	/^    const score = 0.30 * fdNorm + 0.25 * entropyNorm + 0.20 * corrDimNorm + 0.15 * contourNorm + 0.10 * noiseNorm;$/;"	v	line:152
+score	frontend/src/services/ScoreCalculator.ts	/^    const score = 0.30 * lqd + 0.25 * intensity + 0.25 * energyNorm + 0.20 * area;$/;"	v	line:96
+score	frontend/src/services/ScoreCalculator.ts	/^    const score = 0.30 * lyapNorm + 0.25 * dfaNorm + 0.20 * tempVarNorm + 0.15 * recurrence + 0.10 * segVarNorm;$/;"	v	line:178
+score	frontend/src/services/ScoreCalculator.ts	/^    const score = 0.30 * uniformity + 0.25 * hueBalance + 0.20 * satConsistency + 0.15 * coherence + 0.10 * symmetry;$/;"	v	line:214
+score	frontend/src/services/ScoreCalculator.ts	/^    const score = 0.35 * patternReg + 0.25 * temporalStab + 0.25 * hurstNorm + 0.15 * colorCoherence;$/;"	v	line:125
+score	frontend/src/services/ScoreCalculator.ts	/^    const score = 0.50 * bodySymmetry + 0.30 * contourBalance + 0.20 * colorSymmetry;$/;"	v	line:109
+scoreCalculator	frontend/src/hooks/useRealTimeMetrics.ts	/^  const scoreCalculator = useRef(new ScoreCalculator());$/;"	v	line:46
+scoreCalculator	frontend/src/services/ScoreCalculator.ts	/^export const scoreCalculator = new ScoreCalculator();$/;"	v	line:233
+scoreExplanations	frontend/src/components/Cards/ScoreTile.tsx	/^const scoreExplanations: Record<string, string> = {$/;"	v	line:12
+scoreItems	frontend/src/services/PDFExportService.ts	/^    const scoreItems = [$/;"	v	line:152
+scores	frontend/src/components/MetricsPanel/index.tsx	/^  const scores = [$/;"	v	line:20
+scores	frontend/src/hooks/useRealTimeMetrics.ts	/^    const scores = scoreCalculator.current.calculateAll(estimatedMetrics);$/;"	v	line:510
+scores	frontend/src/hooks/useRealTimeMetrics.ts	/^    const scores = scoreCalculator.current.calculateAll(metricsInput);$/;"	v	line:182
+scoresList	frontend/src/pages/DetailedAnalysis.tsx	/^  const scoresList = useMemo(() => {$/;"	v	line:128
+seconds	frontend/src/components/Layout/TimelineStrip.tsx	/^  const seconds = totalSeconds % 60;$/;"	v	line:21
+secs	frontend/src/pages/DetailedAnalysis.tsx	/^    const secs = seconds % 60;$/;"	v	line:210
+secs	frontend/src/services/PDFExportService.ts	/^    const secs = seconds % 60;$/;"	v	line:334
+segMean	frontend/src/hooks/useRealTimeMetrics.ts	/^        const segMean = segment.reduce((a, b) => a + b, 0) \/ scale;$/;"	v	line:374
+segVarNorm	frontend/src/services/ScoreCalculator.ts	/^    const segVarNorm = this.safeNumber(metrics.temporalStability, 0.5);$/;"	v	line:176
+segment	backend/core/segmentation/body.py	/^    def segment(self, image: np.ndarray) -> Dict[str, Any]:$/;"	f	line:37
+segment	frontend/src/hooks/useRealTimeMetrics.ts	/^        const segment = integrated.slice(start, start + scale);$/;"	v	line:373
+segmentationResult	frontend/src/services/segmentation/BodySegmenter.ts	/^    const segmentationResult: SegmentationResult = {$/;"	v	line:246
+segmentationResult	frontend/src/services/segmentation/FaceSegmenter.ts	/^    const segmentationResult: FaceSegmentationResult = {$/;"	v	line:195
+selectDevice	frontend/src/hooks/useCamera.ts	/^  const selectDevice = useCallback((deviceId: string) => {$/;"	v	line:140
+send	frontend/src/hooks/useWebSocket.ts	/^  const send = useCallback((message: WSMessage) => {$/;"	v	line:139
+sendFrame	frontend/src/hooks/useWebSocket.ts	/^  const sendFrame = useCallback((frameData: string, timestamp: number) => {$/;"	v	line:148
+send_message	backend/api/routes/websocket.py	/^    async def send_message(self, client_id: str, message: dict):$/;"	f	line:31
+sessionStartTime	frontend/src/hooks/useRealTimeMetrics.ts	/^  const sessionStartTime = useRef<number>(0);$/;"	v	line:47
+setAnalysisMode	frontend/src/context/AppContext.tsx	/^  const setAnalysisMode = (mode: AnalysisMode) =>$/;"	v	line:28
+setMetrics	frontend/src/context/AppContext.tsx	/^  const setMetrics = (metrics: Partial<RealTimeMetrics>) =>$/;"	v	line:24
+setPIPSetting	frontend/src/context/AppContext.tsx	/^  const setPIPSetting = <K extends keyof PIPSettings>(key: K, value: PIPSettings[K]) =>$/;"	v	line:22
+setParameter	frontend/src/hooks/usePIPRenderer.ts	/^  const setParameter = useCallback(<K extends keyof PIPSettings>($/;"	v	line:100
+setPaused	frontend/src/context/AppContext.tsx	/^  const setPaused = (paused: boolean) => dispatch({ type: 'SET_PAUSED', payload: paused });$/;"	v	line:19
+setPlaying	frontend/src/context/AppContext.tsx	/^  const setPlaying = (playing: boolean) => dispatch({ type: 'SET_PLAYING', payload: playing });$/;"	v	line:18
+setScores	frontend/src/context/AppContext.tsx	/^  const setScores = (scores: Partial<CompositeScores>) =>$/;"	v	line:26
+settings	backend/config.py	/^settings = Settings()$/;"	v	line:43
+shader	frontend/src/components/PIPCanvas/PIPShader.tsx	/^    const shader = gl.createShader(type);$/;"	v	line:390
+shader	frontend/src/services/PIPRenderer.ts	/^    const shader = gl.createShader(type);$/;"	v	line:341
+shouldComputeMetrics	frontend/src/components/PIPCanvas/PIPShader.tsx	/^          const shouldComputeMetrics = onFrameData && (now - lastMetricsTimeRef.current >= METRICS_INTERVAL_MS);$/;"	v	line:652
+showTimer	frontend/src/components/VideoPanel/CaptureButton.tsx	/^      const showTimer = setTimeout(() => setShowError(true), 0);$/;"	v	line:42
+showTimer	frontend/src/components/VideoPanel/CaptureButton.tsx	/^      const showTimer = setTimeout(() => setShowSuccess(true), 0);$/;"	v	line:30
+slope	frontend/src/hooks/useRealTimeMetrics.ts	/^      const slope = (n2 * sumXY - sumX * sumY) \/ (n2 * sumX2 - sumX * sumX);$/;"	v	line:396
+slope	frontend/src/services/MetricsCalculator.ts	/^    const slope = (n * sumXY - sumX * sumY) \/ (n * sumX2 - sumX * sumX);$/;"	v	line:376
+smoothedScores	frontend/src/services/ScoreCalculator.ts	/^      const smoothedScores: CompositeScores = {$/;"	v	line:66
+srcIdx	frontend/src/services/segmentation/BodySegmenter.ts	/^                const srcIdx = srcY * maskWidth + srcX;$/;"	v	line:128
+srcIdx	frontend/src/services/segmentation/BodySegmenter.ts	/^                const srcIdx = srcY * maskWidth + srcX;$/;"	v	line:163
+srcIdx	frontend/src/services/segmentation/BodySegmenter.ts	/^                const srcIdx = srcY * maskWidth + srcX;$/;"	v	line:195
+srcIdx	frontend/src/services/segmentation/BodySegmenter.ts	/^                const srcIdx = srcY * maskWidth + srcX;$/;"	v	line:224
+srcX	frontend/src/services/segmentation/BodySegmenter.ts	/^                const srcX = Math.floor(x * maskWidth \/ width);$/;"	v	line:126
+srcX	frontend/src/services/segmentation/BodySegmenter.ts	/^                const srcX = Math.floor(x * maskWidth \/ width);$/;"	v	line:161
+srcX	frontend/src/services/segmentation/BodySegmenter.ts	/^                const srcX = Math.floor(x * maskWidth \/ width);$/;"	v	line:193
+srcX	frontend/src/services/segmentation/BodySegmenter.ts	/^                const srcX = Math.floor(x * maskWidth \/ width);$/;"	v	line:222
+srcY	frontend/src/services/segmentation/BodySegmenter.ts	/^                const srcY = Math.floor(y * maskHeight \/ height);$/;"	v	line:127
+srcY	frontend/src/services/segmentation/BodySegmenter.ts	/^                const srcY = Math.floor(y * maskHeight \/ height);$/;"	v	line:162
+srcY	frontend/src/services/segmentation/BodySegmenter.ts	/^                const srcY = Math.floor(y * maskHeight \/ height);$/;"	v	line:194
+srcY	frontend/src/services/segmentation/BodySegmenter.ts	/^                const srcY = Math.floor(y * maskHeight \/ height);$/;"	v	line:223
+start	frontend/src/hooks/useCamera.ts	/^  const start = useCallback(async () => {$/;"	v	line:71
+start	frontend/src/hooks/usePIPRenderer.ts	/^  const start = useCallback(() => {$/;"	v	line:68
+startSession	frontend/src/hooks/useWebSocket.ts	/^  const startSession = useCallback((settings?: Record<string, unknown>) => {$/;"	v	line:159
+startTimeRef	frontend/src/components/PIPCanvas/PIPShader.tsx	/^  const startTimeRef = useRef<number>(0);$/;"	v	line:287
+startX	frontend/src/services/segmentation/FaceSegmenter.ts	/^        const startX = Math.max(0, Math.floor(intersections[i]));$/;"	v	line:291
+std	frontend/src/services/MetricsCalculator.ts	/^    const std = this.stdDev(intensities, mean);$/;"	v	line:356
+stdDev	frontend/src/hooks/useMetricsWorker.ts	/^      function stdDev(arr, m) {$/;"	f	line:154
+stdDev	frontend/src/workers/metrics.worker.ts	/^function stdDev(arr: number[], m?: number): number {$/;"	f	line:203
+stop	frontend/src/hooks/useCamera.ts	/^  const stop = useCallback(() => {$/;"	v	line:112
+stop	frontend/src/hooks/usePIPRenderer.ts	/^  const stop = useCallback(() => {$/;"	v	line:76
+sum	frontend/src/hooks/useMetricsWorker.ts	/^        let sum = 0, count = 0;$/;"	v	line:177
+sum	frontend/src/services/MetricsCalculator.ts	/^    let sum = 0;$/;"	v	line:214
+sum	frontend/src/workers/metrics.worker.ts	/^  let sum = 0;$/;"	v	line:252
+sumX	frontend/src/hooks/useRealTimeMetrics.ts	/^      const sumX = logScales.reduce((a, b) => a + b, 0);$/;"	v	line:391
+sumX	frontend/src/services/MetricsCalculator.ts	/^    let sumX = 0, sumY = 0, sumXY = 0, sumX2 = 0;$/;"	v	line:368
+sumX	frontend/src/services/segmentation/BodySegmenter.ts	/^    let sumX = 0,$/;"	v	line:274
+sumX2	frontend/src/hooks/useRealTimeMetrics.ts	/^      const sumX2 = logScales.reduce((sum, x) => sum + x * x, 0);$/;"	v	line:394
+sumXY	frontend/src/hooks/useRealTimeMetrics.ts	/^      const sumXY = logScales.reduce((sum, x, i) => sum + x * logF[i], 0);$/;"	v	line:393
+sumY	frontend/src/hooks/useRealTimeMetrics.ts	/^      const sumY = logF.reduce((a, b) => a + b, 0);$/;"	v	line:392
+symValues	frontend/src/hooks/useRealTimeMetrics.ts	/^    const symValues = prevFrameDataRef.current.map(f => f.hSym);$/;"	v	line:463
+symVariance	frontend/src/hooks/useRealTimeMetrics.ts	/^    const symVariance = symValues.reduce((sum, s) => sum + Math.pow(s - avgSym, 2), 0) \/ symValues.length;$/;"	v	line:471
+symmetry	frontend/src/services/ScoreCalculator.ts	/^    const symmetry = Math.max(0, this.safeNumber(metrics.colorSymmetry ?? metrics.horizontalSymmetry, 0.5));$/;"	v	line:212
+symmetrySnapshotData	frontend/src/components/Panels/MetricsScoresPanel.tsx	/^  const symmetrySnapshotData: SymmetrySnapshotData = useMemo(() => ({$/;"	v	line:55
+symmetry_calc	backend/api/routes/analysis.py	/^symmetry_calc = SymmetryScoreCalculator()$/;"	v	line:43
+symmetry_metrics	backend/api/routes/analysis.py	/^symmetry_metrics = SymmetryMetrics()$/;"	v	line:41
+t	frontend/src/components/PIPCanvas/PIPShader.tsx	/^          const t = (timestamp - startTimeRef.current) * 0.001;$/;"	v	line:618
+t	frontend/src/services/PIPRenderer.ts	/^    const t = (performance.now() - this.startTime) * 0.001 * settings.speed;$/;"	v	line:318
+tempVar	frontend/src/services/ScoreCalculator.ts	/^    const tempVar = this.safeNumber(metrics.temporalVariance, 0.15);$/;"	v	line:169
+tempVarNorm	frontend/src/services/ScoreCalculator.ts	/^    const tempVarNorm = 1 - Math.min(tempVar \/ 0.3, 1);$/;"	v	line:170
+temporalStab	frontend/src/services/ScoreCalculator.ts	/^    const temporalStab = this.safeNumber(metrics.temporalStability, 0.5);$/;"	v	line:117
+temporalStability	frontend/src/hooks/useRealTimeMetrics.ts	/^    const temporalStability = Math.max(0, Math.min(1, 1 - Math.sqrt(brightVariance) * 5));$/;"	v	line:474
+temporalVariance	frontend/src/hooks/useRealTimeMetrics.ts	/^    const temporalVariance = brightVariance;$/;"	v	line:476
+textWidth	frontend/src/services/PDFExportService.ts	/^      const textWidth = this.pageWidth - this.margin * 2 - 10;$/;"	v	line:259
+textWidth	frontend/src/services/PDFExportService.ts	/^    const textWidth = this.pageWidth - this.margin * 2;$/;"	v	line:284
+threshold	frontend/src/hooks/useMetricsWorker.ts	/^        const threshold = avgIntensity + 0.5 * intensityStdDev;$/;"	v	line:111
+threshold	frontend/src/hooks/useRealTimeMetrics.ts	/^    const threshold = 0.1; \/\/ Similarity threshold (10% of value range)$/;"	v	line:412
+threshold	frontend/src/services/MetricsCalculator.ts	/^    const threshold = avgIntensity + 0.5 * intensityStdDev;$/;"	v	line:88
+threshold	frontend/src/workers/metrics.worker.ts	/^  const threshold = avgIntensity + 0.5 * intensityStdDev;$/;"	v	line:121
+timePoint	frontend/src/hooks/useRealTimeMetrics.ts	/^    const timePoint = Math.floor((Date.now() - sessionStartTime.current) \/ 1000);$/;"	v	line:185
+timePoint	frontend/src/hooks/useRealTimeMetrics.ts	/^    const timePoint = Math.floor((Date.now() - sessionStartTime.current) \/ 1000);$/;"	v	line:513
+timeStr	frontend/src/services/PDFExportService.ts	/^    const timeStr = data.timestamp.toLocaleTimeString();$/;"	v	line:92
+timelineRef	frontend/src/hooks/useRealTimeMetrics.ts	/^  const timelineRef = useRef<TimelineDataPoint[]>([]);$/;"	v	line:48
+timer	frontend/src/hooks/useWebSocket.ts	/^      const timer = setTimeout(() => {$/;"	v	line:178
+timestamp	frontend/src/components/PIPCanvas/PIPShader.tsx	/^          const timestamp = performance.now();$/;"	v	line:591
+toggleControls	frontend/src/context/AppContext.tsx	/^  const toggleControls = () =>$/;"	v	line:30
+toggleMetric	frontend/src/components/GraphPanel/index.tsx	/^  const toggleMetric = (metric: string) => {$/;"	v	line:57
+toggleMetric	frontend/src/components/Layout/TimelineStrip.tsx	/^  const toggleMetric = (metric: string) => {$/;"	v	line:31
+toggleSection	frontend/src/pages/DetailedAnalysis.tsx	/^  const toggleSection = (section: string) => {$/;"	v	line:204
+topI	frontend/src/components/PIPCanvas/PIPShader.tsx	/^                    const topI = (pixels[topIdx * 4] + pixels[topIdx * 4 + 1] + pixels[topIdx * 4 + 2]) \/ 3;$/;"	v	line:738
+topIdx	frontend/src/components/PIPCanvas/PIPShader.tsx	/^                  const topIdx = y * vw + x;$/;"	v	line:733
+topIdx	frontend/src/services/MetricsCalculator.ts	/^          const topIdx = y * width + x;$/;"	v	line:242
+topIntensity	frontend/src/services/MetricsCalculator.ts	/^          const topIntensity = 0.299 * data[topPixelIdx] + 0.587 * data[topPixelIdx + 1] + 0.114 * data[topPixelIdx + 2];$/;"	v	line:250
+topMasked	frontend/src/components/PIPCanvas/PIPShader.tsx	/^                  const topMasked = maskImageData.data[topIdx * 4] > 128;$/;"	v	line:735
+topPixelIdx	frontend/src/services/MetricsCalculator.ts	/^          const topPixelIdx = topIdx * 4;$/;"	v	line:247
+total	frontend/src/services/MetricsCalculator.ts	/^    const total = values.length;$/;"	v	line:288
+total	frontend/src/workers/metrics.worker.ts	/^  const total = values.length;$/;"	v	line:307
+totalDiff	frontend/src/services/MetricsCalculator.ts	/^    let totalDiff = 0;$/;"	v	line:311
+totalPairs	frontend/src/hooks/useRealTimeMetrics.ts	/^    let totalPairs = 0;$/;"	v	line:422
+totalPixels	frontend/src/hooks/useMetricsWorker.ts	/^        const totalPixels = width * height;$/;"	v	line:87
+totalPixels	frontend/src/services/MetricsCalculator.ts	/^    const totalPixels = width * height;$/;"	v	line:51
+totalPixels	frontend/src/workers/metrics.worker.ts	/^  const totalPixels = width * height;$/;"	v	line:87
+totalVar	frontend/src/hooks/useRealTimeMetrics.ts	/^      let totalVar = 0;$/;"	v	line:368
+ts	frontend/src/services/segmentation/BodySegmenter.ts	/^      const ts = timestamp ?? performance.now();$/;"	v	line:82
+ts	frontend/src/services/segmentation/FaceSegmenter.ts	/^      const ts = timestamp ?? performance.now();$/;"	v	line:139
+uint8Data	frontend/src/services/segmentation/BodySegmenter.ts	/^          const uint8Data = categoryMask.getAsUint8Array();$/;"	v	line:180
+uniformity	frontend/src/services/ScoreCalculator.ts	/^    const uniformity = Math.min(this.safeNumber(metrics.colorEntropy, 5) \/ 7, 1);$/;"	v	line:199
+uniforms	frontend/src/components/PIPCanvas/PIPShader.tsx	/^        const uniforms = uniformsRef.current;$/;"	v	line:327
+uniforms	frontend/src/components/PIPCanvas/PIPShader.tsx	/^    const uniforms = {$/;"	v	line:549
+uniformsRef	frontend/src/components/PIPCanvas/PIPShader.tsx	/^  const uniformsRef = useRef<ShaderUniforms | null>(null);$/;"	v	line:292
+updatePIPSettings	frontend/src/context/AppContext.tsx	/^  const updatePIPSettings = (settings: Partial<PIPSettings>) =>$/;"	v	line:20
+url	frontend/src/components/VideoPanel/AnalysisResultModal.tsx	/^    const url = URL.createObjectURL(blob);$/;"	v	line:113
+useAppState	frontend/src/context/appState.ts	/^export function useAppState(): AppContextValue {$/;"	f	line:133
+useCamera	frontend/src/hooks/useCamera.ts	/^export function useCamera(options: UseCameraOptions = {}): UseCameraReturn {$/;"	f	line:36
+useFrameCapture	frontend/src/hooks/useFrameCapture.ts	/^export function useFrameCapture(): UseFrameCaptureReturn {$/;"	f	line:23
+useMask	frontend/src/components/PIPCanvas/PIPShader.tsx	/^          const useMask = region !== 'full';$/;"	v	line:607
+useMetricsWorker	frontend/src/hooks/useMetricsWorker.ts	/^export function useMetricsWorker(): UseMetricsWorkerReturn {$/;"	f	line:36
+usePIPRenderer	frontend/src/hooks/usePIPRenderer.ts	/^export function usePIPRenderer(options: UsePIPRendererOptions = {}): UsePIPRendererReturn {$/;"	f	line:29
+useRealTimeMetrics	frontend/src/hooks/useRealTimeMetrics.ts	/^export function useRealTimeMetrics(canvasRef?: React.RefObject<HTMLCanvasElement>) {$/;"	f	line:44
+useSegmentation	frontend/src/hooks/useSegmentation.ts	/^export function useSegmentation($/;"	f	line:38
+useWebSocket	frontend/src/hooks/useWebSocket.ts	/^export function useWebSocket(options: UseWebSocketOptions): UseWebSocketReturn {$/;"	f	line:32
+v	frontend/src/services/MetricsCalculator.ts	/^    const v = max;$/;"	v	line:189
+v	frontend/src/workers/metrics.worker.ts	/^  const v = max;$/;"	v	line:226
+vSym	frontend/src/hooks/useRealTimeMetrics.ts	/^    const vSym = data.verticalSymmetry ?? 0.5;$/;"	v	line:446
+vSymSum	frontend/src/components/PIPCanvas/PIPShader.tsx	/^              let vSymSum = 0, vSymCount = 0;$/;"	v	line:730
+value	frontend/src/components/PIPCanvas/PIPShader.tsx	/^          const value = isBody ? 255 : 0;$/;"	v	line:486
+value	frontend/src/context/AppContext.tsx	/^  const value: AppContextValue = {$/;"	v	line:33
+values	frontend/src/services/MetricsCalculator.ts	/^    const values = this.frameBuffer.map(f => f[metric] as number);$/;"	v	line:364
+vao	frontend/src/components/PIPCanvas/PIPShader.tsx	/^    const vao = gl.createVertexArray();$/;"	v	line:524
+variance	frontend/src/components/PIPCanvas/PIPShader.tsx	/^              const variance = maskedPixels.reduce((sum, val) => sum + Math.pow(val \/ 255 - avgBrightness, 2), 0) \/ maskedPixels.length;$/;"	v	line:701
+variance	frontend/src/hooks/useRealTimeMetrics.ts	/^        const variance = segment.reduce((sum, v) => sum + Math.pow(v - segMean, 2), 0) \/ scale;$/;"	v	line:375
+variance	frontend/src/services/MetricsCalculator.ts	/^    const variance = arr.reduce((sum, val) => sum + Math.pow(val - m, 2), 0) \/ arr.length;$/;"	v	line:174
+variance	frontend/src/workers/metrics.worker.ts	/^  const variance =$/;"	v	line:206
+varianceContrib	frontend/src/hooks/useRealTimeMetrics.ts	/^    const varianceContrib = Math.min(variance * 2, 0.3); \/\/ 0-0.3 from variance$/;"	v	line:271
+vec2	frontend/src/components/PIPCanvas/PIPShader.tsx	/^  const vec2 C = vec2(1.0\/6.0, 1.0\/3.0);$/;"	v	line:102
+vec2	frontend/src/services/PIPRenderer.ts	/^  const vec2 C = vec2(1.0\/6.0, 1.0\/3.0);$/;"	v	line:44
+vec4	frontend/src/components/PIPCanvas/PIPShader.tsx	/^  const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);$/;"	v	line:103
+vec4	frontend/src/services/PIPRenderer.ts	/^  const vec4 D = vec4(0.0,0.5,1.0,2.0);$/;"	v	line:45
+vertShader	frontend/src/services/PIPRenderer.ts	/^    const vertShader = this.createShader(gl.VERTEX_SHADER, vertSrc);$/;"	v	line:358
+vertexSrc	frontend/src/components/PIPCanvas/PIPShader.tsx	/^const vertexSrc = `#version 300 es$/;"	v	line:54
+verticalSymmetry	frontend/src/components/PIPCanvas/PIPShader.tsx	/^              const verticalSymmetry = vSymCount > 0 ? vSymSum \/ vSymCount : 0.5;$/;"	v	line:745
+verticalSymmetry	frontend/src/services/MetricsCalculator.ts	/^    const verticalSymmetry = this.calculateSymmetry(imageData, 'vertical', mask);$/;"	v	line:99
+vh	frontend/src/components/PIPCanvas/PIPShader.tsx	/^          const vh = video.videoHeight || 480;$/;"	v	line:590
+video	frontend/src/components/PIPCanvas/PIPShader.tsx	/^    const video = videoRef.current;$/;"	v	line:505
+videoDevices	frontend/src/hooks/useCamera.ts	/^      const videoDevices = mediaDevices$/;"	v	line:52
+videoRef	frontend/src/components/PIPCanvas/PIPShader.tsx	/^  const videoRef = useRef<HTMLVideoElement>(null);$/;"	v	line:283
+videoRef	frontend/src/hooks/useCamera.ts	/^  const videoRef = useRef<HTMLVideoElement>(null);$/;"	v	line:46
+videoTex	frontend/src/components/PIPCanvas/PIPShader.tsx	/^    const videoTex = gl.createTexture();$/;"	v	line:533
+vision	frontend/src/services/segmentation/BodySegmenter.ts	/^      const vision = await FilesetResolver.forVisionTasks($/;"	v	line:48
+vision	frontend/src/services/segmentation/FaceSegmenter.ts	/^      const vision = await FilesetResolver.forVisionTasks($/;"	v	line:100
+visit_Assign	scripts/code_indexer.py	/^    def visit_Assign(self, node: ast.Assign) -> Any:$/;"	f	line:473
+visit_AsyncFunctionDef	scripts/code_indexer.py	/^    def visit_AsyncFunctionDef(self, node: ast.AsyncFunctionDef) -> Any:$/;"	f	line:454
+visit_ClassDef	scripts/code_indexer.py	/^    def visit_ClassDef(self, node: ast.ClassDef) -> Any:$/;"	f	line:381
+visit_FunctionDef	scripts/code_indexer.py	/^    def visit_FunctionDef(self, node: ast.FunctionDef) -> Any:$/;"	f	line:435
+visit_Import	scripts/code_indexer.py	/^    def visit_Import(self, node: ast.Import) -> Any:$/;"	f	line:355
+visit_ImportFrom	scripts/code_indexer.py	/^    def visit_ImportFrom(self, node: ast.ImportFrom) -> Any:$/;"	f	line:367
+visualize_zones	backend/core/segmentation/zones.py	/^    def visualize_zones($/;"	f	line:178
+vs	frontend/src/components/PIPCanvas/PIPShader.tsx	/^    const vs = createShader(gl, gl.VERTEX_SHADER, vertexSrc);$/;"	v	line:403
+vw	frontend/src/components/PIPCanvas/PIPShader.tsx	/^          const vw = video.videoWidth || 640;$/;"	v	line:589
+w	frontend/src/services/PIPRenderer.ts	/^    const w = this.canvas.clientWidth;$/;"	v	line:300
+websocket_metrics	backend/api/routes/websocket.py	/^async def websocket_metrics(websocket: WebSocket):$/;"	f	line:46
+websocket_realtime	backend/api/routes/websocket.py	/^async def websocket_realtime(websocket: WebSocket):$/;"	f	line:82
+workerCode	frontend/src/hooks/useMetricsWorker.ts	/^    const workerCode = `$/;"	v	line:46
+workerRef	frontend/src/hooks/useMetricsWorker.ts	/^  const workerRef = useRef<Worker | null>(null);$/;"	v	line:41
+workerUrl	frontend/src/hooks/useMetricsWorker.ts	/^    const workerUrl = URL.createObjectURL(blob);$/;"	v	line:224
+write_outputs	scripts/code_indexer.py	/^def write_outputs(root: Path, out_dir: Path, index: dict[str, Any]) -> None:$/;"	f	line:865
+ws	frontend/src/hooks/useRealTimeMetrics.ts	/^        const ws = new WebSocket(`${wsProtocol}\/\/${wsHost}\/ws\/v1\/metrics`);$/;"	v	line:95
+wsHost	frontend/src/hooks/useRealTimeMetrics.ts	/^        const wsHost = import.meta.env.VITE_API_URL $/;"	v	line:92
+wsProtocol	frontend/src/hooks/useRealTimeMetrics.ts	/^        const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';$/;"	v	line:91
+wsRef	frontend/src/hooks/useRealTimeMetrics.ts	/^  const wsRef = useRef<WebSocket | null>(null);$/;"	v	line:49
+wsRef	frontend/src/hooks/useWebSocket.ts	/^  const wsRef = useRef<WebSocket | null>(null);$/;"	v	line:50
+x	frontend/src/services/PDFExportService.ts	/^      const x = this.margin + (col * colWidth);$/;"	v	line:165
+x	frontend/src/services/segmentation/FaceSegmenter.ts	/^          const x = p1.x + ((y - p1.y) \/ (p2.y - p1.y)) * (p2.x - p1.x);$/;"	v	line:283
+xs	frontend/src/services/segmentation/FaceSegmenter.ts	/^    const xs = landmarks.map((l) => l.x);$/;"	v	line:217
+ys	frontend/src/services/segmentation/FaceSegmenter.ts	/^    const ys = landmarks.map((l) => l.y);$/;"	v	line:218
+zoneCreatorRef	frontend/src/hooks/useSegmentation.ts	/^  const zoneCreatorRef = useRef<ZoneCreator | null>(null);$/;"	v	line:53
+zoneData	frontend/src/pages/DetailedAnalysis.tsx	/^  const zoneData = useMemo(() => {$/;"	v	line:172
+zoneMetrics	frontend/src/hooks/useMetricsWorker.ts	/^              const zoneMetrics = calculateZoneMetrics($/;"	v	line:69
+zoneMetrics	frontend/src/workers/metrics.worker.ts	/^        const zoneMetrics = calculateZoneMetrics($/;"	v	line:61
+zone_creator	backend/api/routes/analysis.py	/^zone_creator = ZoneCreator()$/;"	v	line:50
+zones	frontend/src/hooks/useMetricsWorker.ts	/^        const zones = [$/;"	v	line:132
+zones	frontend/src/hooks/useSegmentation.ts	/^            const zones = zoneCreatorRef.current.createZones(bodyRes);$/;"	v	line:104
+zones	frontend/src/services/MetricsCalculator.ts	/^    const zones: [string, Uint8Array][] = [$/;"	v	line:143
+zones	frontend/src/workers/metrics.worker.ts	/^  const zones: [string, Uint8Array][] = [$/;"	v	line:179
