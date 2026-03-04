@@ -32,12 +32,12 @@ export const Shell: React.FC<ShellProps> = ({
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_50%,rgba(216,179,106,0.1),transparent_54%)]" />
         </div>
 
-        <div className="mystic-dashboard-grid w-full h-full max-w-[1880px] mx-auto px-2 sm:px-4 lg:px-6 py-3 sm:py-4 grid grid-cols-1 lg:grid-cols-[minmax(0,1.68fr)_minmax(320px,0.92fr)] lg:grid-rows-[minmax(0,1fr)_auto] gap-3 sm:gap-4 overflow-y-auto">
+        <div className="mystic-dashboard-grid w-full h-full max-w-[1880px] mx-auto px-2 sm:px-4 lg:px-6 py-3 sm:py-4 grid grid-cols-1 lg:grid-cols-[minmax(0,1.78fr)_minmax(320px,0.86fr)] lg:grid-rows-[minmax(0,1fr)_auto] gap-3 sm:gap-4 overflow-y-auto">
           <section className="mystic-stage-zone lg:row-start-1 lg:col-start-1 min-h-[360px] lg:min-h-0">
             {stagePanel}
           </section>
 
-          <aside className="mystic-rail-zone lg:row-start-1 lg:col-start-2 min-h-[320px] lg:min-h-0">
+          <aside className="mystic-rail-zone lg:row-start-1 lg:col-start-2 min-h-[320px] lg:min-h-0 lg:sticky lg:top-0 lg:self-start">
             {metricsPanel}
           </aside>
 
