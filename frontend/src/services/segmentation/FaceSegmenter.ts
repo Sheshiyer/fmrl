@@ -101,11 +101,11 @@ export class FaceSegmenter {
         'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm'
       );
 
-      this.faceLandmarker = await FaceLandmarker.createFromOptions(vision, {
+      const createOptions = (delegate: 'GPU' | 'CPU') => ({
         baseOptions: {
           modelAssetPath:
             'https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task',
-          delegate: 'GPU',
+          delegate,
         },
         runningMode: this.config.runningMode,
         numFaces: this.config.numFaces,
@@ -113,6 +113,13 @@ export class FaceSegmenter {
         minTrackingConfidence: this.config.minTrackingConfidence,
         outputFaceBlendshapes: this.config.outputFaceBlendshapes,
       });
+
+      try {
+        this.faceLandmarker = await FaceLandmarker.createFromOptions(vision, createOptions('GPU'));
+      } catch (gpuErr) {
+        console.warn('FaceSegmenter GPU delegate failed, falling back to CPU:', gpuErr);
+        this.faceLandmarker = await FaceLandmarker.createFromOptions(vision, createOptions('CPU'));
+      }
 
       this.isInitialized = true;
       console.log('FaceSegmenter initialized successfully');

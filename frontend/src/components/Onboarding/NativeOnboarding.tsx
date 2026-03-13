@@ -1,20 +1,23 @@
 import { useMemo, useState } from 'react';
 import { useCameraPermission } from '../../hooks/useCameraPermission';
 import { useStoragePermission } from '../../hooks/useStoragePermission';
+import { useAuth } from '../../context/auth/AuthContext';
 import { ensureBackendReady, getBackendLogs, isTauriRuntime, openNativeSettings, repairCameraPermissionState } from '../../utils/runtimeApi';
 
-type Step = 'intent' | 'camera' | 'storage' | 'runtime';
+type Step = 'intent' | 'auth' | 'camera' | 'storage' | 'runtime';
 
 interface NativeOnboardingProps {
   onComplete: (options?: { force?: boolean }) => void;
 }
 
-const STEP_FLOW: Step[] = ['intent', 'camera', 'storage', 'runtime'];
+const STEP_FLOW: Step[] = ['intent', 'auth', 'camera', 'storage', 'runtime'];
 
 function stepLabel(step: Step): string {
   switch (step) {
     case 'intent':
       return 'Intent';
+    case 'auth':
+      return 'Account';
     case 'camera':
       return 'Camera';
     case 'storage':
@@ -28,6 +31,7 @@ function stepLabel(step: Step): string {
 
 export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
   const [step, setStep] = useState<Step>('intent');
+  const auth = useAuth();
   const [settingsError, setSettingsError] = useState<string | null>(null);
   const [repairMessage, setRepairMessage] = useState<string | null>(null);
   const [repairInProgress, setRepairInProgress] = useState(false);
@@ -163,7 +167,7 @@ export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
 
         <div className="mystic-divider" />
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
           {STEP_FLOW.map((item, index) => {
             const active = item === step;
             const complete = index < stepIndex;
@@ -184,14 +188,87 @@ export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
               for reliable session capture and report delivery.
             </p>
             <div className="grid sm:grid-cols-3 gap-3 text-xs text-pip-text-secondary">
-              <div className="mystic-status">1 · Camera permission request</div>
-              <div className="mystic-status">2 · Storage destination setup</div>
-              <div className="mystic-status">3 · Runtime health verification</div>
+              <div className="mystic-status">1 · Sign in or continue as guest</div>
+              <div className="mystic-status">2 · Camera permission request</div>
+              <div className="mystic-status">3 · Storage &amp; runtime setup</div>
             </div>
             <div>
-              <button type="button" className="mystic-btn mystic-btn-primary" onClick={() => setStep('camera')}>
+              <button type="button" className="mystic-btn mystic-btn-primary" onClick={() => setStep('auth')}>
                 Start Native Setup
               </button>
+            </div>
+          </section>
+        )}
+
+        {step === 'auth' && (
+          <section className="mystic-card space-y-5">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <h2 className="text-xl font-medium tracking-wide">Sign In</h2>
+              <span className={`mystic-badge ${auth.status === 'authenticated' ? 'is-success' : auth.status === 'guest' ? 'is-info' : 'is-warning'}`}>
+                {auth.status === 'authenticated' ? 'Signed in' : auth.status === 'guest' ? 'Guest mode' : 'Not signed in'}
+              </span>
+            </div>
+
+            <p className="text-sm text-pip-text-secondary">
+              Sign in with Discord to sync your sessions across devices and access community features.
+              Or continue as a guest — all core features work offline.
+            </p>
+
+            {auth.status === 'authenticated' && auth.user && (
+              <div className="mystic-success text-sm flex items-center gap-2">
+                <span>✓</span>
+                <span>Signed in as <strong>{auth.user.user_metadata?.full_name || auth.user.email || 'User'}</strong></span>
+                {auth.user.user_metadata?.avatar_url && (
+                  <img
+                    src={auth.user.user_metadata.avatar_url as string}
+                    alt=""
+                    className="w-6 h-6 rounded-full"
+                  />
+                )}
+              </div>
+            )}
+
+            {auth.status !== 'authenticated' && (
+              <div className="space-y-3">
+                <button
+                  type="button"
+                  className="mystic-btn mystic-btn-primary w-full flex items-center justify-center gap-2"
+                  onClick={() => void auth.signInWithDiscord()}
+                >
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z" />
+                  </svg>
+                  Sign in with Discord
+                </button>
+
+                <button
+                  type="button"
+                  className="mystic-btn mystic-btn-ghost w-full"
+                  onClick={() => {
+                    auth.enableGuestMode();
+                    setStep('camera');
+                  }}
+                >
+                  Continue as Guest
+                </button>
+              </div>
+            )}
+
+            {auth.error && (
+              <p className="text-xs text-red-400">
+                {auth.error.message}
+              </p>
+            )}
+
+            <div className="flex flex-wrap gap-2 pt-2">
+              <button type="button" className="mystic-btn mystic-btn-ghost" onClick={() => setStep('intent')}>
+                Back
+              </button>
+              {(auth.status === 'authenticated' || auth.status === 'guest') && (
+                <button type="button" className="mystic-btn mystic-btn-primary" onClick={() => setStep('camera')}>
+                  Continue
+                </button>
+              )}
             </div>
           </section>
         )}
@@ -260,7 +337,7 @@ export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
             )}
 
             <div className="flex gap-2 pt-1">
-              <button type="button" className="mystic-btn mystic-btn-ghost" onClick={() => setStep('intent')}>
+              <button type="button" className="mystic-btn mystic-btn-ghost" onClick={() => setStep('auth')}>
                 Back
               </button>
               <button

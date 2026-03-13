@@ -1,1 +1,1 @@
-{"default":{"identifier":"default","description":"Default desktop capability set for Biofield Mirror","local":true,"windows":["main"],"permissions":["core:default"]}}
+{"default":{"identifier":"default","description":"Default desktop capability set for Biofield Mirror","local":true,"windows":["main"],"permissions":["core:default",{"identifier":"http:default","allow":[{"url":"https://cdn.jsdelivr.net/**"},{"url":"https://storage.googleapis.com/**"},{"url":"https://*.supabase.co/**"},{"url":"http://127.0.0.1:8000/**"},{"url":"http://localhost:8000/**"}]}]}}

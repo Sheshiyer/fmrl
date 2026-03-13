@@ -49,16 +49,23 @@ export class BodySegmenter {
         'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm'
       );
 
-      this.segmenter = await ImageSegmenter.createFromOptions(vision, {
+      const createOptions = (delegate: 'GPU' | 'CPU') => ({
         baseOptions: {
           modelAssetPath:
             'https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_segmenter/float16/latest/selfie_segmenter.tflite',
-          delegate: 'GPU',
+          delegate,
         },
         runningMode: this.config.runningMode,
         outputCategoryMask: this.config.outputCategoryMask,
         outputConfidenceMasks: this.config.outputConfidenceMasks,
       });
+
+      try {
+        this.segmenter = await ImageSegmenter.createFromOptions(vision, createOptions('GPU'));
+      } catch (gpuErr) {
+        console.warn('BodySegmenter GPU delegate failed, falling back to CPU:', gpuErr);
+        this.segmenter = await ImageSegmenter.createFromOptions(vision, createOptions('CPU'));
+      }
 
       this.isInitialized = true;
       console.log('BodySegmenter initialized successfully');

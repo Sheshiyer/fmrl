@@ -86,14 +86,16 @@ function MainLayout() {
   );
 }
 
-// Onboarding layout (no Auth — onboarding doesn't need it)
+// Onboarding layout (with Auth for Discord sign-in step)
 function OnboardingLayout() {
   return (
-    <AppProvider>
-      <Suspense fallback={<PageLoader />}>
-        <Outlet />
-      </Suspense>
-    </AppProvider>
+    <AuthProvider>
+      <AppProvider>
+        <Suspense fallback={<PageLoader />}>
+          <Outlet />
+        </Suspense>
+      </AppProvider>
+    </AuthProvider>
   );
 }
 

@@ -48,6 +48,7 @@ export interface AuthState {
 export interface AuthActions {
   // Auth methods
   signIn: (email: string, password: string) => Promise<{ error: AuthError | null }>;
+  signInWithDiscord: () => Promise<{ error: AuthError | null }>;
   signUp: (email: string, password: string, metadata?: Record<string, unknown>) => Promise<{ error: AuthError | null; user: User | null }>;
   signOut: () => Promise<void>;
   
@@ -279,6 +280,19 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
     return { error };
   }, []);
 
+  // Sign in with Discord OAuth
+  const signInWithDiscord = useCallback(async () => {
+    setError(null);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'discord',
+      options: {
+        redirectTo: window.location.origin + '/',
+      },
+    });
+    if (error) setError(error);
+    return { error };
+  }, []);
+
   // Sign up
   const signUp = useCallback(async (email: string, password: string, metadata?: Record<string, unknown>) => {
     setError(null);
@@ -384,6 +398,7 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
     error,
     // Actions
     signIn,
+    signInWithDiscord,
     signUp,
     signOut,
     enableGuestMode,
