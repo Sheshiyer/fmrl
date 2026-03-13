@@ -553,6 +553,8 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
     const video = videoRef.current;
     if (!canvas || !video) return;
 
+    let program: WebGLProgram;
+    try {
     const maskCanvas = document.createElement('canvas');
     maskCanvas.width = 640;
     maskCanvas.height = 480;
@@ -563,10 +565,10 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
       premultipliedAlpha: false,
       preserveDrawingBuffer: true  // Required for toDataURL() to work
     });
-    if (!gl) { console.error('WebGL2 not supported'); return; }
+    if (!gl) { setLoadingStatus('WebGL2 not supported by this device'); return; }
     glRef.current = gl;
 
-    const program = createProgram(gl);
+    program = createProgram(gl);
     gl.useProgram(program);
 
     const vao = gl.createVertexArray();
@@ -819,6 +821,11 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
       console.warn('Camera not available:', err);
       setLoadingStatus(`Camera unavailable: ${message}`);
     });
+
+    } catch (initErr) {
+      console.error('[PIPShader] Initialization failed:', initErr);
+      setLoadingStatus(`Init error: ${initErr instanceof Error ? initErr.message : 'Unknown error'}`);
+    }
 
     return () => {
       cancelAnimationFrame(animationRef.current);

@@ -12,6 +12,7 @@ import { useMotionPreference } from '../hooks/useMotionPreference';
 
 // Lazy load pages for better performance
 import { lazy, Suspense } from 'react';
+import { ErrorBoundary } from '../components/ErrorBoundary';
 
 const DashboardPage = lazy(() => import('../pages/DashboardPage').then(m => ({ default: m.DashboardPage })));
 const SettingsPageWrapper = lazy(() => import('../pages/SettingsPageWrapper').then(m => ({ default: m.SettingsPageWrapper })));
@@ -43,9 +44,11 @@ function AnimatedOutlet() {
   if (isMinimal) {
     return (
       <div className="h-full">
-        <Suspense fallback={<PageLoader />}>
-          <Outlet />
-        </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={<PageLoader />}>
+            <Outlet />
+          </Suspense>
+        </ErrorBoundary>
       </div>
     );
   }
@@ -53,9 +56,11 @@ function AnimatedOutlet() {
   return (
     <AnimatePresence mode="wait">
       <PageTransition key={location.pathname} className="h-full">
-        <Suspense fallback={<PageLoader />}>
-          <Outlet />
-        </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={<PageLoader />}>
+            <Outlet />
+          </Suspense>
+        </ErrorBoundary>
       </PageTransition>
     </AnimatePresence>
   );
@@ -81,16 +86,14 @@ function MainLayout() {
   );
 }
 
-// Onboarding layout (Auth required, no Shell)
+// Onboarding layout (no Auth — onboarding doesn't need it)
 function OnboardingLayout() {
   return (
-    <AuthProvider>
-      <AppProvider>
-        <Suspense fallback={<PageLoader />}>
-          <Outlet />
-        </Suspense>
-      </AppProvider>
-    </AuthProvider>
+    <AppProvider>
+      <Suspense fallback={<PageLoader />}>
+        <Outlet />
+      </Suspense>
+    </AppProvider>
   );
 }
 
