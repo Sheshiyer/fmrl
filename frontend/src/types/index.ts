@@ -157,6 +157,9 @@ export interface AnalysisResult {
     regulationDelta: number;
     colorBalanceDelta: number;
   };
+  persistedReadingId?: string;
+  persistenceState?: string | null;
+  persistenceError?: string | null;
 }
 
 export interface SegmentedAnalysis {
@@ -223,8 +226,146 @@ export interface CapturedAnalysisData {
   scores: CompositeScores;
   metrics: CapturedAnalysisMetrics;
   timeline: CapturedTimelinePoint[];
-  captureRoute?: string;
-  persistedReadingId?: string;
-  persistedSnapshotId?: string;
-  persistenceState?: string;
+  imageUrl?: string;
+  captureRoute?: 'backend-capture' | 'local-preview';
+  persistedReadingId?: string | null;
+  persistedSnapshotId?: string | null;
+  persistenceState?: string | null;
+  persistenceError?: string | null;
+}
+
+// Persistence layer types
+export interface PersistenceHealthState {
+  enabled: boolean;
+  healthy: boolean;
+  configuredUserId?: string | null;
+  backendUrl?: string;
+  baseUrl?: string;
+  reason?: string;
+  detail?: string;
+  error?: string;
+}
+
+export interface PersistedSessionRecord {
+  id: string;
+  user_id: string;
+  status: 'active' | 'paused' | 'completed' | 'aborted';
+  analysis_mode: string;
+  analysis_region: string;
+  source_kind: string;
+  started_at: string;
+  paused_at?: string | null;
+  ended_at?: string | null;
+  duration_seconds?: number | null;
+  timeline_point_count?: number | null;
+  metadata: Record<string, unknown>;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PersistedSnapshotRecord {
+  id: string;
+  user_id: string;
+  session_id?: string | null;
+  reading_id?: string | null;
+  label?: string | null;
+  capture_mode: string;
+  analysis_region: string;
+  source_kind: string;
+  captured_at: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PersistedBaseline {
+  id: string;
+  user_id: string;
+  name: string | null;
+  is_active: boolean;
+  source_session_id: string | null;
+  source_snapshot_id: string | null;
+  source_reading_id: string | null;
+  baseline_scores: Record<string, number>;
+  baseline_metrics: Record<string, number>;
+  provenance: Record<string, unknown>;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface PersistedAnalysisHistoryResponse {
+  items: Array<{
+    id: string;
+    user_id: string;
+    engine_id: string;
+    workflow_id: string;
+    result_data: Record<string, unknown>;
+    created_at: string;
+  }>;
+  total: number;
+  limit: number;
+  offset: number;
+}
+
+export interface TimelineDataPoint {
+  time: number;
+  energy: number;
+  symmetry: number;
+  coherence: number;
+}
+
+// Settings types
+export interface AppearanceSettings {
+  themeMode: 'sacred-dark' | 'dim' | 'high-contrast';
+  workspaceDensity: 'compact' | 'balanced' | 'spacious';
+  motionLevel: 'full' | 'reduced' | 'minimal';
+  accentProfile: 'gold' | 'violet' | 'neutral';
+  showOverlayLegend: boolean;
+  showStageSignals: boolean;
+}
+
+export interface CaptureExportSettings {
+  defaultAnalysisRegion: 'full' | 'face' | 'body';
+  autoCreateSnapshot: boolean;
+  suggestBaselineAfterCapture: boolean;
+  exportBundle: ExportFormat | 'html' | 'bundle';
+  snapshotLabelTemplate: string;
+}
+
+export interface RuntimeSettings {
+  computeRoute?: 'python' | 'rust' | 'auto';
+  persistenceEnabled?: boolean;
+  realtimeEnabled?: boolean;
+  showBackendLogs?: boolean;
+  showDiagnosticsSummary?: boolean;
+  autoFallbackToPreview?: boolean;
+  enableBackendCapture?: boolean;
+}
+
+export interface ProfileSettingsResponse {
+  user_id: string;
+  profile_exists: boolean;
+  appearance: AppearanceSettings;
+  capture: CaptureExportSettings;
+  settings?: SyncedBiofieldSettings;
+  updated_at: string | null;
+}
+
+export interface BiofieldSettingsPreferences {
+  appearance: AppearanceSettings;
+  runtime: RuntimeSettings;
+  capture: CaptureExportSettings;
+}
+
+export interface SettingsSyncState {
+  remoteSettingsLoaded: boolean;
+  isLoadingRemoteSettings: boolean;
+  isSavingRemoteSettings: boolean;
+  lastSyncedAt: string | null;
+  syncError: string | null;
+  profileExists?: boolean;
+}
+
+export interface SyncedBiofieldSettings {
+  appearance?: Partial<AppearanceSettings>;
+  capture?: Partial<CaptureExportSettings>;
 }

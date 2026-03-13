@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef, useImperativeHandle, forwardRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useImperativeHandle, forwardRef } from 'react';
 import { GlassCard } from '../Cards/GlassCard';
 import { Camera, Pause, Play, Layers, User, Users, Sparkles } from 'lucide-react';
 import { PIPShader, type AnalysisRegion, type PIPShaderHandle } from '../PIPCanvas/PIPShader';
@@ -134,7 +134,13 @@ export const PIPCanvasPanel = forwardRef<PIPCanvasPanelHandle, PIPCanvasPanelPro
       verticalSymmetry?: number;
       saturationMean?: number;
     }) => {
-      onMetricsUpdate?.(data);
+      onMetricsUpdate?.({
+        brightness: data.brightness,
+        colorEntropy: data.colorEntropy,
+        horizontalSymmetry: data.horizontalSymmetry ?? 0,
+        verticalSymmetry: data.verticalSymmetry ?? 0,
+        saturationMean: data.saturationMean ?? 0,
+      });
     },
     [onMetricsUpdate],
   );

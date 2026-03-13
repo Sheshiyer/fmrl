@@ -97,7 +97,7 @@ interface ShellProps {
 export const Shell: React.FC<ShellProps> = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { shouldAnimate, isMinimal, motionLevel } = useMotionPreference();
+  const { shouldAnimate, isMinimal } = useMotionPreference();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);

@@ -34,7 +34,7 @@ function fireKeyOnElement(
 }
 
 describe('useKeyboardShortcuts', () => {
-  let handlers: Partial<Record<ShortcutAction, ReturnType<typeof vi.fn>>>;
+  let handlers: Partial<Record<ShortcutAction, () => void>>;
 
   beforeEach(() => {
     handlers = {

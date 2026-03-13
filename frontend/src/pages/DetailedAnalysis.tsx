@@ -18,41 +18,7 @@ import {
   FileDown
 } from 'lucide-react';
 import { pdfExportService } from '../services/PDFExportService';
-
-// Types for captured analysis data
-export interface CapturedAnalysisData {
-  timestamp: Date;
-  scores: {
-    energy: number;
-    symmetry: number;
-    coherence: number;
-    complexity: number;
-    regulation: number;
-    colorBalance: number;
-  };
-  metrics: {
-    lqd: number;
-    avgIntensity: number;
-    innerNoise: number;
-    fractalDim: number;
-    hurstExp: number;
-    horizontalSymmetry: number;
-    verticalSymmetry: number;
-  };
-  timeline: Array<{
-    time: number;
-    energy: number;
-    symmetry: number;
-    coherence: number;
-  }>;
-  sessionDuration: number;
-  imageUrl?: string;
-  persistedReadingId?: string | null;
-  persistedSnapshotId?: string | null;
-  persistenceState?: string | null;
-  persistenceError?: string | null;
-  captureRoute?: 'backend-capture' | 'local-preview';
-}
+import type { CapturedAnalysisData } from '../types';
 
 interface DetailedAnalysisProps {
   onBack: () => void;

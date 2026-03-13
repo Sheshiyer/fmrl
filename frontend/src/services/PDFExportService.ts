@@ -2,7 +2,7 @@
  * PDF Export Service - Generates PDF reports from PIP analysis data
  */
 import { jsPDF } from 'jspdf';
-import type { CapturedAnalysisData } from '../pages/DetailedAnalysis';
+import type { CapturedAnalysisData } from '../types';
 
 interface InsightItem {
   type: 'positive' | 'warning' | 'info';
