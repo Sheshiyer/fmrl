@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { ScoreCalculator, MetricsInput } from '../../services/ScoreCalculator'
+import { ScoreCalculator } from '../../services/ScoreCalculator'
+import type { MetricsInput } from '../../services/ScoreCalculator'
 
 describe('ScoreCalculator', () => {
   let calc: ScoreCalculator
