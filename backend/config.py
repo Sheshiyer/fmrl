@@ -31,6 +31,10 @@ class Settings(BaseSettings):
     
     # Database
     DATABASE_URL: str = "postgresql+asyncpg://pip:pip@localhost:5432/pip_analysis"
+    DATABASE_ECHO: bool = False
+    BIOFIELD_PERSISTENCE_ENABLED: bool = False
+    BIOFIELD_SCORE_RECIPE_VERSION: str = "v1"
+    BIOFIELD_METRIC_RECIPE_VERSION: str = "v1"
     
     # Redis
     REDIS_URL: str = "redis://localhost:6379/0"

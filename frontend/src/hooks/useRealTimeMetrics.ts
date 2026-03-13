@@ -453,14 +453,14 @@ export function useRealTimeMetrics(canvasRef?: React.RefObject<HTMLCanvasElement
   const processFrameData = useCallback((data: {
     brightness: number;
     colorEntropy: number;
-    horizontalSymmetry?: number;
-    verticalSymmetry?: number;
-    saturationMean?: number;
+    horizontalSymmetry: number;
+    verticalSymmetry: number;
+    saturationMean: number;
   }) => {
-    // Use actual computed symmetry values if provided
-    const hSym = data.horizontalSymmetry ?? 0.5;
-    const vSym = data.verticalSymmetry ?? 0.5;
-    const satMean = data.saturationMean ?? 0.5;
+    // Use actual computed symmetry values from PIPShader
+    const hSym = data.horizontalSymmetry;
+    const vSym = data.verticalSymmetry;
+    const satMean = data.saturationMean;
 
     // Track temporal data for nonlinear dynamics calculations
     prevFrameDataRef.current.push({

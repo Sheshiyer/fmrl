@@ -47,6 +47,11 @@ export interface CapturedAnalysisData {
   }>;
   sessionDuration: number;
   imageUrl?: string;
+  persistedReadingId?: string | null;
+  persistedSnapshotId?: string | null;
+  persistenceState?: string | null;
+  persistenceError?: string | null;
+  captureRoute?: 'backend-capture' | 'local-preview';
 }
 
 interface DetailedAnalysisProps {
@@ -114,6 +119,72 @@ const generateInsights = (scores: CapturedAnalysisData['scores'], metrics: Captu
   }
 
   return insights.slice(0, 6); // Limit to 6 insights
+};
+
+const getPersistenceBadge = (capturedData: CapturedAnalysisData) => {
+  if (capturedData.persistedReadingId) {
+    return {
+      label: 'Persisted',
+      className: 'is-success',
+      detail: 'This result is stored in Selene and can be revisited through persisted history surfaces.',
+    };
+  }
+
+  if (capturedData.persistenceState === 'disabled') {
+    return {
+      label: 'Persistence Disabled',
+      className: 'is-warning',
+      detail: 'The capture completed, but persistence was disabled for this run.',
+    };
+  }
+
+  if (capturedData.persistenceState === 'error') {
+    return {
+      label: 'Persistence Error',
+      className: 'is-danger',
+      detail: capturedData.persistenceError || 'The analysis completed, but the persistence step reported an error.',
+    };
+  }
+
+  return {
+    label: 'Preview Only',
+    className: '',
+    detail: 'This result was generated for local review and was not saved as a persisted reading.',
+  };
+};
+
+const getSnapshotBadge = (capturedData: CapturedAnalysisData) => {
+  if (capturedData.persistedSnapshotId) {
+    return {
+      label: 'Snapshot Linked',
+      className: 'is-success',
+      detail: 'A snapshot record exists and can be reopened through Account history.',
+    };
+  }
+
+  return {
+    label: 'No Snapshot',
+    className: '',
+    detail: capturedData.persistedReadingId
+      ? 'A reading exists, but no snapshot was linked for this result.'
+      : 'No snapshot exists because this capture did not create a persisted record.',
+  };
+};
+
+const getRouteBadge = (capturedData: CapturedAnalysisData) => {
+  if (capturedData.captureRoute === 'backend-capture') {
+    return {
+      label: 'Backend Capture',
+      className: 'is-success',
+      detail: 'This detail view was created from the backend-backed capture path.',
+    };
+  }
+
+  return {
+    label: 'Local Preview',
+    className: '',
+    detail: 'This detail view is based on the local preview path rather than a persisted backend capture.',
+  };
 };
 
 export const DetailedAnalysis: React.FC<DetailedAnalysisProps> = ({ onBack, capturedData }) => {
@@ -186,6 +257,9 @@ export const DetailedAnalysis: React.FC<DetailedAnalysisProps> = ({ onBack, capt
 
   // Generate dynamic insights based on actual data
   const insights = useMemo(() => generateInsights(capturedData.scores, capturedData.metrics), [capturedData]);
+  const persistenceBadge = useMemo(() => getPersistenceBadge(capturedData), [capturedData]);
+  const snapshotBadge = useMemo(() => getSnapshotBadge(capturedData), [capturedData]);
+  const routeBadge = useMemo(() => getRouteBadge(capturedData), [capturedData]);
 
   const getTrendIcon = (trend: 'up' | 'down' | 'stable') => {
     switch (trend) {
@@ -247,6 +321,11 @@ export const DetailedAnalysis: React.FC<DetailedAnalysisProps> = ({ onBack, capt
             <p className="text-[10px] sm:text-xs text-pip-text-muted">
               Captured {capturedData.timestamp.toLocaleDateString()} at {capturedData.timestamp.toLocaleTimeString()} • Session: {formatDuration(capturedData.sessionDuration)}
             </p>
+            <div className="mt-2 flex flex-wrap items-center gap-2">
+              <span className={`mystic-badge ${persistenceBadge.className}`}>{persistenceBadge.label}</span>
+              <span className={`mystic-badge ${snapshotBadge.className}`}>{snapshotBadge.label}</span>
+              <span className={`mystic-badge ${routeBadge.className}`}>{routeBadge.label}</span>
+            </div>
           </div>
         </div>
 
@@ -267,7 +346,41 @@ export const DetailedAnalysis: React.FC<DetailedAnalysisProps> = ({ onBack, capt
 
       {/* Main Content */}
       <main className="p-2 sm:p-4 lg:p-6">
-        <div className="max-w-[1920px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 lg:gap-6">
+        <div className="max-w-[1920px] mx-auto space-y-3 sm:space-y-4 lg:space-y-6">
+          <GlassCard className="p-3 sm:p-4">
+            <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+              <div className="space-y-2">
+                <h2 className="text-sm font-semibold text-white">Provenance & Persistence</h2>
+                <p className="text-xs text-pip-text-secondary">{persistenceBadge.detail}</p>
+                <p className="text-xs text-pip-text-secondary">{snapshotBadge.detail}</p>
+                <p className="text-xs text-pip-text-secondary">{routeBadge.detail}</p>
+                {capturedData.persistenceError ? (
+                  <p className="text-xs text-rose-300">{capturedData.persistenceError}</p>
+                ) : null}
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 w-full lg:max-w-[58rem]">
+                <div className="mystic-status !p-3">
+                  <div className="mystic-data-label">Persistence state</div>
+                  <div className="mystic-data-value text-sm">{persistenceBadge.label}</div>
+                </div>
+                <div className="mystic-status !p-3">
+                  <div className="mystic-data-label">Capture route</div>
+                  <div className="mystic-data-value text-sm">{routeBadge.label}</div>
+                </div>
+                <div className="mystic-status !p-3">
+                  <div className="mystic-data-label">Reading ID</div>
+                  <div className="text-xs text-pip-text-primary break-all">{capturedData.persistedReadingId ?? 'Not persisted'}</div>
+                </div>
+                <div className="mystic-status !p-3">
+                  <div className="mystic-data-label">Snapshot ID</div>
+                  <div className="text-xs text-pip-text-primary break-all">{capturedData.persistedSnapshotId ?? 'No snapshot linked'}</div>
+                </div>
+              </div>
+            </div>
+          </GlassCard>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 lg:gap-6">
           
           {/* Left Column - Visual Analysis */}
           <div className="lg:col-span-5 space-y-3 sm:space-y-4">
@@ -506,6 +619,7 @@ export const DetailedAnalysis: React.FC<DetailedAnalysisProps> = ({ onBack, capt
             </GlassCard>
           </div>
         </div>
+      </div>
       </main>
     </div>
   );

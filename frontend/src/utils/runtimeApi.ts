@@ -7,6 +7,18 @@ interface BackendStatus {
   message?: string;
 }
 
+export interface PersistenceStatus {
+  enabled: boolean;
+  healthy: boolean;
+  reason?: string;
+  detail?: string;
+}
+
+export interface BackendHealthResponse {
+  status: string;
+  persistence?: PersistenceStatus;
+}
+
 interface BackendReadiness {
   ready: boolean;
   baseUrl: string;
@@ -126,6 +138,15 @@ export async function ensureBackendReady(timeoutMs = 2500): Promise<BackendReadi
   } finally {
     clearTimeout(timeout);
   }
+}
+
+export async function getBackendHealth(timeoutMs = 2500): Promise<BackendHealthResponse | null> {
+  const readiness = await ensureBackendReady(timeoutMs);
+  if (!readiness.ready) return null;
+
+  const response = await fetch(`${readiness.baseUrl}/health`);
+  if (!response.ok) return null;
+  return response.json() as Promise<BackendHealthResponse>;
 }
 
 export async function getBackendLogs(limit = 120): Promise<BackendLogsResult> {

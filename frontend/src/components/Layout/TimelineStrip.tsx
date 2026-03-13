@@ -49,8 +49,8 @@ export const TimelineStrip: React.FC<TimelineStripProps> = ({ data = [], session
     `mystic-badge !text-[10px] !px-2.5 !py-1 transition-colors ${enabled ? enabledClass : '!border-pip-border/55 !text-pip-text-muted !bg-[rgba(8,12,24,0.72)] hover:!text-pip-text-secondary'}`;
 
   return (
-    <GlassCard className="mystic-timeline min-h-[112px] sm:min-h-[128px] w-full !p-3 sm:!p-4 rounded-xl">
-      <div className="grid grid-cols-1 md:grid-cols-[170px_minmax(0,1fr)_140px] items-center gap-3 sm:gap-4 h-full">
+    <GlassCard className="mystic-timeline h-full w-full !p-1.5 sm:!p-2 rounded-xl">
+      <div className="grid grid-cols-1 xl:grid-cols-[180px_minmax(0,1fr)_132px] items-center gap-2.5 sm:gap-3 h-full">
         <div className="flex flex-col gap-2">
           <span className="mystic-eyebrow">Session Timeline</span>
           <div className="flex flex-wrap gap-1.5">

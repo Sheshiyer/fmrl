@@ -31,6 +31,7 @@ export type AnalysisRegion = 'full' | 'face' | 'body';
 
 export interface PIPShaderHandle {
   captureImage: () => string | null;
+  getCanvas: () => HTMLCanvasElement | null;
   updateParams: (params: Partial<typeof defaultParams>) => void;
 }
 
@@ -365,6 +366,7 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
         return null;
       }
     },
+    getCanvas: () => canvasRef.current,
     updateParams: (newParams) => {
       Object.assign(paramsRef.current, newParams);
       // Update uniforms immediately if they're already initialized

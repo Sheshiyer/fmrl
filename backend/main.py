@@ -6,7 +6,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
 from config import settings
-from api.routes import analysis, capture, websocket, baseline, export
+from api.routes import analysis, baseline, capture, export, profile, session, snapshot, timeline, websocket
+from db import database_manager
 
 
 @asynccontextmanager
@@ -38,6 +39,10 @@ app.add_middleware(
 # Include routers
 app.include_router(analysis.router, prefix="/api/v1/analysis", tags=["Analysis"])
 app.include_router(capture.router, prefix="/api/v1/capture", tags=["Capture"])
+app.include_router(profile.router, prefix="/api/v1/profile", tags=["Profile"])
+app.include_router(session.router, prefix="/api/v1/sessions", tags=["Sessions"])
+app.include_router(snapshot.router, prefix="/api/v1/snapshots", tags=["Snapshots"])
+app.include_router(timeline.router, prefix="/api/v1/timeline", tags=["Timeline"])
 app.include_router(baseline.router, prefix="/api/v1/baseline", tags=["Baseline"])
 app.include_router(export.router, prefix="/api/v1/export", tags=["Export"])
 app.include_router(websocket.router, prefix="/ws/v1", tags=["WebSocket"])
@@ -56,7 +61,11 @@ async def root():
 @app.get("/health")
 async def health():
     """Health check endpoint."""
-    return {"status": "healthy"}
+    persistence = await database_manager.healthcheck()
+    return {
+        "status": "healthy",
+        "persistence": persistence,
+    }
 
 
 if __name__ == "__main__":

@@ -7,8 +7,12 @@ import { ensureBackendReady } from '../utils/runtimeApi';
 
 interface CaptureOptions {
   mode?: AnalysisMode;
+  region?: 'full' | 'face' | 'body';
   pipSettings?: Partial<PIPSettings>;
   includeSegmentation?: boolean;
+  userId?: string | null;
+  sessionId?: string | null;
+  snapshotId?: string | null;
 }
 
 interface UseFrameCaptureReturn {
@@ -67,9 +71,19 @@ export function useFrameCapture(): UseFrameCaptureReturn {
         const formData = new FormData();
         formData.append('image', blob, 'capture.png');
         formData.append('mode', options.mode || 'fullBody');
+        formData.append('region', options.region || 'full');
 
         if (options.pipSettings) {
           formData.append('pip_settings', JSON.stringify(options.pipSettings));
+        }
+        if (options.userId) {
+          formData.append('user_id', options.userId);
+        }
+        if (options.sessionId) {
+          formData.append('session_id', options.sessionId);
+        }
+        if (options.snapshotId) {
+          formData.append('snapshot_id', options.snapshotId);
         }
 
         setProgress(50);

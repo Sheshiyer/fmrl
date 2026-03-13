@@ -81,22 +81,38 @@ export const MetricsScoresPanel: React.FC<MetricsScoresPanelProps> = ({
   const tabClass = (tab: RailTab) => `mystic-rail-tab ${activeTab === tab ? 'is-active' : ''}`;
 
   return (
-    <div className="mystic-rail-stack h-full flex flex-col gap-3 sm:gap-4 overflow-visible lg:overflow-y-auto pr-0 lg:pr-1">
-      <section className="mystic-panel !p-3 sm:!p-4 flex flex-col gap-3 h-full">
+    <div className="mystic-rail-stack h-full min-h-0 flex flex-col gap-2 pr-0 lg:pr-1">
+      <section className="mystic-panel !p-2 flex flex-col gap-1.5">
         <div className="flex items-center justify-between gap-2">
           <span className="mystic-eyebrow">Consciousness Rail</span>
           <span className="mystic-badge !text-[10px] !px-2.5 !py-1 uppercase tracking-[0.16em]">Live</span>
         </div>
+        <div className="grid grid-cols-3 gap-1.5">
+          <article className="mystic-status !p-1.5" aria-label={`Energy: ${scores.energy}`}>
+            <div className="mystic-data-label text-[9px]">Energy</div>
+            <div className="mystic-data-value text-sm leading-none mt-1">{scores.energy}</div>
+          </article>
+          <article className="mystic-status !p-1.5" aria-label={`Symmetry: ${scores.symmetry}`}>
+            <div className="mystic-data-label text-[9px]">Symmetry</div>
+            <div className="mystic-data-value text-sm leading-none mt-1">{scores.symmetry}</div>
+          </article>
+          <article className="mystic-status !p-1.5" aria-label={`Coherence: ${scores.coherence}`}>
+            <div className="mystic-data-label text-[9px]">Coherence</div>
+            <div className="mystic-data-value text-sm leading-none mt-1">{scores.coherence}</div>
+          </article>
+        </div>
+      </section>
 
-        <div className="mystic-rail-tabs grid grid-cols-3 gap-1.5">
-          <button type="button" onClick={() => setActiveTab('scores')} className={tabClass('scores')}>Scores</button>
-          <button type="button" onClick={() => setActiveTab('telemetry')} className={tabClass('telemetry')}>Telemetry</button>
-          <button type="button" onClick={() => setActiveTab('symmetry')} className={tabClass('symmetry')}>Symmetry</button>
+      <section className="mystic-panel !p-2 flex-1 min-h-0 flex flex-col gap-1.5 overflow-hidden">
+        <div role="tablist" aria-label="Metrics views" className="mystic-rail-tabs grid grid-cols-3 gap-1.5">
+          <button type="button" role="tab" id="tab-scores" aria-selected={activeTab === 'scores'} aria-controls="tabpanel-scores" onClick={() => setActiveTab('scores')} className={tabClass('scores')}>Scores</button>
+          <button type="button" role="tab" id="tab-telemetry" aria-selected={activeTab === 'telemetry'} aria-controls="tabpanel-telemetry" onClick={() => setActiveTab('telemetry')} className={tabClass('telemetry')}>Telemetry</button>
+          <button type="button" role="tab" id="tab-symmetry" aria-selected={activeTab === 'symmetry'} aria-controls="tabpanel-symmetry" onClick={() => setActiveTab('symmetry')} className={tabClass('symmetry')}>Symmetry</button>
         </div>
 
-        <div className="mystic-rail-body">
+        <div className="mystic-rail-body overflow-hidden">
           {activeTab === 'scores' && (
-            <div className="mystic-tab-card flex flex-col gap-3">
+            <div role="tabpanel" id="tabpanel-scores" aria-labelledby="tab-scores" className="mystic-tab-card flex flex-col gap-2">
               {!isBackendConnected && (
                 <div className="mystic-status border-amber-400/35 bg-amber-500/10 text-amber-100 text-[11px] sm:text-xs leading-relaxed">
                   <span className="font-semibold tracking-[0.16em] uppercase text-[10px] mr-2">Preview Mode</span>
@@ -104,14 +120,14 @@ export const MetricsScoresPanel: React.FC<MetricsScoresPanelProps> = ({
                 </div>
               )}
 
-              <div className="mystic-score-grid">
+              <div className="mystic-score-grid grid grid-cols-2 gap-1.5">
                 {scoreRows.map((row) => (
-                  <article key={row.key} className={`mystic-score-card tone-${scoreTone(row.value)}`}>
+                  <article key={row.key} className={`mystic-score-card tone-${scoreTone(row.value)}`} aria-label={`${row.label} score: ${row.value} out of 100`}>
                     <div className="flex items-center justify-between gap-2">
                       <span className="mystic-data-label text-[10px]">{row.label}</span>
-                      <span className="mystic-data-value text-lg leading-none">{row.value}</span>
+                      <span className="mystic-data-value text-lg leading-none" aria-hidden="true">{row.value}</span>
                     </div>
-                    <div className="mystic-score-meter">
+                    <div className="mystic-score-meter" role="meter" aria-label={`${row.label} level`} aria-valuenow={row.value} aria-valuemin={0} aria-valuemax={100}>
                       <span style={{ width: `${row.value}%` }} />
                     </div>
                   </article>
@@ -121,7 +137,7 @@ export const MetricsScoresPanel: React.FC<MetricsScoresPanelProps> = ({
           )}
 
           {activeTab === 'telemetry' && (
-            <div className="mystic-tab-card">
+            <div role="tabpanel" id="tabpanel-telemetry" aria-labelledby="tab-telemetry" className="mystic-tab-card">
               <div className="mystic-telemetry-list">
                 {telemetryRows.map((row) => (
                   <article key={row.label} className="mystic-telemetry-row">
@@ -140,7 +156,7 @@ export const MetricsScoresPanel: React.FC<MetricsScoresPanelProps> = ({
           )}
 
           {activeTab === 'symmetry' && (
-            <div className="mystic-tab-card flex flex-col gap-3">
+            <div role="tabpanel" id="tabpanel-symmetry" aria-labelledby="tab-symmetry" className="mystic-tab-card flex flex-col gap-2.5">
               <div className="mystic-symmetry-hero">
                 <div>
                   <span className="mystic-data-label text-[10px]">Bilateral Stability</span>
