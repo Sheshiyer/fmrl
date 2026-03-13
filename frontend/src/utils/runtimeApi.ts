@@ -61,17 +61,25 @@ async function invokeTauri<T>(command: string, args?: Record<string, unknown>): 
 let cachedBaseUrl: string | undefined;
 
 async function resolveDesktopBackendStatus(): Promise<BackendStatus | null> {
-  const health = await invokeTauri<BackendStatus>('backend_health');
-  if (health?.healthy && health.url) {
-    return health;
-  }
+  try {
+    // Wrap IPC calls with a timeout to prevent hanging
+    const withTimeout = <T,>(promise: Promise<T>, ms: number): Promise<T | null> =>
+      Promise.race([promise, new Promise<null>(resolve => setTimeout(() => resolve(null), ms))]);
 
-  const started = await invokeTauri<BackendStatus>('start_backend');
-  if (started?.url) {
-    return started;
-  }
+    const health = await withTimeout(invokeTauri<BackendStatus>('backend_health'), 2000);
+    if (health?.healthy && health.url) {
+      return health;
+    }
 
-  return started ?? health ?? null;
+    const started = await withTimeout(invokeTauri<BackendStatus>('start_backend'), 5000);
+    if (started?.url) {
+      return started;
+    }
+
+    return started ?? health ?? null;
+  } catch {
+    return null;
+  }
 }
 
 export async function getRuntimeApiBaseUrl(): Promise<string> {

@@ -115,7 +115,13 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const { data, error: sessionError } = await supabase.auth.getSession();
+        // Add timeout — don't hang if Supabase is unreachable
+        const sessionPromise = supabase.auth.getSession();
+        const timeoutPromise = new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error('Auth check timed out')), 3000)
+        );
+        
+        const { data, error: sessionError } = await Promise.race([sessionPromise, timeoutPromise]);
         
         if (!isMounted.current) return;
         
@@ -141,8 +147,10 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
         }
       } catch (err) {
         if (!isMounted.current) return;
-        setError(err instanceof Error ? err : new Error('Failed to check session'));
-        setStatus('unauthenticated');
+        // On timeout or network error, silently enter guest mode for desktop
+        console.warn('[Auth] Session check failed, entering guest mode:', err instanceof Error ? err.message : err);
+        localStorage.setItem('biofield_guest_mode', 'true');
+        setStatus('guest');
       }
     };
 

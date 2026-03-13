@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useCameraPermission } from '../../hooks/useCameraPermission';
 import { useStoragePermission } from '../../hooks/useStoragePermission';
 import { ensureBackendReady, getBackendLogs, isTauriRuntime, openNativeSettings, repairCameraPermissionState } from '../../utils/runtimeApi';
@@ -32,11 +32,9 @@ export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
   const [repairMessage, setRepairMessage] = useState<string | null>(null);
   const [repairInProgress, setRepairInProgress] = useState(false);
   const [runtimeError, setRuntimeError] = useState<string | null>(null);
-  const [runtimeDetail, setRuntimeDetail] = useState<string | null>(null);
+  const [, setRuntimeDetail] = useState<string | null>(null);
   const [runtimeChecking, setRuntimeChecking] = useState(false);
   const [runtimeReady, setRuntimeReady] = useState(false);
-  const [runtimeAutoChecked, setRuntimeAutoChecked] = useState(false);
-  const [offlinePreviewEnabled, setOfflinePreviewEnabled] = useState(false);
 
   const { state: cameraState, error: cameraError, requestPermission, checkPermission } = useCameraPermission();
   const {
@@ -52,7 +50,6 @@ export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
 
   const cameraGranted = cameraState === 'granted';
   const storageReady = storageState === 'ready';
-  const canEnterApp = cameraGranted && storageReady;
 
   const cameraLabel = useMemo(() => {
     switch (cameraState) {
@@ -129,7 +126,8 @@ export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
 
       setRuntimeReady(finalStatus.ready);
       if (finalStatus.ready) {
-        setOfflinePreviewEnabled(false);
+        // Backend connected — clear any previous errors
+        setRuntimeError(null);
       }
       if (!finalStatus.ready) {
         setRuntimeError(finalStatus.error ?? 'Backend is not ready yet.');
@@ -149,19 +147,8 @@ export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
     }
   };
 
-  useEffect(() => {
-    if (step !== 'runtime') {
-      if (runtimeAutoChecked) {
-        setRuntimeAutoChecked(false);
-      }
-      return;
-    }
-
-    if (!runtimeAutoChecked) {
-      setRuntimeAutoChecked(true);
-      void handleRuntimeCheck();
-    }
-  }, [runtimeAutoChecked, step]);
+  // Runtime check is manual-only — no auto-fire
+  // User clicks "Check Backend Connection" if they want to verify
 
   return (
     <div className="mystic-bg min-h-screen text-pip-text-primary flex items-center justify-center p-4 sm:p-6">
@@ -346,78 +333,52 @@ export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
         {step === 'runtime' && (
           <section className="mystic-card space-y-5">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <h2 className="text-xl font-medium tracking-wide">Runtime Readiness</h2>
-              <span className={`mystic-badge ${runtimeReady ? 'is-success' : 'is-warning'}`}>
-                {runtimeReady ? 'Backend reachable' : 'Awaiting runtime health'}
+              <h2 className="text-xl font-medium tracking-wide">Ready to Go</h2>
+              <span className={`mystic-badge ${runtimeReady ? 'is-success' : 'is-info'}`}>
+                {runtimeReady ? 'Backend connected' : 'Offline mode available'}
               </span>
             </div>
 
             <p className="text-sm text-pip-text-secondary">
-              Run a native health check to ensure the desktop runtime and backend bridge are online.
+              Biofield Mirror works fully offline with local compute. The backend server connects automatically in the background when available.
             </p>
 
-            {runtimeError && <div className="mystic-error">{runtimeError}</div>}
+            {runtimeReady && (
+              <div className="mystic-success text-sm">✓ Backend is online and ready.</div>
+            )}
 
-            {runtimeDetail && (
-              <div className="rounded-xl border border-pip-border bg-pip-surface/70 px-3 py-2 text-xs text-pip-text-secondary">
-                <span className="text-pip-gold/85 tracking-[0.12em] uppercase text-[10px]">Last backend log</span>
-                <div className="mt-1 break-all">{runtimeDetail}</div>
-              </div>
+            {!runtimeReady && !runtimeChecking && (
+              <button
+                type="button"
+                className="mystic-btn mystic-btn-secondary"
+                onClick={() => void handleRuntimeCheck()}
+              >
+                Check Backend Connection (Optional)
+              </button>
+            )}
+
+            {runtimeChecking && (
+              <p className="text-xs text-pip-text-muted animate-pulse">Checking backend connection…</p>
             )}
 
             {runtimeError && (
-              <ol className="list-decimal list-inside text-xs text-pip-text-muted space-y-1">
-                <li>Click <strong>Check Runtime Health</strong> again after 2–3 seconds.</li>
-                <li>If it still fails, reopen the app from <strong>/Applications</strong>.</li>
-                <li>Use the backend logs panel after entering app for deeper diagnostics.</li>
-              </ol>
-            )}
-
-            <div className="flex flex-wrap gap-2">
-              <button
-                type="button"
-                className="mystic-btn mystic-btn-primary"
-                onClick={() => void handleRuntimeCheck()}
-                disabled={runtimeChecking}
-              >
-                {runtimeChecking ? 'Checking Runtime…' : 'Check Runtime Health'}
-              </button>
-              {!runtimeReady && runtimeError && (
-                <button
-                  type="button"
-                  className="mystic-btn mystic-btn-secondary"
-                  onClick={() => setOfflinePreviewEnabled(true)}
-                >
-                  Enter Offline Preview
-                </button>
-              )}
-            </div>
-
-            {offlinePreviewEnabled && !runtimeReady && (
-              <p className="text-xs text-amber-200/90">
-                Preview mode enabled. You can enter the full UI now while runtime reconnects in the background.
+              <p className="text-xs text-pip-text-muted">
+                Backend not available — that&apos;s fine. All core features work offline.
               </p>
             )}
 
-            <div className="flex flex-wrap gap-2 pt-1">
+            <div className="flex flex-wrap gap-2 pt-2">
               <button type="button" className="mystic-btn mystic-btn-ghost" onClick={() => setStep('storage')}>
                 Back
               </button>
               <button
                 type="button"
                 className="mystic-btn mystic-btn-primary"
-                disabled={!canEnterApp}
                 onClick={() => onComplete({ force: !runtimeReady })}
               >
-                {runtimeReady ? 'Enter Biofield Mirror' : runtimeChecking ? 'Checking Runtime…' : 'Enter Biofield Mirror'}
+                Enter Biofield Mirror
               </button>
             </div>
-
-            {!runtimeReady && !runtimeChecking && (
-              <p className="text-xs text-pip-text-muted">
-                Runtime health is optional. You can enter the app now — the backend will connect in the background.
-              </p>
-            )}
           </section>
         )}
       </div>
