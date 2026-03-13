@@ -198,3 +198,33 @@ export interface ZoneMasks {
 
 // Export format options
 export type ExportFormat = 'csv' | 'json' | 'xlsx' | 'pdf';
+
+// Captured analysis data for export
+export interface CapturedAnalysisMetrics {
+  lqd: number;
+  avgIntensity: number;
+  innerNoise: number;
+  fractalDim: number;
+  hurstExp: number;
+  horizontalSymmetry: number;
+  verticalSymmetry: number;
+}
+
+export interface CapturedTimelinePoint {
+  time: number;
+  energy: number;
+  symmetry: number;
+  coherence: number;
+}
+
+export interface CapturedAnalysisData {
+  timestamp: Date;
+  sessionDuration: number;
+  scores: CompositeScores;
+  metrics: CapturedAnalysisMetrics;
+  timeline: CapturedTimelinePoint[];
+  captureRoute?: string;
+  persistedReadingId?: string;
+  persistedSnapshotId?: string;
+  persistenceState?: string;
+}

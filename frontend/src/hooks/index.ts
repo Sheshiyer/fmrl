@@ -7,3 +7,4 @@ export { useWebSocket } from './useWebSocket';
 export { useMetricsWorker } from './useMetricsWorker';
 export { useSegmentation } from './useSegmentation';
 export { useFrameCapture } from './useFrameCapture';
+export { useMotionPreference } from './useMotionPreference';
