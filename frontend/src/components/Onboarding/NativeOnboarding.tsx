@@ -52,7 +52,7 @@ export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
 
   const cameraGranted = cameraState === 'granted';
   const storageReady = storageState === 'ready';
-  const canEnterApp = cameraGranted && storageReady && (runtimeReady || offlinePreviewEnabled);
+  const canEnterApp = cameraGranted && storageReady;
 
   const cameraLabel = useMemo(() => {
     switch (cameraState) {
@@ -407,11 +407,17 @@ export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
                 type="button"
                 className="mystic-btn mystic-btn-primary"
                 disabled={!canEnterApp}
-                onClick={() => onComplete({ force: offlinePreviewEnabled && !runtimeReady })}
+                onClick={() => onComplete({ force: !runtimeReady })}
               >
-                Enter Biofield Mirror
+                {runtimeReady ? 'Enter Biofield Mirror' : runtimeChecking ? 'Checking Runtime…' : 'Enter Biofield Mirror'}
               </button>
             </div>
+
+            {!runtimeReady && !runtimeChecking && (
+              <p className="text-xs text-pip-text-muted">
+                Runtime health is optional. You can enter the app now — the backend will connect in the background.
+              </p>
+            )}
           </section>
         )}
       </div>

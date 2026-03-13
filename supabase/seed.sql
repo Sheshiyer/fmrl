@@ -1,0 +1,2 @@
+-- Local-safe seed stub for Biofield migration validation.
+-- Intentionally empty: this project uses migration validation first and does not seed sample rows by default.
