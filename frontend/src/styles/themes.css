@@ -1,0 +1,370 @@
+/**
+ * Biofield Visualization — Runtime Theme System
+ * ═══════════════════════════════════════════════
+ *
+ * Theme modes:    sacred-dark (default) | dim | high-contrast
+ * Accent profiles: gold (default) | violet | neutral
+ * Density:        compact | balanced (default) | spacious
+ *
+ * Attribute selectors on <html> override the @theme CSS custom properties
+ * registered in index.css.  Because Tailwind v4 utilities resolve against
+ * these custom properties, every `bg-pip-*`, `text-pip-*`, `border-pip-*`
+ * utility automatically picks up the runtime value.
+ *
+ * The hook `useBiofieldSettings` sets:
+ *   data-biofield-theme   → theme mode
+ *   data-biofield-accent  → accent profile
+ *   data-biofield-density → workspace density
+ *   data-biofield-motion  → motion preference
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEME MODES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Sacred Dark (default) ────────────────────────────────────────────────
+   The deepest, most immersive dark theme — matches the original design.
+   Declared explicitly so the attribute selector wins over :root when set.  */
+
+[data-biofield-theme="sacred-dark"] {
+  --color-pip-bg: #040508;
+  --color-pip-dark: #070a12;
+  --color-pip-darker: #03040a;
+  --color-pip-panel: rgba(9, 14, 24, 0.88);
+  --color-pip-surface: rgba(14, 20, 34, 0.8);
+  --color-pip-surface-hover: rgba(24, 33, 55, 0.9);
+  --color-pip-text-primary: rgba(248, 243, 228, 0.97);
+  --color-pip-text-secondary: rgba(218, 207, 184, 0.76);
+  --color-pip-text-muted: rgba(170, 160, 143, 0.56);
+  --color-pip-border: rgba(215, 178, 109, 0.24);
+  --color-pip-highlight: rgba(127, 100, 255, 0.3);
+
+  color-scheme: dark;
+}
+
+/* ── Dim (softer dark) ────────────────────────────────────────────────────
+   Elevated surfaces, gentler contrast — easier on eyes for prolonged use. */
+
+[data-biofield-theme="dim"] {
+  --color-pip-bg: #121218;
+  --color-pip-dark: #181820;
+  --color-pip-darker: #0e0e14;
+  --color-pip-panel: rgba(24, 24, 32, 0.90);
+  --color-pip-surface: rgba(30, 30, 42, 0.82);
+  --color-pip-surface-hover: rgba(40, 40, 56, 0.90);
+  --color-pip-text-primary: rgba(212, 212, 216, 0.95);
+  --color-pip-text-secondary: rgba(156, 163, 175, 0.76);
+  --color-pip-text-muted: rgba(107, 114, 128, 0.56);
+  --color-pip-border: rgba(196, 162, 78, 0.12);
+  --color-pip-highlight: rgba(127, 100, 255, 0.20);
+
+  color-scheme: dark;
+}
+
+/* Body background override for dim theme */
+[data-biofield-theme="dim"] body {
+  background:
+    radial-gradient(circle at 52% -8%, rgba(178, 135, 255, 0.10), transparent 36%),
+    radial-gradient(circle at 80% 78%, rgba(46, 199, 167, 0.04), transparent 34%),
+    radial-gradient(circle at 16% 76%, rgba(216, 179, 106, 0.06), transparent 40%),
+    linear-gradient(165deg, #0e0e14 0%, #141420 45%, #0c0c12 100%);
+  background-attachment: fixed;
+}
+
+/* Soften the grid overlay in dim */
+[data-biofield-theme="dim"] body::before {
+  opacity: 0.08;
+}
+
+/* ── High Contrast (maximum readability) ──────────────────────────────────
+   Pure black backgrounds, white text, sharper borders — accessibility.    */
+
+[data-biofield-theme="high-contrast"] {
+  --color-pip-bg: #000000;
+  --color-pip-dark: #0a0a0a;
+  --color-pip-darker: #000000;
+  --color-pip-panel: rgba(0, 0, 0, 0.95);
+  --color-pip-surface: rgba(10, 10, 14, 0.92);
+  --color-pip-surface-hover: rgba(20, 20, 28, 0.95);
+  --color-pip-text-primary: rgba(255, 255, 255, 0.99);
+  --color-pip-text-secondary: rgba(212, 212, 216, 0.88);
+  --color-pip-text-muted: rgba(161, 161, 170, 0.72);
+  --color-pip-border: rgba(255, 255, 255, 0.20);
+  --color-pip-highlight: rgba(255, 255, 255, 0.12);
+
+  color-scheme: dark;
+}
+
+/* Body background override for high-contrast */
+[data-biofield-theme="high-contrast"] body {
+  background:
+    radial-gradient(circle at 52% -8%, rgba(178, 135, 255, 0.08), transparent 36%),
+    radial-gradient(circle at 80% 78%, rgba(46, 199, 167, 0.03), transparent 34%),
+    radial-gradient(circle at 16% 76%, rgba(216, 179, 106, 0.05), transparent 40%),
+    linear-gradient(165deg, #000000 0%, #050508 45%, #000000 100%);
+  background-attachment: fixed;
+}
+
+/* Sharper grid lines in high-contrast */
+[data-biofield-theme="high-contrast"] body::before {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  opacity: 0.18;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ACCENT PROFILES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Gold (default) ───────────────────────────────────────────────────────
+   Warm amber/gold — the original Biofield signature palette.
+   Declared explicitly for completeness and selector parity.              */
+
+[data-biofield-accent="gold"] {
+  --color-pip-gold: #d8b36a;
+  --color-pip-accent: #b287ff;
+  --color-pip-emerald: #2ec7a7;
+  --color-pip-success: #52d9a4;
+  --color-pip-warning: #d7b26d;
+  --color-pip-danger: #ff7d8a;
+}
+
+/* ── Violet ───────────────────────────────────────────────────────────────
+   Purple-forward palette — gold → violet swap across the entire UI.      */
+
+[data-biofield-accent="violet"] {
+  --color-pip-gold: #8b5cf6;
+  --color-pip-accent: #a78bfa;
+  --color-pip-emerald: #6ee7b7;
+  --color-pip-success: #6ee7b7;
+  --color-pip-warning: #a78bfa;
+  --color-pip-danger: #fb7185;
+  --color-pip-border: rgba(139, 92, 246, 0.24);
+  --color-pip-highlight: rgba(139, 92, 246, 0.30);
+}
+
+/* Violet body grid overlay */
+[data-biofield-accent="violet"] body::before {
+  background-image:
+    linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
+}
+
+/* ── Neutral ──────────────────────────────────────────────────────────────
+   Desaturated slate — minimal color for a professional/clinical feel.     */
+
+[data-biofield-accent="neutral"] {
+  --color-pip-gold: #94a3b8;
+  --color-pip-accent: #64748b;
+  --color-pip-emerald: #6ee7b7;
+  --color-pip-success: #6ee7b7;
+  --color-pip-warning: #cbd5e1;
+  --color-pip-danger: #f87171;
+  --color-pip-border: rgba(148, 163, 184, 0.20);
+  --color-pip-highlight: rgba(148, 163, 184, 0.18);
+}
+
+/* Neutral body grid overlay */
+[data-biofield-accent="neutral"] body::before {
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.03) 1px, transparent 1px);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COMPOUND STATES — Theme + Accent Interactions
+   ═══════════════════════════════════════════════════════════════════════════
+   Override border/highlight for accents within specific theme modes so
+   the contrast ratios stay correct.                                       */
+
+/* Violet accent in high-contrast mode → boost border opacity */
+[data-biofield-theme="high-contrast"][data-biofield-accent="violet"] {
+  --color-pip-border: rgba(139, 92, 246, 0.32);
+}
+
+/* Neutral accent in high-contrast mode → boost border opacity */
+[data-biofield-theme="high-contrast"][data-biofield-accent="neutral"] {
+  --color-pip-border: rgba(148, 163, 184, 0.28);
+}
+
+/* Violet accent in dim mode → soften border */
+[data-biofield-theme="dim"][data-biofield-accent="violet"] {
+  --color-pip-border: rgba(139, 92, 246, 0.16);
+}
+
+/* Neutral accent in dim mode → soften border */
+[data-biofield-theme="dim"][data-biofield-accent="neutral"] {
+  --color-pip-border: rgba(148, 163, 184, 0.14);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   WORKSPACE DENSITY
+   ═══════════════════════════════════════════════════════════════════════════
+   CSS custom properties for spacing that components can reference.
+   These scale padding, gap, and border-radius globally.                  */
+
+/* ── Compact ──────────────────────────────────────────────────────────── */
+
+[data-biofield-density="compact"] {
+  --density-spacing-xs: 0.15rem;
+  --density-spacing-sm: 0.25rem;
+  --density-spacing-md: 0.45rem;
+  --density-spacing-lg: 0.65rem;
+  --density-spacing-xl: 0.85rem;
+  --density-spacing-2xl: 1.15rem;
+  --density-radius-sm: 0.5rem;
+  --density-radius-md: 0.75rem;
+  --density-radius-lg: 1rem;
+  --density-font-scale: 0.92;
+}
+
+/* Compact overrides for core layout components */
+[data-biofield-density="compact"] .mystic-panel {
+  border-radius: 1rem;
+  padding: 0.65rem;
+}
+
+[data-biofield-density="compact"] .mystic-card {
+  border-radius: 0.85rem;
+  padding: 0.75rem;
+}
+
+[data-biofield-density="compact"] .mystic-page-shell {
+  padding: 0.65rem;
+}
+
+[data-biofield-density="compact"] .mystic-page-frame {
+  gap: 0.55rem;
+}
+
+[data-biofield-density="compact"] .mystic-tab-card {
+  padding: 0.4rem;
+}
+
+[data-biofield-density="compact"] .mystic-score-card {
+  padding: 0.3rem 0.4rem;
+}
+
+[data-biofield-density="compact"] .mystic-telemetry-row {
+  padding: 0.35rem 0.45rem;
+}
+
+/* ── Balanced (default) ───────────────────────────────────────────────── */
+
+[data-biofield-density="balanced"] {
+  --density-spacing-xs: 0.25rem;
+  --density-spacing-sm: 0.375rem;
+  --density-spacing-md: 0.65rem;
+  --density-spacing-lg: 0.85rem;
+  --density-spacing-xl: 1.25rem;
+  --density-spacing-2xl: 1.5rem;
+  --density-radius-sm: 0.75rem;
+  --density-radius-md: 1rem;
+  --density-radius-lg: 1.4rem;
+  --density-font-scale: 1;
+}
+
+/* ── Spacious ─────────────────────────────────────────────────────────── */
+
+[data-biofield-density="spacious"] {
+  --density-spacing-xs: 0.375rem;
+  --density-spacing-sm: 0.5rem;
+  --density-spacing-md: 0.85rem;
+  --density-spacing-lg: 1.15rem;
+  --density-spacing-xl: 1.65rem;
+  --density-spacing-2xl: 2rem;
+  --density-radius-sm: 1rem;
+  --density-radius-md: 1.25rem;
+  --density-radius-lg: 1.75rem;
+  --density-font-scale: 1.05;
+}
+
+/* Spacious overrides for core layout components */
+[data-biofield-density="spacious"] .mystic-panel {
+  border-radius: 1.75rem;
+  padding: 1.5rem;
+}
+
+[data-biofield-density="spacious"] .mystic-card {
+  border-radius: 1.5rem;
+  padding: 1.65rem;
+}
+
+[data-biofield-density="spacious"] .mystic-page-shell {
+  padding: 2rem;
+}
+
+[data-biofield-density="spacious"] .mystic-page-frame {
+  gap: 1.25rem;
+}
+
+[data-biofield-density="spacious"] .mystic-tab-card {
+  padding: 0.95rem;
+}
+
+[data-biofield-density="spacious"] .mystic-score-card {
+  padding: 0.65rem 0.85rem;
+}
+
+[data-biofield-density="spacious"] .mystic-telemetry-row {
+  padding: 0.7rem 0.85rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SYSTEM PREFERENCE FALLBACK
+   ═══════════════════════════════════════════════════════════════════════════
+   When no explicit theme is set (or the attribute is absent), honour
+   the user's OS preference.  The hook always writes an explicit value,
+   so this is purely a graceful-degradation safety net.                    */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-biofield-theme]) {
+    --color-pip-bg: #040508;
+    --color-pip-dark: #070a12;
+    --color-pip-darker: #03040a;
+    --color-pip-panel: rgba(9, 14, 24, 0.88);
+    --color-pip-surface: rgba(14, 20, 34, 0.8);
+    --color-pip-surface-hover: rgba(24, 33, 55, 0.9);
+    --color-pip-text-primary: rgba(248, 243, 228, 0.97);
+    --color-pip-text-secondary: rgba(218, 207, 184, 0.76);
+    --color-pip-text-muted: rgba(170, 160, 143, 0.56);
+    --color-pip-border: rgba(215, 178, 109, 0.24);
+    --color-pip-highlight: rgba(127, 100, 255, 0.3);
+    color-scheme: dark;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOTION PREFERENCES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+[data-biofield-motion="none"] *,
+[data-biofield-motion="none"] *::before,
+[data-biofield-motion="none"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+[data-biofield-motion="reduced"] * {
+  animation-duration: 0.15s !important;
+  transition-duration: 0.15s !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TRANSITION — Smooth Theme Switching
+   ═══════════════════════════════════════════════════════════════════════════
+   Apply a subtle transition to background-color and color so switching
+   themes doesn't flash jarring.  Only applies when motion is allowed.     */
+
+:root:not([data-biofield-motion="none"]) body,
+:root:not([data-biofield-motion="none"]) .mystic-panel,
+:root:not([data-biofield-motion="none"]) .mystic-card,
+:root:not([data-biofield-motion="none"]) .glass-panel,
+:root:not([data-biofield-motion="none"]) .glass-card {
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease,
+    border-color 0.35s ease;
+}
