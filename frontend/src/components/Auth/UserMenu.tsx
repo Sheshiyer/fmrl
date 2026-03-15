@@ -69,13 +69,14 @@ export function UserMenu() {
         menuItems[prevIndex]?.focus();
         break;
       }
-      case 'Escape':
+      case 'Escape': {
         e.preventDefault();
         setIsOpen(false);
         // Return focus to trigger button
         const trigger = menu.querySelector<HTMLElement>('[aria-haspopup="true"]');
         trigger?.focus();
         break;
+      }
       case 'Home': {
         e.preventDefault();
         menuItems[0]?.focus();

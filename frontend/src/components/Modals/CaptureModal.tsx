@@ -42,7 +42,7 @@ export const CaptureModal: React.FC<CaptureModalProps> = ({ isOpen, onClose }) =
         <div className="w-1/3 flex flex-col bg-pip-dark/50">
            <div className="p-6 border-b border-white/5">
               <h2 className="text-xl font-semibold text-white mb-1">Analysis Result</h2>
-              <div className="text-xs text-pip-text-muted">Captured on Oct 24, 14:30</div>
+              <div className="text-xs text-pip-text-muted">Captured on {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}, {new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false })}</div>
            </div>
 
            <div className="flex-1 overflow-y-auto p-6 space-y-6">

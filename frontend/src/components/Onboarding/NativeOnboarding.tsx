@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useCameraPermission } from '../../hooks/useCameraPermission';
 import { useStoragePermission } from '../../hooks/useStoragePermission';
 import { useAuth } from '../../context/auth/AuthContext';
@@ -51,6 +51,13 @@ export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
 
   const isDesktopRuntime = useMemo(() => isTauriRuntime(), []);
   const stepIndex = useMemo(() => STEP_FLOW.indexOf(step), [step]);
+
+  // Auto-advance past auth step when returning from OAuth callback
+  useEffect(() => {
+    if (auth.status === 'authenticated' && step === 'intent') {
+      setStep('camera');
+    }
+  }, [auth.status, step]);
 
   const cameraGranted = cameraState === 'granted';
   const storageReady = storageState === 'ready';

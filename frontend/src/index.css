@@ -213,6 +213,12 @@ body::before {
   color: rgba(250, 230, 182, 0.98);
 }
 
+.mystic-badge.is-info {
+  border-color: rgba(99, 155, 255, 0.52);
+  color: rgba(185, 210, 255, 0.96);
+  box-shadow: 0 0 12px rgba(99, 155, 255, 0.15);
+}
+
 .mystic-error {
   border-radius: 0.8rem;
   border: 1px solid rgba(255, 125, 138, 0.52);

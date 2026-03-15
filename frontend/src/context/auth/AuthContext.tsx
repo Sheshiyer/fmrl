@@ -14,6 +14,11 @@ import {
 import type { User, Session, AuthError } from '@supabase/supabase-js';
 import { supabase } from '../../lib/supabase';
 import type { Database } from '../../types/supabase';
+import {
+  clearAuthManagedPersistenceUserId,
+  resolveAuthRedirectUrl,
+  syncAuthManagedPersistenceUserId,
+} from './authOAuth';
 
 // Types
 type UserProfile = Database['public']['Tables']['user_profiles']['Row'];
@@ -196,6 +201,19 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
     };
   }, [allowGuest]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    if (status === 'authenticated' && user?.id) {
+      syncAuthManagedPersistenceUserId(window.localStorage, user.id);
+      return;
+    }
+
+    if (status === 'unauthenticated' || status === 'guest') {
+      clearAuthManagedPersistenceUserId(window.localStorage);
+    }
+  }, [status, user?.id]);
+
   // Fetch database user and profile when auth user changes
   useEffect(() => {
     const fetchUserData = async () => {
@@ -257,8 +275,9 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
         }
       } catch (err) {
         if (!isMounted.current) return;
-        console.error('Failed to fetch user data:', err);
-        setError(err instanceof Error ? err : new Error('Failed to fetch user data'));
+        console.warn('Profile sync deferred — tables may not exist yet:', err);
+        // Don't set error state for profile fetch failures — auth still works
+        // Profile data will sync on next successful fetch
       } finally {
         if (isMounted.current) {
           setIsProfileLoading(false);
@@ -283,10 +302,16 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
   // Sign in with Discord OAuth
   const signInWithDiscord = useCallback(async () => {
     setError(null);
+    const redirectTo = resolveAuthRedirectUrl(
+      window.location.origin,
+      typeof import.meta.env.VITE_SUPABASE_AUTH_REDIRECT_URL === 'string'
+        ? import.meta.env.VITE_SUPABASE_AUTH_REDIRECT_URL
+        : undefined,
+    );
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'discord',
       options: {
-        redirectTo: window.location.origin + '/',
+        redirectTo,
       },
     });
     if (error) setError(error);

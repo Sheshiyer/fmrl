@@ -120,7 +120,7 @@ export const MetricsScoresPanel: React.FC<MetricsScoresPanelProps> = ({
                 </div>
               )}
 
-              <div className="mystic-score-grid grid grid-cols-2 gap-1.5">
+              <div className="mystic-score-grid grid grid-cols-2 gap-2">
                 {scoreRows.map((row) => (
                   <article key={row.key} className={`mystic-score-card tone-${scoreTone(row.value)}`} aria-label={`${row.label} score: ${row.value} out of 100`}>
                     <div className="flex items-center justify-between gap-2">

@@ -5,6 +5,10 @@ import { PIPShader, type AnalysisRegion, type PIPShaderHandle } from '../PIPCanv
 import { useFrameCapture } from '../../hooks/useFrameCapture';
 import type { AnalysisResult } from '../../types';
 
+/** Camera capture dimensions — single source of truth for the display label */
+const CAMERA_WIDTH = 640;
+const CAMERA_HEIGHT = 480;
+
 interface CaptureContext {
   userId?: string | null;
   sessionId?: string | null;
@@ -157,7 +161,7 @@ export const PIPCanvasPanel = forwardRef<PIPCanvasPanelHandle, PIPCanvasPanelPro
       <div className="mystic-stage-topbar flex items-center justify-between gap-3 px-1 pb-3 border-b border-pip-border/35">
         <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           <span className="mystic-eyebrow">Primary Visual Stage</span>
-          <span className="mystic-badge !text-[10px] !px-3 !py-1 hidden sm:inline-flex">640×480 Source</span>
+          <span className="mystic-badge !text-[10px] !px-3 !py-1 hidden sm:inline-flex">{`${CAMERA_WIDTH}×${CAMERA_HEIGHT} Source`}</span>
         </div>
         <div className="flex items-center gap-2">
           <div aria-live="polite" aria-atomic="true" className={`mystic-badge !text-[10px] !px-2.5 !py-1 ${isLive ? 'is-success' : 'is-warning'}`}>FPS {fps}</div>
@@ -195,10 +199,10 @@ export const PIPCanvasPanel = forwardRef<PIPCanvasPanelHandle, PIPCanvasPanelPro
             <Sparkles className="w-4 h-4 text-pip-gold" />
             <span className="mystic-eyebrow">Stage Signals</span>
           </div>
-          <div className="mystic-status !p-2 text-xs text-pip-text-secondary">
-            <div className="flex items-center justify-between"><span>Capture mode</span><span className="mystic-data-value text-xs">{getModeLabel(analysisRegion)}</span></div>
-            <div className="flex items-center justify-between mt-1"><span>Stream</span><span className="mystic-data-value text-xs">{isLive ? 'Live' : 'Paused'}</span></div>
-            <div className="flex items-center justify-between mt-1"><span>Persistence</span><span className="mystic-data-value text-xs">{captureContext?.persistenceEnabled ? 'Armed' : 'Preview only'}</span></div>
+          <div className="mystic-status !p-2 text-xs text-pip-text-secondary min-w-[140px]">
+            <div className="flex items-center justify-between gap-3 whitespace-nowrap"><span>Capture mode</span><span className="mystic-data-value text-xs">{getModeLabel(analysisRegion)}</span></div>
+            <div className="flex items-center justify-between gap-3 whitespace-nowrap mt-1"><span>Stream</span><span className="mystic-data-value text-xs">{isLive ? 'Live' : 'Paused'}</span></div>
+            <div className="flex items-center justify-between gap-3 whitespace-nowrap mt-1"><span>Persistence</span><span className="mystic-data-value text-xs">{captureContext?.persistenceEnabled ? 'Armed' : 'Preview only'}</span></div>
           </div>
           {showOverlay && (
             <div className="mystic-status !p-2 text-xs text-pip-text-secondary flex flex-col gap-1">
@@ -211,7 +215,7 @@ export const PIPCanvasPanel = forwardRef<PIPCanvasPanelHandle, PIPCanvasPanelPro
         </aside>
       </div>
 
-      <div className="mystic-stage-commandbar mt-auto flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 border-t border-pip-border/35 pt-3">
+      <div className="mystic-stage-commandbar mt-auto flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 border-t border-pip-border/35 pt-3 pb-0.5">
         <div className="flex items-center gap-2">
           <button onClick={() => void handleCapture()} disabled={isCapturing} aria-label={isCapturing ? 'Capturing analysis frame' : 'Capture analysis frame'} className="mystic-btn mystic-btn-primary !px-3 sm:!px-4 !py-2 flex items-center gap-2 disabled:opacity-60">
             <Camera className="w-4 h-4" aria-hidden="true" />

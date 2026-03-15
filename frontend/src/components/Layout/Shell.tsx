@@ -314,7 +314,7 @@ export const Shell: React.FC<ShellProps> = ({ children }) => {
                     <div className="text-pip-text-muted mt-1">
                       {Math.floor(sessionDuration / 60)}:{String(sessionDuration % 60).padStart(2, '0')}
                     </div>
-                    <div className="text-pip-text-muted mt-1">v1.0.0</div>
+                    <div className="text-pip-text-muted mt-1">v{__APP_VERSION__}</div>
                   </div>
 
                   {/* Sidebar Toggle (desktop only) */}
