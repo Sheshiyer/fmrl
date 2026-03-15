@@ -53,8 +53,9 @@ export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
   const stepIndex = useMemo(() => STEP_FLOW.indexOf(step), [step]);
 
   // Auto-advance past auth step when returning from OAuth callback
+  // Handles both: landing on 'intent' after redirect, and auth resolving while on 'auth' step
   useEffect(() => {
-    if (auth.status === 'authenticated' && step === 'intent') {
+    if (auth.status === 'authenticated' && (step === 'intent' || step === 'auth')) {
       setStep('camera');
     }
   }, [auth.status, step]);
