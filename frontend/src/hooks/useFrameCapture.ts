@@ -17,6 +17,7 @@ interface CaptureOptions {
 
 interface UseFrameCaptureReturn {
   capture: (canvas: HTMLCanvasElement, options?: CaptureOptions) => Promise<AnalysisResult | null>;
+  cancelCapture: () => void;
   isCapturing: boolean;
   lastResult: AnalysisResult | null;
   error: string | null;
@@ -132,8 +133,16 @@ export function useFrameCapture(): UseFrameCaptureReturn {
     [isCapturing]
   );
 
+  const cancelCapture = useCallback(() => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+  }, []);
+
   return {
     capture,
+    cancelCapture,
     isCapturing,
     lastResult,
     error,

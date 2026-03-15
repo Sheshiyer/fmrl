@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef, useImperativeHandle, forwardRef } from 'react';
 import { GlassCard } from '../Cards/GlassCard';
-import { Camera, Pause, Play, Layers, User, Users, Sparkles } from 'lucide-react';
+import { Camera, Pause, Play, Layers, User, Users, Info, X } from 'lucide-react';
 import { PIPShader, type AnalysisRegion, type PIPShaderHandle } from '../PIPCanvas/PIPShader';
 import { useFrameCapture } from '../../hooks/useFrameCapture';
 import type { AnalysisResult } from '../../types';
@@ -53,8 +53,9 @@ export const PIPCanvasPanel = forwardRef<PIPCanvasPanelHandle, PIPCanvasPanelPro
   const [fps, setFps] = useState(30);
   const [analysisRegion, setAnalysisRegion] = useState<AnalysisRegion>(stagePreferences?.defaultAnalysisRegion ?? 'full');
   const [showOverlay, setShowOverlay] = useState(stagePreferences?.showOverlayLegend ?? true);
+  const [showStageInfo, setShowStageInfo] = useState(false);
   const pipShaderRef = useRef<PIPShaderHandle>(null);
-  const { capture, isCapturing } = useFrameCapture();
+  const { capture, cancelCapture, isCapturing } = useFrameCapture();
 
   useEffect(() => {
     if (stagePreferences?.defaultAnalysisRegion) {
@@ -194,32 +195,45 @@ export const PIPCanvasPanel = forwardRef<PIPCanvasPanelHandle, PIPCanvasPanelPro
           )}
         </div>
 
-        <aside className={`${stagePreferences?.showStageSignals === false ? 'hidden' : 'hidden lg:flex'} flex-col gap-2 border border-pip-border/45 rounded-xl bg-[rgba(6,9,16,0.72)] p-2`}>
-          <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-pip-gold" />
-            <span className="mystic-eyebrow">Stage Signals</span>
-          </div>
-          <div className="mystic-status !p-2 text-xs text-pip-text-secondary min-w-[140px]">
-            <div className="flex items-center justify-between gap-3 whitespace-nowrap"><span>Capture mode</span><span className="mystic-data-value text-xs">{getModeLabel(analysisRegion)}</span></div>
-            <div className="flex items-center justify-between gap-3 whitespace-nowrap mt-1"><span>Stream</span><span className="mystic-data-value text-xs">{isLive ? 'Live' : 'Paused'}</span></div>
-            <div className="flex items-center justify-between gap-3 whitespace-nowrap mt-1"><span>Persistence</span><span className="mystic-data-value text-xs">{captureContext?.persistenceEnabled ? 'Armed' : 'Preview only'}</span></div>
-          </div>
-          {showOverlay && (
-            <div className="mystic-status !p-2 text-xs text-pip-text-secondary flex flex-col gap-1">
-              <div className="mystic-data-label text-[10px]">Overlay legend</div>
-              <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-emerald-400" /> Body</div>
-              <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-amber-400" /> Proximal</div>
-              <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-orange-400" /> Distal</div>
-            </div>
+        {/* Info button — opens stage signals popover */}
+        <div className="relative hidden lg:block">
+          <button
+            onClick={() => setShowStageInfo(!showStageInfo)}
+            aria-label={showStageInfo ? 'Hide stage info' : 'Show stage info'}
+            className="mystic-btn mystic-btn-ghost !p-2 !rounded-full"
+          >
+            {showStageInfo ? <X className="w-4 h-4" /> : <Info className="w-4 h-4" />}
+          </button>
+          {showStageInfo && (
+            <aside className="absolute right-0 top-10 z-20 flex flex-col gap-2 border border-pip-border/45 rounded-xl bg-[rgba(6,9,16,0.95)] backdrop-blur-md p-3 shadow-lg min-w-[180px]">
+              <span className="mystic-eyebrow">Stage Signals</span>
+              <div className="mystic-status !p-2 text-xs text-pip-text-secondary">
+                <div className="flex items-center justify-between gap-3 whitespace-nowrap"><span>Capture mode</span><span className="mystic-data-value text-xs">{getModeLabel(analysisRegion)}</span></div>
+                <div className="flex items-center justify-between gap-3 whitespace-nowrap mt-1"><span>Stream</span><span className="mystic-data-value text-xs">{isLive ? 'Live' : 'Paused'}</span></div>
+                <div className="flex items-center justify-between gap-3 whitespace-nowrap mt-1"><span>Persistence</span><span className="mystic-data-value text-xs">{captureContext?.persistenceEnabled ? 'Armed' : 'Preview only'}</span></div>
+              </div>
+              {showOverlay && (
+                <div className="mystic-status !p-2 text-xs text-pip-text-secondary flex flex-col gap-1">
+                  <div className="mystic-data-label text-[10px]">Overlay legend</div>
+                  <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-emerald-400" /> Body</div>
+                  <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-amber-400" /> Proximal</div>
+                  <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-orange-400" /> Distal</div>
+                </div>
+              )}
+            </aside>
           )}
-        </aside>
+        </div>
       </div>
 
       <div className="mystic-stage-commandbar mt-auto flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 border-t border-pip-border/35 pt-3 pb-0.5">
         <div className="flex items-center gap-2">
-          <button onClick={() => void handleCapture()} disabled={isCapturing} aria-label={isCapturing ? 'Capturing analysis frame' : 'Capture analysis frame'} className="mystic-btn mystic-btn-primary !px-3 sm:!px-4 !py-2 flex items-center gap-2 disabled:opacity-60">
-            <Camera className="w-4 h-4" aria-hidden="true" />
-            <span className="text-xs sm:text-sm font-medium">{isCapturing ? 'Capturing…' : 'Capture'}</span>
+          <button
+            onClick={() => { if (isCapturing) { cancelCapture(); } else { void handleCapture(); } }}
+            aria-label={isCapturing ? 'Stop capture' : 'Capture analysis frame'}
+            className={`mystic-btn ${isCapturing ? 'mystic-btn-secondary' : 'mystic-btn-primary'} !px-3 sm:!px-4 !py-2 flex items-center gap-2`}
+          >
+            {isCapturing ? <X className="w-4 h-4" aria-hidden="true" /> : <Camera className="w-4 h-4" aria-hidden="true" />}
+            <span className="text-xs sm:text-sm font-medium">{isCapturing ? 'Stop' : 'Capture'}</span>
           </button>
           <button
             onClick={() => {
