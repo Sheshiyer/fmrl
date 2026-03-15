@@ -4,6 +4,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { MetricsCalculator } from '../services/MetricsCalculator';
 import { ScoreCalculator, type MetricsInput } from '../services/ScoreCalculator';
+import { computeFrame, type ComputeRoute } from '../services/ComputeRouter';
 import { getRuntimeWebSocketUrl } from '../utils/runtimeApi';
 
 export interface CompositeScores {
@@ -38,6 +39,7 @@ export interface RealTimeMetricsState {
   timeline: TimelineDataPoint[];
   sessionDuration: number;
   isConnected: boolean;
+  computeRoute: ComputeRoute | 'shader';
 }
 
 const TIMELINE_MAX_POINTS = 60; // 1 minute of data at 1 point/second
@@ -71,6 +73,7 @@ export function useRealTimeMetrics(canvasRef?: React.RefObject<HTMLCanvasElement
     timeline: [],
     sessionDuration: 0,
     isConnected: false,
+    computeRoute: 'shader',
   });
 
   // Session timer
@@ -168,80 +171,44 @@ export function useRealTimeMetrics(canvasRef?: React.RefObject<HTMLCanvasElement
     };
   }, []);
 
-  // Process video frame and compute metrics
-  const processFrame = useCallback((imageData: ImageData) => {
-    // Process frames locally even without backend connection
+  // Process video frame via ComputeRouter (Rust IPC in Tauri, JS fallback in browser)
+  const processFrame = useCallback(async (imageData: ImageData) => {
+    try {
+      const result = await computeFrame(imageData);
 
-    // Calculate frame metrics from image data
-    const frameMetrics = metricsCalculator.current.calculateFromImageData(imageData);
-    
-    // Convert to MetricsInput format for score calculation
-    const metricsInput: MetricsInput = {
-      avgIntensity: frameMetrics.avgIntensity,
-      intensityStdDev: frameMetrics.intensityStdDev,
-      lightQuantaDensity: frameMetrics.lightQuantaDensity,
-      normalizedArea: frameMetrics.normalizedArea,
-      innerNoise: frameMetrics.innerNoise,
-      innerNoisePercent: frameMetrics.innerNoisePercent,
-      horizontalSymmetry: frameMetrics.horizontalSymmetry,
-      verticalSymmetry: frameMetrics.verticalSymmetry,
-      dominantHue: frameMetrics.dominantHue,
-      saturationMean: frameMetrics.saturationMean,
-      colorEntropy: frameMetrics.colorEntropy,
-      temporalStability: metricsCalculator.current.getTemporalStability(),
-      // These would come from backend for real computation
-      fractalDimension: state.metrics.fractalDim,
-      hurstExponent: state.metrics.hurstExp,
-    };
+      // Update timeline
+      const timePoint = Math.floor((Date.now() - sessionStartTime.current) / 1000);
+      const newDataPoint: TimelineDataPoint = {
+        time: timePoint,
+        energy: result.scores.energy,
+        symmetry: result.scores.symmetry,
+        coherence: result.scores.coherence,
+      };
 
-    // Calculate composite scores
-    const scores = scoreCalculator.current.calculateAll(metricsInput);
+      timelineRef.current.push(newDataPoint);
+      if (timelineRef.current.length > TIMELINE_MAX_POINTS) {
+        timelineRef.current.shift();
+      }
 
-    // Update timeline
-    const timePoint = Math.floor((Date.now() - sessionStartTime.current) / 1000);
-    const newDataPoint: TimelineDataPoint = {
-      time: timePoint,
-      energy: scores.energy,
-      symmetry: scores.symmetry,
-      coherence: scores.coherence,
-    };
-
-    timelineRef.current.push(newDataPoint);
-    if (timelineRef.current.length > TIMELINE_MAX_POINTS) {
-      timelineRef.current.shift();
-    }
-
-    // Update state
-    setState(prev => ({
-      ...prev,
-      scores,
-      metrics: {
-        lqd: frameMetrics.lightQuantaDensity,
-        avgIntensity: frameMetrics.avgIntensity,
-        innerNoise: frameMetrics.innerNoisePercent,
-        fractalDim: prev.metrics.fractalDim,
-        hurstExp: prev.metrics.hurstExp,
-        horizontalSymmetry: frameMetrics.horizontalSymmetry,
-        verticalSymmetry: frameMetrics.verticalSymmetry,
-      },
-      timeline: [...timelineRef.current],
-    }));
-
-    // Send frame data to backend for advanced analysis (if connected)
-    if (wsRef.current?.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify({
-        type: 'frame_metrics',
-        metrics: frameMetrics,
+      setState(prev => ({
+        ...prev,
+        scores: result.scores,
+        metrics: {
+          lqd: result.metrics.lightQuantaDensity ?? prev.metrics.lqd,
+          avgIntensity: result.metrics.avgIntensity ?? prev.metrics.avgIntensity,
+          innerNoise: ('innerNoisePercent' in result.metrics ? (result.metrics as unknown as { innerNoisePercent: number }).innerNoisePercent : prev.metrics.innerNoise),
+          fractalDim: prev.metrics.fractalDim,
+          hurstExp: prev.metrics.hurstExp,
+          horizontalSymmetry: result.metrics.horizontalSymmetry ?? prev.metrics.horizontalSymmetry,
+          verticalSymmetry: result.metrics.verticalSymmetry ?? prev.metrics.verticalSymmetry,
+        },
+        timeline: [...timelineRef.current],
+        computeRoute: result.route,
       }));
-      
-      // Also send a ping to keep connection alive
-      setTimeout(() => {
-        if (wsRef.current?.readyState === WebSocket.OPEN) {
-          wsRef.current.send(JSON.stringify({ type: 'ping' }));
-        }
-      }, 1000);
+    } catch (err) {
+      console.warn('[useRealTimeMetrics] Frame compute failed:', err);
     }
-  }, [state.metrics.fractalDim, state.metrics.hurstExp]);
+  }, []);
 
   // Capture frame from canvas periodically
   useEffect(() => {
