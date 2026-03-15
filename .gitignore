@@ -11,6 +11,13 @@ node_modules/
 
 # Environment variables
 .env
+.env.local
+.env.signing
+.env.production
+
+# Apple signing credentials
+*.p8
+AuthKey_*.p8
 
 # Editor directories and files
 .idea
