@@ -13,7 +13,7 @@ export function OnboardingPage() {
   useEffect(() => {
     // Check if onboarding is already complete
     const isComplete = typeof window !== 'undefined' && 
-      window.localStorage.getItem('biofield_onboarding_complete_v2') === 'true';
+      window.localStorage.getItem('selemene_onboarding_complete_v2') === 'true';
     
     if (isComplete) {
       navigate('/dashboard', { replace: true });
@@ -22,11 +22,11 @@ export function OnboardingPage() {
 
   const handleComplete = (options?: { force?: boolean }) => {
     if (typeof window !== 'undefined') {
-      window.localStorage.setItem('biofield_onboarding_complete_v2', 'true');
+      window.localStorage.setItem('selemene_onboarding_complete_v2', 'true');
       if (options?.force) {
-        window.localStorage.setItem('biofield_runtime_preview_mode', 'true');
+        window.localStorage.setItem('selemene_runtime_preview_mode', 'true');
       } else {
-        window.localStorage.removeItem('biofield_runtime_preview_mode');
+        window.localStorage.removeItem('selemene_runtime_preview_mode');
       }
     }
     navigate('/dashboard', { replace: true });

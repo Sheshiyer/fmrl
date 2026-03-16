@@ -261,7 +261,7 @@ export const Shell: React.FC<ShellProps> = ({ children }) => {
                             transition-all duration-200
                             ${!isSidebarOpen && !isMobile ? 'text-sm' : ''}
                           `}>
-                            {!isSidebarOpen && !isMobile ? 'BM' : 'Biofield Mirror'}
+                            {!isSidebarOpen && !isMobile ? 'SE' : 'Selemene Engine'}
                           </h1>
                           {(isSidebarOpen || isMobile) && (
                             <p className="text-xs text-pip-text-muted mt-1">

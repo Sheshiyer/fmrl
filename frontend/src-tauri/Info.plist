@@ -3,8 +3,8 @@
 <plist version="1.0">
 <dict>
   <key>NSCameraUsageDescription</key>
-  <string>Biofield Mirror needs camera access to analyze live frames and compute wellness metrics.</string>
+  <string>Selemene Engine needs camera access to analyze live frames and compute wellness metrics.</string>
   <key>NSMicrophoneUsageDescription</key>
-  <string>Biofield Mirror may use microphone access for future guided session features.</string>
+  <string>Selemene Engine may use microphone access for future guided session features.</string>
 </dict>
 </plist>

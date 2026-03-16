@@ -1,5 +1,5 @@
 /**
- * Biofield Visualization — Runtime Theme System
+ * Selemene Visualization — Runtime Theme System
  * ═══════════════════════════════════════════════
  *
  * Theme modes:    sacred-dark (default) | dim | high-contrast
@@ -11,11 +11,11 @@
  * these custom properties, every `bg-pip-*`, `text-pip-*`, `border-pip-*`
  * utility automatically picks up the runtime value.
  *
- * The hook `useBiofieldSettings` sets:
- *   data-biofield-theme   → theme mode
- *   data-biofield-accent  → accent profile
- *   data-biofield-density → workspace density
- *   data-biofield-motion  → motion preference
+ * The hook `useSelemeneSettings` sets:
+ *   data-selemene-theme   → theme mode
+ *   data-selemene-accent  → accent profile
+ *   data-selemene-density → workspace density
+ *   data-selemene-motion  → motion preference
  */
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -26,7 +26,7 @@
    The deepest, most immersive dark theme — matches the original design.
    Declared explicitly so the attribute selector wins over :root when set.  */
 
-[data-biofield-theme="sacred-dark"] {
+[data-selemene-theme="sacred-dark"] {
   --color-pip-bg: #040508;
   --color-pip-dark: #070a12;
   --color-pip-darker: #03040a;
@@ -45,7 +45,7 @@
 /* ── Dim (softer dark) ────────────────────────────────────────────────────
    Elevated surfaces, gentler contrast — easier on eyes for prolonged use. */
 
-[data-biofield-theme="dim"] {
+[data-selemene-theme="dim"] {
   --color-pip-bg: #121218;
   --color-pip-dark: #181820;
   --color-pip-darker: #0e0e14;
@@ -62,7 +62,7 @@
 }
 
 /* Body background override for dim theme */
-[data-biofield-theme="dim"] body {
+[data-selemene-theme="dim"] body {
   background:
     radial-gradient(circle at 52% -8%, rgba(178, 135, 255, 0.10), transparent 36%),
     radial-gradient(circle at 80% 78%, rgba(46, 199, 167, 0.04), transparent 34%),
@@ -72,14 +72,14 @@
 }
 
 /* Soften the grid overlay in dim */
-[data-biofield-theme="dim"] body::before {
+[data-selemene-theme="dim"] body::before {
   opacity: 0.08;
 }
 
 /* ── High Contrast (maximum readability) ──────────────────────────────────
    Pure black backgrounds, white text, sharper borders — accessibility.    */
 
-[data-biofield-theme="high-contrast"] {
+[data-selemene-theme="high-contrast"] {
   --color-pip-bg: #000000;
   --color-pip-dark: #0a0a0a;
   --color-pip-darker: #000000;
@@ -96,7 +96,7 @@
 }
 
 /* Body background override for high-contrast */
-[data-biofield-theme="high-contrast"] body {
+[data-selemene-theme="high-contrast"] body {
   background:
     radial-gradient(circle at 52% -8%, rgba(178, 135, 255, 0.08), transparent 36%),
     radial-gradient(circle at 80% 78%, rgba(46, 199, 167, 0.03), transparent 34%),
@@ -106,7 +106,7 @@
 }
 
 /* Sharper grid lines in high-contrast */
-[data-biofield-theme="high-contrast"] body::before {
+[data-selemene-theme="high-contrast"] body::before {
   background-image:
     linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
@@ -118,10 +118,10 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* ── Gold (default) ───────────────────────────────────────────────────────
-   Warm amber/gold — the original Biofield signature palette.
+   Warm amber/gold — the original Selemene signature palette.
    Declared explicitly for completeness and selector parity.              */
 
-[data-biofield-accent="gold"] {
+[data-selemene-accent="gold"] {
   --color-pip-gold: #d8b36a;
   --color-pip-accent: #b287ff;
   --color-pip-emerald: #2ec7a7;
@@ -133,7 +133,7 @@
 /* ── Violet ───────────────────────────────────────────────────────────────
    Purple-forward palette — gold → violet swap across the entire UI.      */
 
-[data-biofield-accent="violet"] {
+[data-selemene-accent="violet"] {
   --color-pip-gold: #8b5cf6;
   --color-pip-accent: #a78bfa;
   --color-pip-emerald: #6ee7b7;
@@ -145,7 +145,7 @@
 }
 
 /* Violet body grid overlay */
-[data-biofield-accent="violet"] body::before {
+[data-selemene-accent="violet"] body::before {
   background-image:
     linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
@@ -154,7 +154,7 @@
 /* ── Neutral ──────────────────────────────────────────────────────────────
    Desaturated slate — minimal color for a professional/clinical feel.     */
 
-[data-biofield-accent="neutral"] {
+[data-selemene-accent="neutral"] {
   --color-pip-gold: #94a3b8;
   --color-pip-accent: #64748b;
   --color-pip-emerald: #6ee7b7;
@@ -166,7 +166,7 @@
 }
 
 /* Neutral body grid overlay */
-[data-biofield-accent="neutral"] body::before {
+[data-selemene-accent="neutral"] body::before {
   background-image:
     linear-gradient(rgba(148, 163, 184, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(148, 163, 184, 0.03) 1px, transparent 1px);
@@ -179,22 +179,22 @@
    the contrast ratios stay correct.                                       */
 
 /* Violet accent in high-contrast mode → boost border opacity */
-[data-biofield-theme="high-contrast"][data-biofield-accent="violet"] {
+[data-selemene-theme="high-contrast"][data-selemene-accent="violet"] {
   --color-pip-border: rgba(139, 92, 246, 0.32);
 }
 
 /* Neutral accent in high-contrast mode → boost border opacity */
-[data-biofield-theme="high-contrast"][data-biofield-accent="neutral"] {
+[data-selemene-theme="high-contrast"][data-selemene-accent="neutral"] {
   --color-pip-border: rgba(148, 163, 184, 0.28);
 }
 
 /* Violet accent in dim mode → soften border */
-[data-biofield-theme="dim"][data-biofield-accent="violet"] {
+[data-selemene-theme="dim"][data-selemene-accent="violet"] {
   --color-pip-border: rgba(139, 92, 246, 0.16);
 }
 
 /* Neutral accent in dim mode → soften border */
-[data-biofield-theme="dim"][data-biofield-accent="neutral"] {
+[data-selemene-theme="dim"][data-selemene-accent="neutral"] {
   --color-pip-border: rgba(148, 163, 184, 0.14);
 }
 
@@ -206,7 +206,7 @@
 
 /* ── Compact ──────────────────────────────────────────────────────────── */
 
-[data-biofield-density="compact"] {
+[data-selemene-density="compact"] {
   --density-spacing-xs: 0.15rem;
   --density-spacing-sm: 0.25rem;
   --density-spacing-md: 0.45rem;
@@ -220,39 +220,39 @@
 }
 
 /* Compact overrides for core layout components */
-[data-biofield-density="compact"] .mystic-panel {
+[data-selemene-density="compact"] .mystic-panel {
   border-radius: 1rem;
   padding: 0.65rem;
 }
 
-[data-biofield-density="compact"] .mystic-card {
+[data-selemene-density="compact"] .mystic-card {
   border-radius: 0.85rem;
   padding: 0.75rem;
 }
 
-[data-biofield-density="compact"] .mystic-page-shell {
+[data-selemene-density="compact"] .mystic-page-shell {
   padding: 0.65rem;
 }
 
-[data-biofield-density="compact"] .mystic-page-frame {
+[data-selemene-density="compact"] .mystic-page-frame {
   gap: 0.55rem;
 }
 
-[data-biofield-density="compact"] .mystic-tab-card {
+[data-selemene-density="compact"] .mystic-tab-card {
   padding: 0.4rem;
 }
 
-[data-biofield-density="compact"] .mystic-score-card {
+[data-selemene-density="compact"] .mystic-score-card {
   padding: 0.3rem 0.4rem;
 }
 
-[data-biofield-density="compact"] .mystic-telemetry-row {
+[data-selemene-density="compact"] .mystic-telemetry-row {
   padding: 0.35rem 0.45rem;
 }
 
 /* ── Balanced (default) ───────────────────────────────────────────────── */
 
-[data-biofield-density="balanced"] {
+[data-selemene-density="balanced"] {
   --density-spacing-xs: 0.25rem;
   --density-spacing-sm: 0.375rem;
   --density-spacing-md: 0.65rem;
@@ -267,7 +267,7 @@
 
 /* ── Spacious ─────────────────────────────────────────────────────────── */
 
-[data-biofield-density="spacious"] {
+[data-selemene-density="spacious"] {
   --density-spacing-xs: 0.375rem;
   --density-spacing-sm: 0.5rem;
   --density-spacing-md: 0.85rem;
@@ -281,33 +281,33 @@
 }
 
 /* Spacious overrides for core layout components */
-[data-biofield-density="spacious"] .mystic-panel {
+[data-selemene-density="spacious"] .mystic-panel {
   border-radius: 1.75rem;
   padding: 1.5rem;
 }
 
-[data-biofield-density="spacious"] .mystic-card {
+[data-selemene-density="spacious"] .mystic-card {
   border-radius: 1.5rem;
   padding: 1.65rem;
 }
 
-[data-biofield-density="spacious"] .mystic-page-shell {
+[data-selemene-density="spacious"] .mystic-page-shell {
   padding: 2rem;
 }
 
-[data-biofield-density="spacious"] .mystic-page-frame {
+[data-selemene-density="spacious"] .mystic-page-frame {
   gap: 1.25rem;
 }
 
-[data-biofield-density="spacious"] .mystic-tab-card {
+[data-selemene-density="spacious"] .mystic-tab-card {
   padding: 0.95rem;
 }
 
-[data-biofield-density="spacious"] .mystic-score-card {
+[data-selemene-density="spacious"] .mystic-score-card {
   padding: 0.65rem 0.85rem;
 }
 
-[data-biofield-density="spacious"] .mystic-telemetry-row {
+[data-selemene-density="spacious"] .mystic-telemetry-row {
   padding: 0.7rem 0.85rem;
 }
 
@@ -319,7 +319,7 @@
    so this is purely a graceful-degradation safety net.                    */
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-biofield-theme]) {
+  :root:not([data-selemene-theme]) {
     --color-pip-bg: #040508;
     --color-pip-dark: #070a12;
     --color-pip-darker: #03040a;
@@ -339,15 +339,15 @@
    MOTION PREFERENCES
    ═══════════════════════════════════════════════════════════════════════════ */
 
-[data-biofield-motion="none"] *,
-[data-biofield-motion="none"] *::before,
-[data-biofield-motion="none"] *::after {
+[data-selemene-motion="none"] *,
+[data-selemene-motion="none"] *::before,
+[data-selemene-motion="none"] *::after {
   animation-duration: 0.001ms !important;
   animation-iteration-count: 1 !important;
   transition-duration: 0.001ms !important;
 }
 
-[data-biofield-motion="reduced"] * {
+[data-selemene-motion="reduced"] * {
   animation-duration: 0.15s !important;
   transition-duration: 0.15s !important;
 }
@@ -358,11 +358,11 @@
    Apply a subtle transition to background-color and color so switching
    themes doesn't flash jarring.  Only applies when motion is allowed.     */
 
-:root:not([data-biofield-motion="none"]) body,
-:root:not([data-biofield-motion="none"]) .mystic-panel,
-:root:not([data-biofield-motion="none"]) .mystic-card,
-:root:not([data-biofield-motion="none"]) .glass-panel,
-:root:not([data-biofield-motion="none"]) .glass-card {
+:root:not([data-selemene-motion="none"]) body,
+:root:not([data-selemene-motion="none"]) .mystic-panel,
+:root:not([data-selemene-motion="none"]) .mystic-card,
+:root:not([data-selemene-motion="none"]) .glass-panel,
+:root:not([data-selemene-motion="none"]) .glass-card {
   transition:
     background-color 0.35s ease,
     color 0.35s ease,

@@ -4,12 +4,12 @@
  */
 
 import { SettingsPage } from './SettingsPage';
-import { useBiofieldPersistence } from '../hooks/useBiofieldPersistence';
-import { useBiofieldSettings } from '../hooks/useBiofieldSettings';
+import { useSelemenePersistence } from '../hooks/useSelemenePersistence';
+import { useSelemeneSettings } from '../hooks/useSelemeneSettings';
 import { FadeIn } from '../components/Animations';
 
 export function SettingsPageWrapper() {
-  const persistence = useBiofieldPersistence({
+  const persistence = useSelemenePersistence({
     active: true,
   });
 
@@ -27,7 +27,7 @@ export function SettingsPageWrapper() {
     lastSyncedAt,
     syncError,
     profileExists,
-  } = useBiofieldSettings({
+  } = useSelemeneSettings({
     configuredUserId: persistence.configuredUserId,
   });
 

@@ -4,7 +4,7 @@
  */
 import { useLocation } from 'react-router-dom';
 import { AccountPage } from './AccountPage';
-import { useBiofieldPersistence } from '../hooks/useBiofieldPersistence';
+import { useSelemenePersistence } from '../hooks/useSelemenePersistence';
 import { FadeIn } from '../components/Animations';
 
 export function AccountPageWrapper() {
@@ -13,7 +13,7 @@ export function AccountPageWrapper() {
     capturedAnalysis?: { persistedReadingId?: string | null; persistedSnapshotId?: string | null } 
   } | null;
 
-  const persistence = useBiofieldPersistence({
+  const persistence = useSelemenePersistence({
     active: true,
   });
 

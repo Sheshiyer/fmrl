@@ -1,7 +1,7 @@
 /**
  * useMotionPreference — combines app setting + OS preference
  *
- * Reads `data-biofield-motion` from <html> (set by useBiofieldSettings)
+ * Reads `data-selemene-motion` from <html> (set by useSelemeneSettings)
  * and also checks `prefers-reduced-motion` media query.
  *
  * If the OS prefers reduced motion, the effective level is upgraded to at
@@ -26,7 +26,7 @@ export interface MotionPreference {
 
 function readAttributeLevel(): MotionLevel {
   if (typeof document === 'undefined') return 'full';
-  const raw = document.documentElement.dataset.biofieldMotion;
+  const raw = document.documentElement.dataset.selemeneMotion;
   if (raw === 'reduced' || raw === 'minimal') return raw;
   return 'full';
 }
@@ -58,7 +58,7 @@ export function useMotionPreference(): MotionPreference {
   const [appLevel, setAppLevel] = useState<MotionLevel>(readAttributeLevel);
   const [osPrefersReduced, setOSPrefersReduced] = useState<boolean>(readOSPrefersReduced);
 
-  // Watch <html> data-biofield-motion via MutationObserver
+  // Watch <html> data-selemene-motion via MutationObserver
   useEffect(() => {
     if (typeof document === 'undefined') return;
 
@@ -68,7 +68,7 @@ export function useMotionPreference(): MotionPreference {
 
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['data-biofield-motion'],
+      attributeFilter: ['data-selemene-motion'],
     });
 
     return () => observer.disconnect();

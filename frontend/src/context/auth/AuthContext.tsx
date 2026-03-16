@@ -144,7 +144,7 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
           // Profile will be fetched by the user effect below
         } else {
           // Check for guest mode in localStorage
-          const guestMode = localStorage.getItem('biofield_guest_mode') === 'true';
+          const guestMode = localStorage.getItem('selemene_guest_mode') === 'true';
           if (guestMode && allowGuest) {
             setStatus('guest');
           } else {
@@ -155,7 +155,7 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
         if (!isMounted.current) return;
         // On timeout or network error, silently enter guest mode for desktop
         console.warn('[Auth] Session check failed, entering guest mode:', err instanceof Error ? err.message : err);
-        localStorage.setItem('biofield_guest_mode', 'true');
+        localStorage.setItem('selemene_guest_mode', 'true');
         setStatus('guest');
       }
     };
@@ -173,7 +173,7 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
             setUser(newSession?.user ?? null);
             setStatus('authenticated');
             // Clear guest mode if active
-            localStorage.removeItem('biofield_guest_mode');
+            localStorage.removeItem('selemene_guest_mode');
             break;
             
           case 'SIGNED_OUT':
@@ -338,7 +338,7 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
 
   // Enable guest mode
   const enableGuestMode = useCallback(() => {
-    localStorage.setItem('biofield_guest_mode', 'true');
+    localStorage.setItem('selemene_guest_mode', 'true');
     setStatus('guest');
     setUser(null);
     setSession(null);
@@ -348,7 +348,7 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
 
   // Disable guest mode
   const disableGuestMode = useCallback(() => {
-    localStorage.removeItem('biofield_guest_mode');
+    localStorage.removeItem('selemene_guest_mode');
     setStatus('unauthenticated');
   }, []);
 

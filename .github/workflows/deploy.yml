@@ -8,6 +8,7 @@ on:
 
 env:
   DROPLET_IP: 206.189.139.224
+  DROPLET_APP_PATH: /opt/pip-analysis
   DOCKER_REGISTRY: ${{ secrets.DOCKER_USERNAME }}
   IMAGE_TAG: ${{ github.sha }}
 
@@ -70,26 +71,40 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ env.DROPLET_IP }} >> ~/.ssh/known_hosts
 
+      - name: Sync production manifests
+        run: |
+          APP_DOMAIN="${{ vars.APP_DOMAIN }}"
+          if [ -z "$APP_DOMAIN" ]; then
+            APP_DOMAIN="fmrl.tryambakam.space"
+          fi
+
+          ssh -o StrictHostKeyChecking=no root@${{ env.DROPLET_IP }} "mkdir -p '${{ env.DROPLET_APP_PATH }}'"
+          scp -o StrictHostKeyChecking=no docker-compose.prod.yml root@${{ env.DROPLET_IP }}:${{ env.DROPLET_APP_PATH }}/docker-compose.prod.yml
+
+          ssh -o StrictHostKeyChecking=no root@${{ env.DROPLET_IP }} << EOF
+            cat > '${{ env.DROPLET_APP_PATH }}/.env.production' << ENVFILE
+DOCKER_REGISTRY=${{ secrets.DOCKER_USERNAME }}
+IMAGE_TAG=latest
+APP_DOMAIN=${APP_DOMAIN}
+ENVFILE
+          EOF
+
       - name: Deploy to Droplet
         run: |
           ssh -o StrictHostKeyChecking=no root@${{ env.DROPLET_IP }} << EOF
-            cd /opt/pip-analysis
-            
-            # Set environment variables
-            export DOCKER_REGISTRY=${{ secrets.DOCKER_USERNAME }}
-            export IMAGE_TAG=latest
-            
-            # Pull latest images (no build needed!)
-            docker compose pull
-            
+            cd '${{ env.DROPLET_APP_PATH }}'
+
+            # Pull latest images using the synced production manifest.
+            docker compose --env-file .env.production -f docker-compose.prod.yml pull
+
             # Restart with zero downtime
-            docker compose up -d --force-recreate
-            
+            docker compose --env-file .env.production -f docker-compose.prod.yml up -d --force-recreate
+
             # Cleanup old images
             docker image prune -f
-            
+
             # Show status
-            docker compose ps
+            docker compose --env-file .env.production -f docker-compose.prod.yml ps
           EOF
 
       - name: Health check

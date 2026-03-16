@@ -23,8 +23,11 @@ RUN npm run build
 # Stage 2: Production with Nginx
 FROM nginx:1.27-alpine3.20
 
-# Copy custom nginx config
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Default public hostname for runtime nginx template rendering.
+ENV APP_DOMAIN=biofield.live
+
+# Copy custom nginx config as a template so the public domain can be injected at runtime.
+COPY nginx.conf /etc/nginx/templates/default.conf.template
 
 # Copy built assets from builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html

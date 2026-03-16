@@ -1,5 +1,5 @@
 /**
- * Biofield Mirror - Main Entry Point
+ * Selemene Engine - Main Entry Point
  * React 19 + React Router + Framer Motion
  */
 import { StrictMode } from 'react';

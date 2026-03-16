@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Biofield Mirror",
+  "productName": "Selemene Engine",
   "version": "0.3.0",
-  "identifier": "com.biofield.mirror",
+  "identifier": "com.selemene.engine",
   "build": {
     "beforeDevCommand": "npm run dev:tauri",
     "beforeBuildCommand": "npm run build",
@@ -13,7 +13,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "Biofield Mirror",
+        "title": "Selemene Engine",
         "width": 1440,
         "height": 900,
         "minWidth": 1280,

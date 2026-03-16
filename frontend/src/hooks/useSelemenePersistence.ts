@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { biofieldPersistenceService } from '../services/BiofieldPersistenceService';
+import { selemenePersistenceService } from '../services/SelemenePersistenceService';
 import type {
   AnalysisResult,
   PersistenceHealthState,
@@ -10,11 +10,11 @@ import type {
   TimelineDataPoint,
 } from '../types';
 
-interface UseBiofieldPersistenceOptions {
+interface UseSelemenePersistenceOptions {
   active: boolean;
 }
 
-export function useBiofieldPersistence({ active }: UseBiofieldPersistenceOptions) {
+export function useSelemenePersistence({ active }: UseSelemenePersistenceOptions) {
   const [health, setHealth] = useState<PersistenceHealthState>({
     enabled: false,
     healthy: false,
@@ -32,7 +32,7 @@ export function useBiofieldPersistence({ active }: UseBiofieldPersistenceOptions
 
   const refreshHealth = useCallback(async () => {
     try {
-      const next = await biofieldPersistenceService.getPersistenceState();
+      const next = await selemenePersistenceService.getPersistenceState();
       setHealth(next);
       return next;
     } catch (err) {
@@ -56,7 +56,7 @@ export function useBiofieldPersistence({ active }: UseBiofieldPersistenceOptions
     setIsSyncing(true);
     setError(null);
     try {
-      const created = await biofieldPersistenceService.createSession({
+      const created = await selemenePersistenceService.createSession({
         userId: configuredUserId!,
         metadata: { source: 'frontend-cutover' },
       });
@@ -79,7 +79,7 @@ export function useBiofieldPersistence({ active }: UseBiofieldPersistenceOptions
     if (pending.length === 0) return;
 
     try {
-      await biofieldPersistenceService.pushTimelineBatch({
+      await selemenePersistenceService.pushTimelineBatch({
         sessionId: session.id,
         userId: configuredUserId!,
         points: pending,
@@ -94,7 +94,7 @@ export function useBiofieldPersistence({ active }: UseBiofieldPersistenceOptions
   const refreshSessions = useCallback(async () => {
     if (!configuredUserId || !health.enabled || !health.healthy) return null;
     try {
-      const response = await biofieldPersistenceService.listSessions(configuredUserId);
+      const response = await selemenePersistenceService.listSessions(configuredUserId);
       setSessions(response.items);
       return response;
     } catch (err) {
@@ -107,7 +107,7 @@ export function useBiofieldPersistence({ active }: UseBiofieldPersistenceOptions
   const refreshSnapshots = useCallback(async (sessionId?: string | null) => {
     if (!configuredUserId || !health.enabled || !health.healthy) return null;
     try {
-      const response = await biofieldPersistenceService.listSnapshots(configuredUserId, sessionId);
+      const response = await selemenePersistenceService.listSnapshots(configuredUserId, sessionId);
       setSnapshots(response.items);
       return response;
     } catch (err) {
@@ -123,10 +123,10 @@ export function useBiofieldPersistence({ active }: UseBiofieldPersistenceOptions
     options?: { createSnapshot?: boolean; snapshotLabel?: string },
   ) => {
     if (!canPersist || !session?.id || !configuredUserId) {
-      return { readingId: biofieldPersistenceService.extractPersistedReadingId(result), snapshotId: null };
+      return { readingId: selemenePersistenceService.extractPersistedReadingId(result), snapshotId: null };
     }
 
-    const readingId = biofieldPersistenceService.extractPersistedReadingId(result);
+    const readingId = selemenePersistenceService.extractPersistedReadingId(result);
     if (!readingId) {
       return { readingId: null, snapshotId: null };
     }
@@ -137,7 +137,7 @@ export function useBiofieldPersistence({ active }: UseBiofieldPersistenceOptions
     }
 
     try {
-      const snapshot = await biofieldPersistenceService.createSnapshot({
+      const snapshot = await selemenePersistenceService.createSnapshot({
         userId: configuredUserId,
         sessionId: session.id,
         readingId,
@@ -158,7 +158,7 @@ export function useBiofieldPersistence({ active }: UseBiofieldPersistenceOptions
   const refreshHistory = useCallback(async () => {
     if (!configuredUserId || !health.enabled || !health.healthy) return null;
     try {
-      const nextHistory = await biofieldPersistenceService.listHistory(configuredUserId);
+      const nextHistory = await selemenePersistenceService.listHistory(configuredUserId);
       setHistory(nextHistory);
       return nextHistory;
     } catch (err) {
@@ -171,7 +171,7 @@ export function useBiofieldPersistence({ active }: UseBiofieldPersistenceOptions
   const refreshBaseline = useCallback(async () => {
     if (!configuredUserId || !health.enabled || !health.healthy) return null;
     try {
-      const baseline = await biofieldPersistenceService.getCurrentBaseline(configuredUserId);
+      const baseline = await selemenePersistenceService.getCurrentBaseline(configuredUserId);
       setCurrentBaseline(baseline);
       return baseline;
     } catch (err) {
@@ -183,33 +183,33 @@ export function useBiofieldPersistence({ active }: UseBiofieldPersistenceOptions
 
   const pauseSession = useCallback(async () => {
     if (!session?.id || !canPersist) return null;
-    const updated = await biofieldPersistenceService.pauseSession(session.id);
+    const updated = await selemenePersistenceService.pauseSession(session.id);
     setSession(updated);
     return updated;
   }, [canPersist, session]);
 
   const resumeSession = useCallback(async () => {
     if (!session?.id || !canPersist) return null;
-    const updated = await biofieldPersistenceService.resumeSession(session.id);
+    const updated = await selemenePersistenceService.resumeSession(session.id);
     setSession(updated);
     return updated;
   }, [canPersist, session]);
 
   const completeSession = useCallback(async (durationSeconds?: number, summaryReadingId?: string) => {
     if (!session?.id || !canPersist) return null;
-    const updated = await biofieldPersistenceService.completeSession(session.id, durationSeconds, summaryReadingId);
+    const updated = await selemenePersistenceService.completeSession(session.id, durationSeconds, summaryReadingId);
     setSession(updated);
     void refreshSessions();
     return updated;
   }, [canPersist, refreshSessions, session]);
 
   const saveConfiguredUserId = useCallback((userId: string) => {
-    biofieldPersistenceService.setConfiguredUserId(userId);
+    selemenePersistenceService.setConfiguredUserId(userId);
     void refreshHealth();
   }, [refreshHealth]);
 
   const clearConfiguredUserId = useCallback(() => {
-    biofieldPersistenceService.clearConfiguredUserId();
+    selemenePersistenceService.clearConfiguredUserId();
     setSession(null);
     setSessions([]);
     setLastSnapshot(null);

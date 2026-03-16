@@ -40,10 +40,29 @@ interface BackendLogsResult {
   error?: string;
 }
 
-const WEB_FALLBACK_URL: string =
-  typeof import.meta.env.VITE_API_URL === 'string' && import.meta.env.VITE_API_URL.trim().length > 0
-    ? import.meta.env.VITE_API_URL
-    : 'http://localhost:8000';
+export function resolveWebFallbackUrl(options?: {
+  explicitApiUrl?: string | null;
+  currentOrigin?: string | null;
+  isDev?: boolean;
+}): string {
+  const explicitApiUrl = options?.explicitApiUrl?.trim();
+  if (explicitApiUrl) {
+    return explicitApiUrl;
+  }
+
+  const currentOrigin = options?.currentOrigin?.trim();
+  if (!options?.isDev && currentOrigin) {
+    return currentOrigin;
+  }
+
+  return 'http://localhost:8000';
+}
+
+const WEB_FALLBACK_URL = resolveWebFallbackUrl({
+  explicitApiUrl: typeof import.meta.env.VITE_API_URL === 'string' ? import.meta.env.VITE_API_URL : undefined,
+  currentOrigin: typeof window !== 'undefined' ? window.location.origin : undefined,
+  isDev: import.meta.env.DEV,
+});
 
 export function isTauriRuntime(): boolean {
   if (typeof window === 'undefined') return false;

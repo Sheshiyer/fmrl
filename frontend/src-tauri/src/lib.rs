@@ -19,7 +19,7 @@ const HEALTH_INTERVAL: Duration = Duration::from_millis(250);
 const START_ATTEMPTS: u8 = 3;
 const RETRY_BACKOFF: Duration = Duration::from_millis(700);
 const LOG_CAPACITY: usize = 500;
-const APP_BUNDLE_ID: &str = "com.biofield.mirror";
+const APP_BUNDLE_ID: &str = "com.selemene.engine";
 
 #[derive(Debug)]
 struct BackendState {
@@ -111,7 +111,7 @@ fn spawn_log_reader<R: Read + Send + 'static>(reader: R, tag: &'static str, logs
 fn python_candidates(working_dir: &PathBuf) -> Vec<String> {
     let mut candidates = Vec::new();
 
-    if let Ok(explicit) = std::env::var("BIOFIELD_PYTHON") {
+    if let Ok(explicit) = std::env::var("SELEMENE_PYTHON") {
         let trimmed = explicit.trim();
         if !trimmed.is_empty() {
             candidates.push(trimmed.to_string());
@@ -705,7 +705,7 @@ fn repair_camera_permission_state() -> Result<String, String> {
 
         let _ = open_app_settings(Some("camera".to_string()));
 
-        Ok("Permissions reset complete. Quit Biofield Mirror, reopen from /Applications, then click Request Camera Access again.".to_string())
+        Ok("Permissions reset complete. Quit Selemene Engine, reopen from /Applications, then click Request Camera Access again.".to_string())
     }
 
     #[cfg(not(target_os = "macos"))]

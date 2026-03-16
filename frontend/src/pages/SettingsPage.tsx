@@ -2,7 +2,7 @@ import React from 'react';
 import { Palette, Camera, Activity, RotateCcw, SlidersHorizontal, Database, Sparkles, RefreshCw, Save, Cloud, HardDrive } from 'lucide-react';
 import type {
   AppearanceSettings,
-  BiofieldSettingsPreferences,
+  SelemeneSettingsPreferences,
   CaptureExportSettings,
   PersistedBaseline,
   PersistedSessionRecord,
@@ -11,7 +11,7 @@ import type {
 } from '../types';
 
 interface SettingsPageProps {
-  settings: BiofieldSettingsPreferences;
+  settings: SelemeneSettingsPreferences;
   backendConnected: boolean;
   persistenceEnabled: boolean;
   persistenceHealthy: boolean;
@@ -144,7 +144,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
       <div className="mystic-page-header flex items-center justify-between gap-3">
         <div>
           <h1 className="mystic-section-title text-lg sm:text-xl">Settings</h1>
-          <p className="mt-1 text-sm text-pip-text-secondary">Behavior, defaults, diagnostics, and sync policy for the Biofield workspace.</p>
+          <p className="mt-1 text-sm text-pip-text-secondary">Behavior, defaults, diagnostics, and sync policy for the Selemene workspace.</p>
         </div>
         <div className="flex items-center gap-2 flex-wrap justify-end">
           <span className="mystic-badge">{syncBadge}</span>
@@ -302,7 +302,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
             <SectionHeader
               icon={<Camera className="w-4 h-4" />}
               title="Capture & Export"
-              description="Set the default analysis behavior, snapshot policy, and export intent for the Biofield capture flow."
+              description="Set the default analysis behavior, snapshot policy, and export intent for the Selemene capture flow."
               badge={<span className="mystic-badge !text-[10px] !px-2.5 !py-1 inline-flex items-center gap-1"><Cloud className="w-3 h-3" /> Selene profile</span>}
             />
 
@@ -436,7 +436,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
               </div>
               <div className="mystic-status !p-3">
                 <div className="mystic-data-value text-sm">Capture policy syncs</div>
-                <p className="mt-1 text-xs text-pip-text-secondary">Snapshot and export defaults are part of the user’s Biofield workflow and belong in the Selene profile.</p>
+                <p className="mt-1 text-xs text-pip-text-secondary">Snapshot and export defaults are part of the user’s Selemene workflow and belong in the Selene profile.</p>
               </div>
               <div className="mystic-status !p-3">
                 <div className="mystic-data-value text-sm">Runtime stays local</div>

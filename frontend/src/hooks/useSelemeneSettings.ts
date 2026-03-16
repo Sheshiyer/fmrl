@@ -2,16 +2,16 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { profileSettingsService } from '../services/ProfileSettingsService';
 import type {
   AppearanceSettings,
-  BiofieldSettingsPreferences,
+  SelemeneSettingsPreferences,
   CaptureExportSettings,
   RuntimeSettings,
   SettingsSyncState,
-  SyncedBiofieldSettings,
+  SyncedSelemeneSettings,
 } from '../types';
 
-const SETTINGS_STORAGE_KEY = 'biofield_settings_v1';
+const SETTINGS_STORAGE_KEY = 'selemene_settings_v1';
 
-export const defaultBiofieldSettings: BiofieldSettingsPreferences = {
+export const defaultSelemeneSettings: SelemeneSettingsPreferences = {
   appearance: {
     themeMode: 'sacred-dark',
     workspaceDensity: 'balanced',
@@ -35,24 +35,24 @@ export const defaultBiofieldSettings: BiofieldSettingsPreferences = {
   },
 };
 
-function mergeSettings(candidate?: Partial<BiofieldSettingsPreferences> | null): BiofieldSettingsPreferences {
+function mergeSettings(candidate?: Partial<SelemeneSettingsPreferences> | null): SelemeneSettingsPreferences {
   return {
     appearance: {
-      ...defaultBiofieldSettings.appearance,
+      ...defaultSelemeneSettings.appearance,
       ...(candidate?.appearance ?? {}),
     },
     runtime: {
-      ...defaultBiofieldSettings.runtime,
+      ...defaultSelemeneSettings.runtime,
       ...(candidate?.runtime ?? {}),
     },
     capture: {
-      ...defaultBiofieldSettings.capture,
+      ...defaultSelemeneSettings.capture,
       ...(candidate?.capture ?? {}),
     },
   };
 }
 
-function mergeRemoteSettings(current: BiofieldSettingsPreferences, remote?: SyncedBiofieldSettings | null): BiofieldSettingsPreferences {
+function mergeRemoteSettings(current: SelemeneSettingsPreferences, remote?: SyncedSelemeneSettings | null): SelemeneSettingsPreferences {
   if (!remote) return current;
   return {
     ...current,
@@ -67,24 +67,24 @@ function mergeRemoteSettings(current: BiofieldSettingsPreferences, remote?: Sync
   };
 }
 
-function readStoredSettings(): BiofieldSettingsPreferences {
-  if (typeof window === 'undefined') return defaultBiofieldSettings;
+function readStoredSettings(): SelemeneSettingsPreferences {
+  if (typeof window === 'undefined') return defaultSelemeneSettings;
 
   try {
     const raw = window.localStorage.getItem(SETTINGS_STORAGE_KEY);
-    if (!raw) return defaultBiofieldSettings;
-    return mergeSettings(JSON.parse(raw) as Partial<BiofieldSettingsPreferences>);
+    if (!raw) return defaultSelemeneSettings;
+    return mergeSettings(JSON.parse(raw) as Partial<SelemeneSettingsPreferences>);
   } catch {
-    return defaultBiofieldSettings;
+    return defaultSelemeneSettings;
   }
 }
 
-interface UseBiofieldSettingsOptions {
+interface UseSelemeneSettingsOptions {
   configuredUserId?: string | null;
 }
 
-export function useBiofieldSettings({ configuredUserId }: UseBiofieldSettingsOptions = {}) {
-  const [settings, setSettings] = useState<BiofieldSettingsPreferences>(() => readStoredSettings());
+export function useSelemeneSettings({ configuredUserId }: UseSelemeneSettingsOptions = {}) {
+  const [settings, setSettings] = useState<SelemeneSettingsPreferences>(() => readStoredSettings());
   const [syncState, setSyncState] = useState<SettingsSyncState>({
     remoteSettingsLoaded: false,
     isLoadingRemoteSettings: false,
@@ -102,10 +102,10 @@ export function useBiofieldSettings({ configuredUserId }: UseBiofieldSettingsOpt
   useEffect(() => {
     if (typeof document === 'undefined') return;
     const root = document.documentElement;
-    root.dataset.biofieldTheme = settings.appearance.themeMode;
-    root.dataset.biofieldDensity = settings.appearance.workspaceDensity;
-    root.dataset.biofieldMotion = settings.appearance.motionLevel;
-    root.dataset.biofieldAccent = settings.appearance.accentProfile;
+    root.dataset.selemeneTheme = settings.appearance.themeMode;
+    root.dataset.selemeneDensity = settings.appearance.workspaceDensity;
+    root.dataset.selemeneMotion = settings.appearance.motionLevel;
+    root.dataset.selemeneAccent = settings.appearance.accentProfile;
   }, [settings]);
 
   const updateAppearance = useCallback((patch: Partial<AppearanceSettings>) => {
@@ -139,7 +139,7 @@ export function useBiofieldSettings({ configuredUserId }: UseBiofieldSettingsOpt
   }, []);
 
   const resetSettings = useCallback(() => {
-    setSettings(defaultBiofieldSettings);
+    setSettings(defaultSelemeneSettings);
     setSyncState((current) => ({
       ...current,
       syncError: null,

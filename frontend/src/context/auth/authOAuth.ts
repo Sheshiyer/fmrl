@@ -1,5 +1,5 @@
-export const USER_ID_STORAGE_KEY = 'biofield_active_user_id';
-export const USER_ID_SOURCE_STORAGE_KEY = 'biofield_active_user_id_source';
+export const USER_ID_STORAGE_KEY = 'selemene_active_user_id';
+export const USER_ID_SOURCE_STORAGE_KEY = 'selemene_active_user_id_source';
 export const AUTH_MANAGED_USER_ID_SOURCE = 'auth';
 export const MANUAL_USER_ID_SOURCE = 'manual';
 

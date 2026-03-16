@@ -8,8 +8,8 @@ import { PIPCanvasPanel, type PIPCanvasPanelHandle } from '../components/Panels/
 import { MetricsScoresPanel } from '../components/Panels/MetricsScoresPanel';
 import { TimelineStrip } from '../components/Layout/TimelineStrip';
 import { useRealTimeMetrics } from '../hooks/useRealTimeMetrics';
-import { useBiofieldPersistence } from '../hooks/useBiofieldPersistence';
-import { useBiofieldSettings } from '../hooks/useBiofieldSettings';
+import { useSelemenePersistence } from '../hooks/useSelemenePersistence';
+import { useSelemeneSettings } from '../hooks/useSelemeneSettings';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import { useShell } from '../components/Layout/Shell';
 import { ShortcutsHelp } from '../components/UI/ShortcutsHelp';
@@ -43,13 +43,13 @@ export function DashboardPage() {
     processFrameData,
   } = useRealTimeMetrics();
 
-  const persistence = useBiofieldPersistence({
+  const persistence = useSelemenePersistence({
     active: true,
   });
 
   const {
-    settings: biofieldSettings,
-  } = useBiofieldSettings({
+    settings: selemeneSettings,
+  } = useSelemeneSettings({
     configuredUserId: persistence.configuredUserId,
   });
 
@@ -89,8 +89,8 @@ export function DashboardPage() {
     analysisResult?: AnalysisResult | null 
   }) => {
     const persisted = await persistence.recordCapture(payload.analysisResult ?? null, payload.imageUrl, {
-      createSnapshot: biofieldSettings.capture.autoCreateSnapshot,
-      snapshotLabel: buildSnapshotLabel(biofieldSettings.capture.snapshotLabelTemplate),
+      createSnapshot: selemeneSettings.capture.autoCreateSnapshot,
+      snapshotLabel: buildSnapshotLabel(selemeneSettings.capture.snapshotLabelTemplate),
     });
 
     const capturedData: CapturedAnalysisData = {
@@ -115,7 +115,7 @@ export function DashboardPage() {
 
     // Navigate to analysis page with captured data
     navigate('/analysis', { state: { capturedData } });
-  }, [biofieldSettings.capture, metrics, navigate, persistence, scores, sessionDuration, timeline]);
+  }, [selemeneSettings.capture, metrics, navigate, persistence, scores, sessionDuration, timeline]);
 
   return (
     <StaggerContainer className="h-full flex flex-col gap-1.5 sm:gap-2">
@@ -151,10 +151,10 @@ export function DashboardPage() {
                 persistenceEnabled: persistence.canPersist,
               }}
               stagePreferences={{
-                defaultAnalysisRegion: biofieldSettings.capture.defaultAnalysisRegion,
-                showOverlayLegend: biofieldSettings.appearance.showOverlayLegend,
-                showStageSignals: biofieldSettings.appearance.showStageSignals,
-                enableBackendCapture: biofieldSettings.runtime.enableBackendCapture,
+                defaultAnalysisRegion: selemeneSettings.capture.defaultAnalysisRegion,
+                showOverlayLegend: selemeneSettings.appearance.showOverlayLegend,
+                showStageSignals: selemeneSettings.appearance.showStageSignals,
+                enableBackendCapture: selemeneSettings.runtime.enableBackendCapture,
               }}
             />
           </div>

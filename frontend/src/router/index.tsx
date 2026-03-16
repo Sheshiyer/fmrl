@@ -69,7 +69,7 @@ function AnimatedOutlet() {
 // Main layout with Auth + Shell wrapper
 function MainLayout() {
   const isOnboarded = typeof window !== 'undefined'
-    && localStorage.getItem('biofield_onboarding_complete_v2') === 'true';
+    && localStorage.getItem('selemene_onboarding_complete_v2') === 'true';
 
   if (!isOnboarded) {
     return <Navigate to="/onboarding" replace />;

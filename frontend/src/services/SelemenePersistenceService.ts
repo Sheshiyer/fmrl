@@ -1,4 +1,9 @@
 import { ensureBackendReady, getBackendHealth } from '../utils/runtimeApi';
+import {
+  USER_ID_STORAGE_KEY,
+  clearPersistenceUserId,
+  setManualPersistenceUserId,
+} from '../context/auth/authOAuth';
 import type {
   AnalysisResult,
   PersistenceHealthState,
@@ -8,8 +13,6 @@ import type {
   PersistedSnapshotRecord,
   TimelineDataPoint,
 } from '../types';
-
-const USER_ID_STORAGE_KEY = 'biofield_active_user_id';
 
 interface SessionCreatePayload {
   userId: string;
@@ -35,12 +38,12 @@ interface SnapshotCreatePayload {
   metadata?: Record<string, unknown>;
 }
 
-class BiofieldPersistenceService {
+class SelemenePersistenceService {
   getConfiguredUserId(): string | null {
     if (typeof window === 'undefined') return null;
 
-    const envUser = typeof import.meta.env.VITE_BIOFIELD_USER_ID === 'string'
-      ? import.meta.env.VITE_BIOFIELD_USER_ID.trim()
+    const envUser = typeof import.meta.env.VITE_SELEMENE_USER_ID === 'string'
+      ? import.meta.env.VITE_SELEMENE_USER_ID.trim()
       : '';
     if (envUser.length > 0) return envUser;
 
@@ -50,12 +53,12 @@ class BiofieldPersistenceService {
 
   setConfiguredUserId(userId: string): void {
     if (typeof window === 'undefined') return;
-    window.localStorage.setItem(USER_ID_STORAGE_KEY, userId.trim());
+    setManualPersistenceUserId(window.localStorage, userId);
   }
 
   clearConfiguredUserId(): void {
     if (typeof window === 'undefined') return;
-    window.localStorage.removeItem(USER_ID_STORAGE_KEY);
+    clearPersistenceUserId(window.localStorage);
   }
 
   async getPersistenceState(): Promise<PersistenceHealthState> {
@@ -221,4 +224,4 @@ class BiofieldPersistenceService {
   }
 }
 
-export const biofieldPersistenceService = new BiofieldPersistenceService();
+export const selemenePersistenceService = new SelemenePersistenceService();

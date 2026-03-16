@@ -1,5 +1,5 @@
 /**
- * Biofield Mirror - Legacy App Component
+ * Selemene Engine - Legacy App Component
  * 
  * NOTE: This file is kept for backward compatibility.
  * The application now uses React Router via main.tsx.
@@ -15,7 +15,7 @@ export function App() {
     <AppProvider>
       <div className="h-screen flex items-center justify-center bg-pip-bg text-pip-text-primary">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Biofield Mirror</h1>
+          <h1 className="text-2xl font-bold mb-4">Selemene Engine</h1>
           <p className="text-pip-text-secondary">
             Please use the router-enabled entry point (main.tsx) for full functionality.
           </p>

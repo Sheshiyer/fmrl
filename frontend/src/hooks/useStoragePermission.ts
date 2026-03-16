@@ -10,7 +10,7 @@ interface StoragePermissionResult {
   requestPermission: () => Promise<StoragePermissionState>;
 }
 
-const STORAGE_LABEL_KEY = 'biofield_export_directory_label_v1';
+const STORAGE_LABEL_KEY = 'selemene_export_directory_label_v1';
 
 type DirectoryPickerWindow = Window & {
   showDirectoryPicker?: () => Promise<{ name?: string }>;

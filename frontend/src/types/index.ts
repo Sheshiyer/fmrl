@@ -346,11 +346,11 @@ export interface ProfileSettingsResponse {
   profile_exists: boolean;
   appearance: AppearanceSettings;
   capture: CaptureExportSettings;
-  settings?: SyncedBiofieldSettings;
+  settings?: SyncedSelemeneSettings;
   updated_at: string | null;
 }
 
-export interface BiofieldSettingsPreferences {
+export interface SelemeneSettingsPreferences {
   appearance: AppearanceSettings;
   runtime: RuntimeSettings;
   capture: CaptureExportSettings;
@@ -365,7 +365,7 @@ export interface SettingsSyncState {
   profileExists?: boolean;
 }
 
-export interface SyncedBiofieldSettings {
+export interface SyncedSelemeneSettings {
   appearance?: Partial<AppearanceSettings>;
   capture?: Partial<CaptureExportSettings>;
 }

@@ -5,12 +5,12 @@
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { useMotionPreference } from '../../hooks/useMotionPreference';
 
-// Helper to set data-biofield-motion on <html>
+// Helper to set data-selemene-motion on <html>
 function setMotionAttribute(value: string | null) {
   if (value === null) {
-    document.documentElement.removeAttribute('data-biofield-motion');
+    document.documentElement.removeAttribute('data-selemene-motion');
   } else {
-    document.documentElement.dataset.biofieldMotion = value;
+    document.documentElement.dataset.selemeneMotion = value;
   }
 }
 

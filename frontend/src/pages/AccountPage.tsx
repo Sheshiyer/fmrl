@@ -68,7 +68,7 @@ export const AccountPage: React.FC<AccountPageProps> = ({
       <div className="mystic-page-header flex items-center justify-between gap-3">
         <div>
           <h1 className="mystic-section-title text-lg sm:text-xl">Account</h1>
-          <p className="mt-1 text-sm text-pip-text-secondary">Selene identity, persistence health, and recent Biofield records.</p>
+          <p className="mt-1 text-sm text-pip-text-secondary">Selene identity, persistence health, and recent Selemene records.</p>
         </div>
         <button className="mystic-btn mystic-btn-secondary !px-3 !py-2" onClick={onRefresh}>Refresh</button>
       </div>
@@ -186,7 +186,7 @@ export const AccountPage: React.FC<AccountPageProps> = ({
                 <History className="w-5 h-5 text-pip-gold" />
                 <div>
                   <span className="mystic-eyebrow">Recent sessions</span>
-                  <p className="mt-1 text-xs text-pip-text-secondary">Persisted Biofield sessions for the configured user.</p>
+                  <p className="mt-1 text-xs text-pip-text-secondary">Persisted Selemene sessions for the configured user.</p>
                 </div>
               </div>
               <div className="mystic-badge !text-[10px] !px-2.5 !py-1">{recentSessions.length}</div>
