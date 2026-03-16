@@ -341,7 +341,8 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
   // Frame counter for deterministic sampling (replaces Math.random() < 0.2)
   const frameCountRef = useRef<number>(0);
   const lastMetricsTimeRef = useRef<number>(0);
-  const METRICS_INTERVAL_MS = 100; // Compute metrics every 100ms (~10 fps for metrics)
+  const METRICS_INTERVAL_MS = 500; // Compute metrics every 500ms (~2 fps for metrics)
+  const pixelBufRef = useRef<Uint8Array | null>(null);
 
   // Real-time ML segmentation refs (MediaPipe models)
   const bodySegmenterRef = useRef<BodySegmenter | null>(null);
@@ -406,29 +407,44 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
 
   // Initialize MediaPipe ML models for real-time segmentation
   useEffect(() => {
+    let cancelled = false;
+
+    const withTimeout = <T,>(promise: Promise<T>, ms: number, label: string): Promise<T> =>
+      Promise.race([
+        promise,
+        new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error(`${label} timed out after ${ms / 1000}s`)), ms)
+        ),
+      ]);
+
     const initModels = async () => {
       try {
         setLoadingStatus('Loading body segmentation model...');
         bodySegmenterRef.current = new BodySegmenter({ runningMode: 'VIDEO' });
-        await bodySegmenterRef.current.initialize();
+        await withTimeout(bodySegmenterRef.current.initialize(), 30_000, 'Body segmentation model');
+        if (cancelled) return;
         console.log('[PIPShader] Body segmenter initialized (MediaPipe Selfie Segmentation)');
 
         setLoadingStatus('Loading face detection model...');
         faceSegmenterRef.current = new FaceSegmenter({ runningMode: 'VIDEO', numFaces: 1 });
-        await faceSegmenterRef.current.initialize();
+        await withTimeout(faceSegmenterRef.current.initialize(), 30_000, 'Face detection model');
+        if (cancelled) return;
         console.log('[PIPShader] Face segmenter initialized (MediaPipe Face Mesh - 478 landmarks)');
 
         modelsReadyRef.current = true;
         setLoadingStatus('');
       } catch (error) {
         console.error('[PIPShader] ML model initialization failed:', error);
-        setLoadingStatus(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        // Still allow the shader to run in 'full' mode without ML models
+        setLoadingStatus('');
+        console.warn('[PIPShader] Continuing without ML segmentation — full-frame mode only');
       }
     };
 
     initModels();
 
     return () => {
+      cancelled = true;
       bodySegmenterRef.current?.close();
       faceSegmenterRef.current?.close();
     };
@@ -645,6 +661,7 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
 
       const render = async () => {
           if (!gl || !canvas) return;
+          try {
           const vw = video.videoWidth || 640;
           const vh = video.videoHeight || 480;
           const timestamp = performance.now();
@@ -712,7 +729,11 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
 
           if (shouldComputeMetrics) {
             lastMetricsTimeRef.current = now;
-            const pixels = new Uint8Array(vw * vh * 4);
+            const bufSize = vw * vh * 4;
+            if (!pixelBufRef.current || pixelBufRef.current.length !== bufSize) {
+              pixelBufRef.current = new Uint8Array(bufSize);
+            }
+            const pixels = pixelBufRef.current;
             gl.readPixels(0, 0, vw, vh, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
 
             // For full mode, the mask may not be drawn (useMask=false), so we need to
@@ -809,6 +830,10 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
               const brightness = (pixels[centerIdx] + pixels[centerIdx + 1] + pixels[centerIdx + 2]) / (3 * 255);
               onFrameData({ brightness, colorEntropy: 0.7, horizontalSymmetry: 0.5, verticalSymmetry: 0.5, saturationMean: 0.5 });
             }
+          }
+
+          } catch (frameErr) {
+            console.warn('[PIPShader] Render frame error (continuing):', frameErr);
           }
 
           animationRef.current = requestAnimationFrame(render);
