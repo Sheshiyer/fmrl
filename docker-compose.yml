@@ -12,7 +12,7 @@ services:
       - DEBUG=false
       - HOST=0.0.0.0
       - PORT=8000
-      - CORS_ORIGINS=["http://localhost","http://localhost:80","http://frontend","https://${APP_DOMAIN:-biofield.live}","http://${APP_DOMAIN:-biofield.live}"]
+      - CORS_ORIGINS=["http://localhost","http://localhost:80","http://frontend","https://${APP_DOMAIN:-fmrl.tryambakam.space}","http://${APP_DOMAIN:-fmrl.tryambakam.space}"]
     volumes:
       - uploads:/app/uploads
     networks:
@@ -37,7 +37,7 @@ services:
       - "80:80"
       - "443:443"
     environment:
-      - APP_DOMAIN=${APP_DOMAIN:-biofield.live}
+      - APP_DOMAIN=${APP_DOMAIN:-fmrl.tryambakam.space}
     depends_on:
       backend:
         condition: service_healthy
