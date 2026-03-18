@@ -16,12 +16,12 @@ These files support a **local-safe validation stack** for the drafted Biofield m
 4. run backend against the local-safe database only after the local reset succeeds
 
 ## Important discovery
-A plain local Supabase stack starts without the existing Selene core tables that the Biofield migrations extend.
+A plain local Supabase stack starts without the existing Selemene core tables that the Biofield migrations extend.
 
 To keep local validation possible without touching a remote project, a compatibility bootstrap migration was added:
 - `20260308173000_selene_compat_bootstrap.sql`
 
-This migration creates minimal core Selene tables only when they are absent.
+This migration creates minimal core Selemene tables only when they are absent.
 
 ## Notes
 - This local environment is for migration and API smoke validation only.

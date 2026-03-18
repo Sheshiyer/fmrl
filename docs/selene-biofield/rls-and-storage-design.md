@@ -3,7 +3,7 @@
 _Last updated: 2026-03-08_
 
 ## Design goals
-- keep the Selene integration additive
+- keep the Selemene integration additive
 - protect user-owned Biofield data consistently
 - avoid forcing broad auth/schema rewrites during the first rollout
 - introduce storage safely where none existed before
@@ -26,7 +26,7 @@ All direct table policies use:
 
 ## 2. Table policy model
 
-### Existing Selene tables hardened in the draft
+### Existing Selemene tables hardened in the draft
 - `public.user_profiles`
 - `public.readings`
 - `public.progression_logs`
@@ -90,7 +90,7 @@ These help support future frontend history and snapshot browsing without embeddi
 If `auth.uid()` does not actually match `public.users.id` in all active environments, these policies will need an adaptation layer.
 
 ### Risk: existing app code relies on unrestricted reads
-Enabling RLS on `public.readings` and `public.user_profiles` may surface hidden assumptions in older Selene or admin paths.
+Enabling RLS on `public.readings` and `public.user_profiles` may surface hidden assumptions in older Selemene or admin paths.
 
 ### Risk: storage path discipline is not enforced in clients
 If uploads do not use user-id-prefixed paths, object policies will fail even if table writes succeed.

@@ -1,4 +1,4 @@
-# Safe Validation Runbook — Selene × Biofield
+# Safe Validation Runbook — Selemene × Biofield
 
 _Last updated: 2026-03-08_
 
@@ -65,11 +65,11 @@ Apply only in this order:
 4. `20260308190000_biofield_rls.sql`
 
 ### Note on the compatibility bootstrap
-The compatibility bootstrap exists to make **local-safe validation** possible when the local Supabase stack starts from an empty schema. In real Selene environments it should behave as a no-op because those core tables already exist.
+The compatibility bootstrap exists to make **local-safe validation** possible when the local Supabase stack starts from an empty schema. In real Selemene environments it should behave as a no-op because those core tables already exist.
 
 Validation after each apply:
 - migration completes successfully
-- no pre-existing Selene table is dropped or altered destructively
+- no pre-existing Selemene table is dropped or altered destructively
 - new tables/views/buckets exist as expected
 
 ---
@@ -106,7 +106,7 @@ For each targeted table, validate both:
 - **owner access succeeds**
 - **cross-user access fails**
 
-### Existing Selene tables
+### Existing Selemene tables
 - `public.user_profiles`
 - `public.readings`
 - `public.progression_logs`
@@ -176,7 +176,7 @@ Expected:
 Before broad rollout, verify you can:
 - disable `BIOFIELD_PERSISTENCE_ENABLED`
 - stop using the new routers without breaking existing analysis behavior
-- retain created Biofield rows without affecting older Selene paths
+- retain created Biofield rows without affecting older Selemene paths
 
 If a migration rollback is needed, do it in the safe environment first and document exact outcomes.
 

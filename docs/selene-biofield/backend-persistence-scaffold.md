@@ -3,7 +3,7 @@
 _Last updated: 2026-03-08_
 
 ## Purpose
-This scaffold establishes the backend building blocks required to move Biofield Mirror from local/in-memory-only state toward canonical Selene-backed persistence.
+This scaffold establishes the backend building blocks required to move Biofield Mirror from local/in-memory-only state toward canonical Selemene-backed persistence.
 
 It is intentionally designed to be:
 - **lazy** — no forced DB connection on app startup

@@ -1,10 +1,10 @@
-# Live Selene Supabase Audit
+# Live Selemene Supabase Audit
 
 _Last updated: 2026-03-08_
 
 ## Executive summary
 
-A read-only audit of the live Selene Supabase project shows that the platform already has a generic engine/result model centered on `public.readings`, plus user/profile infrastructure in `public.users` and `public.user_profiles`. Biofield Mirror should integrate into this structure **additively**, not by replacing or reshaping existing tables.
+A read-only audit of the live Selemene Supabase project shows that the platform already has a generic engine/result model centered on `public.readings`, plus user/profile infrastructure in `public.users` and `public.user_profiles`. Biofield Mirror should integrate into this structure **additively**, not by replacing or reshaping existing tables.
 
 ---
 
@@ -28,7 +28,7 @@ This confirms the project is a standard Supabase deployment with app-specific lo
 ## 2. Core public tables relevant to Biofield integration
 
 ### `public.users`
-Purpose: application-level Selene user identity.
+Purpose: application-level Selemene user identity.
 
 Key columns:
 - `id`
@@ -150,7 +150,7 @@ Observed app-level migration names:
 - `20260210220000 readings_table`
 
 Implication:
-- `public.readings` is already a recognized engine-level primitive in Selene.
+- `public.readings` is already a recognized engine-level primitive in Selemene.
 - Biofield should likely extend around `readings`, not bypass it.
 
 ---
@@ -188,7 +188,7 @@ Implication:
 Any Biofield rollout that writes into the current schema must include:
 - additive RLS hardening
 - policy validation
-- compatibility testing against existing Selene flows
+- compatibility testing against existing Selemene flows
 
 ---
 
@@ -203,7 +203,7 @@ Why:
 - already stores engine/workflow semantics
 - already accepts structured input and result JSONB
 - already links to user identity
-- already reflects Selene’s generic compute/result model
+- already reflects Selemene’s generic compute/result model
 
 ### Recommended meaning for Biofield
 - one **detailed analysis or canonical reading event** should map to one `public.readings` row
@@ -233,7 +233,7 @@ To avoid overloading `public.readings`, add Biofield-specific extension tables s
 
 ### Canonical reading
 Persist one canonical engine event into `public.readings` with:
-- `engine_id = 'biofield-mirror'` (or approved Selene engine naming)
+- `engine_id = 'biofield-mirror'` (or approved Selemene engine naming)
 - `workflow_id` for live session, detailed capture, baseline derivation, etc.
 - `input_data` for capture mode, region, session metadata, and provenance
 - `result_data` for normalized raw metrics, score vector, analysis provenance, and artifact references
@@ -258,7 +258,7 @@ Use Biofield-specific tables to model the parts that are relational and query-he
 
 ## 12. Final conclusion
 
-Selene already has enough structure to support Biofield Mirror cleanly **without breaking existing tables**.
+Selemene already has enough structure to support Biofield Mirror cleanly **without breaking existing tables**.
 
 The safe path is:
 1. keep `public.users` and `public.user_profiles` as identity/profile anchors

@@ -192,7 +192,7 @@ export function useSelemeneSettings({ configuredUserId }: UseSelemeneSettingsOpt
     if (!configuredUserId) {
       setSyncState((current) => ({
         ...current,
-        syncError: 'Configure a Selene user ID before saving synced settings.',
+        syncError: 'Configure a Selemene user ID before saving synced settings.',
       }));
       return null;
     }

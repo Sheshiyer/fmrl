@@ -1,4 +1,4 @@
-"""Repositories for Selene user profile and preference data."""
+"""Repositories for Selemene user profile and preference data."""
 from __future__ import annotations
 
 from uuid import UUID

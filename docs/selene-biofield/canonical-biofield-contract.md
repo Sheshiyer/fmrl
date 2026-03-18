@@ -5,13 +5,13 @@ _Last updated: 2026-03-08_
 ## Architecture decision
 
 ### Decision
-Use **Selene `public.readings` as the canonical top-level Biofield analysis record**, and add Biofield-specific extension tables for sessions, snapshots, timeline points, baselines, and artifacts.
+Use **Selemene `public.readings` as the canonical top-level Biofield analysis record**, and add Biofield-specific extension tables for sessions, snapshots, timeline points, baselines, and artifacts.
 
 ### Why
 - `public.readings` already exists as a generic engine/workflow result model.
-- It already anchors to the Selene user layer (`public.users`).
+- It already anchors to the Selemene user layer (`public.users`).
 - It already supports flexible JSONB payloads via `input_data` and `result_data`.
-- Reusing it minimizes breakage and aligns Biofield with Selene’s existing engine architecture.
+- Reusing it minimizes breakage and aligns Biofield with Selemene’s existing engine architecture.
 
 ### Consequence
 Biofield-specific relational detail should **extend around readings**, not replace it.
@@ -289,7 +289,7 @@ The first release should prioritize:
 - additive schema only
 - feature-flagged client rollout
 - provenance-safe writes
-- compatibility with existing Selene reading flows
+- compatibility with existing Selemene reading flows
 - explicit verification over broad enablement
 
 ---

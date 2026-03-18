@@ -1,10 +1,10 @@
-# Production Preflight Findings — Selene × Biofield
+# Production Preflight Findings — Selemene × Biofield
 
 _Last updated: 2026-03-08_
 
 ## Production target confirmed
 - Project ref: `qjnqdhvlxdmezxdnlrbj`
-- Schemas match the previously audited Selene production shape
+- Schemas match the previously audited Selemene production shape
 - Existing migrations present:
   - `20260208000001`
   - `20260210220000`
@@ -23,7 +23,7 @@ Production preflight shows that this assumption is **not currently true**:
 - matching IDs: `0`
 
 ## Implication
-Applying the drafted owner-scoped RLS policies to existing Selene tables and new Biofield tables in production would be unsafe, because the identity model needed by those policies does not currently exist in hosted production.
+Applying the drafted owner-scoped RLS policies to existing Selemene tables and new Biofield tables in production would be unsafe, because the identity model needed by those policies does not currently exist in hosted production.
 
 ## Safe rollout decision
 Proceed only with the **non-breaking additive subset**:
@@ -37,4 +37,4 @@ Defer:
 ## Why this is the safest path
 - additive tables/views/indexes/buckets can land without changing existing production access behavior
 - backend persistence can operate via direct DB connection while the feature flag remains controllable
-- RLS can be redesigned later around the actual Selene identity model rather than the incorrect `auth.uid()` assumption
+- RLS can be redesigned later around the actual Selemene identity model rather than the incorrect `auth.uid()` assumption

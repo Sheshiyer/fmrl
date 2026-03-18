@@ -1,4 +1,4 @@
-"""Persistence helpers for canonical Selene × Biofield integration."""
+"""Persistence helpers for canonical Selemene × FMRL integration."""
 
 from core.persistence.mappers import (
     build_analysis_provenance,

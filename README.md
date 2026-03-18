@@ -1,187 +1,191 @@
 # FMRL
 
-> **Frequency Modulated Reality Lens** — pronounced "ephemeral"
+> **Frequency Modulated Reality Lens** — pronounced *ephemeral*
 
-A real-time biofield analysis platform for PIP (Polycontrast Interference Photography) imaging workflows. FMRL provides web, API, and desktop interfaces for capturing, analyzing, and visualizing biofield data.
+The unified frontend platform for [Selemene Engine](https://selemene.tryambakam.space) — 16 consciousness calculation engines, one reflection interface.
 
 [![Version](https://img.shields.io/badge/version-0.0.1-blue.svg)](./CHANGELOG.md)
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript)](https://www.typescriptlang.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.104-009688?logo=fastapi)](https://fastapi.tiangolo.com/)
 [![Tauri](https://img.shields.io/badge/Tauri-2-FFC131?logo=tauri)](https://tauri.app/)
-[![License](https://img.shields.io/badge/license-Proprietary-lightgrey.svg)]()
 
 ---
 
 ## What is FMRL?
 
-FMRL bridges cutting-edge computer vision with biofield research. The system captures live video feeds, applies real-time PIP visualization processing, and calculates quantitative biofield metrics including:
+FMRL is the mirror you look into. [Selemene Engine](https://github.com/user/Selemene-engine) is the calculation layer underneath.
 
-- **Energy Distribution** — overall field strength and vitality
-- **Symmetry Analysis** — left/right balance metrics
-- **Coherence Scoring** — field stability and organization
-- **Complexity Measures** — information density patterns
-- **Regulation Indices** — autonomic response indicators
-- **Color Balance** — chromatic field distribution
+Where Selemene computes — sub-millisecond Vedic astrology, biorhythm cycles, gene key sequences, human design charts — FMRL *reflects*. It renders those calculations into interfaces you carry throughout your day: a desktop app on your screen, a complication on your watch, a widget on your home screen.
 
-### Live Demo
+**Not prediction. Reflection. Inquiry. Witness.**
 
-🌐 **Web App:** [https://fmrl.tryambakam.space](https://fmrl.tryambakam.space)
+### Currently Working
 
----
+FMRL ships today with its first engine fully operational:
 
-## Apps & Services
+- **Biofield Analysis** — real-time PIP (Polycontrast Interference Photography) via WebGL2 shaders
+- Live camera feed → shader pipeline → quantitative metrics (energy, symmetry, coherence, complexity, regulation, color balance)
+- Desktop app (Tauri 2) with Rust compute acceleration + Python fallback
+- Supabase auth, session persistence, and data export
 
-| Component | Tech Stack | Description |
-|-----------|------------|-------------|
-| **Web App** | React 19 + Vite + Tailwind CSS | Browser-based analysis interface with real-time video processing |
-| **Backend API** | FastAPI + Python + OpenCV | Analysis engine, WebSocket streaming, data persistence |
-| **Desktop App** | Tauri v2 (Rust) + React | Native macOS application with offline capabilities |
-| **Database** | Supabase (PostgreSQL) | User profiles, session storage, analysis history |
+### The Vision
 
----
+Integrate all 16 Selemene engines into a multi-surface reflection platform:
 
-## Packages
-
-### `frontend/` — Web & Desktop Application
-
-```bash
-cd frontend
-npm install
-npm run dev          # Web dev server
-npm run tauri:dev    # Desktop dev mode
-npm run tauri:build  # Build desktop app
-```
-
-**Key Dependencies:**
-- React 19 + React Router 7
-- TensorFlow.js + MediaPipe (computer vision)
-- WebGL2 PIP shaders (TouchDesigner-style noise TOP)
-- Recharts (data visualization)
-- Framer Motion (animations)
-
-### `backend/` — Analysis API
-
-```bash
-cd backend
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
-```
-
-**Key Capabilities:**
-- Real-time video analysis via WebSocket
-- Static image batch processing
-- PIP metric extraction (energy, symmetry, coherence)
-- Audio entrainment generation
-- PDF/CSV export
-
-### `frontend/src-tauri/` — Desktop Shell
-
-Tauri v2 configuration for building native macOS apps with camera, microphone, and file system access.
+| Surface | Status | Engines |
+|---------|--------|---------|
+| **Desktop** (Tauri) | Working | Biofield (live) → all 16 engines |
+| **watchOS** | Planned | Panchanga, Vedic Clock, Biorhythm, Personal Day |
+| **macOS Widgets** | Planned | Timing engines (daily glanceable data) |
+| **Menu Bar** | Planned | Current Hora, Tithi, Personal Day |
 
 ---
 
-## Quick Start
+## Selemene Engines
 
-### Development (Full Stack)
+FMRL will surface all 16 consciousness engines from Selemene:
 
-```bash
-# Terminal 1 — Backend
-cd backend
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+**Vedic Timing** — *daily rhythm*
+- Panchanga (Vedic calendar), Vedic Clock (live temporal metrics), Vimshottari (dasha periods), Transits (planetary movements)
 
-# Terminal 2 — Frontend
-cd frontend
-npm run dev
+**Cycles & Patterns** — *biological rhythm*
+- Biorhythm (23/28/33-day cycles), Numerology (Pythagorean + Chaldean), Biofield (real-time PIP analysis)
 
-# Open http://localhost:5173
-```
+**Identity Maps** — *who you are*
+- Human Design (Body Graph), Gene Keys (Hologenetic Profile), Face Reading, Enneagram
 
-### Docker (Production)
-
-```bash
-# Development
-docker compose up --build
-
-# Production
-docker compose -f docker-compose.prod.yml up -d
-```
+**Symbolic Mirrors** — *inquiry tools*
+- Tarot, I Ching, Sacred Geometry, Sigil Forge, Nadabrahman (sound consciousness)
 
 ---
 
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                         CLIENT LAYER                                 │
-├─────────────────────────────────────────────────────────────────────┤
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────────────┐   │
-│  │  Web App     │  │  Desktop App │  │  Mobile (future)         │   │
-│  │  (Browser)   │  │  (Tauri)     │  │                          │   │
-│  └──────┬───────┘  └──────┬───────┘  └──────────────┬───────────┘   │
-│         │                 │                         │               │
-│         └─────────────────┴─────────────────────────┘               │
-│                           │                                         │
-│                    WebSocket / REST API                             │
-└───────────────────────────┬─────────────────────────────────────────┘
-                            │
-┌───────────────────────────┴─────────────────────────────────────────┐
-│                         API LAYER (FastAPI)                          │
-├─────────────────────────────────────────────────────────────────────┤
-│  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐   │
-│  │  Analysis Engine │  │  Auth / Sessions │  │  Export Service  │   │
-│  │  (OpenCV/NumPy)  │  │  (Supabase)      │  │  (PDF/CSV)       │   │
-│  └──────────────────┘  └──────────────────┘  └──────────────────┘   │
-└─────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────┐
+│  FMRL — Frontend Platform                                │
+│                                                          │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌─────────┐ │
+│  │ Desktop  │  │ watchOS  │  │ Widgets  │  │ MenuBar │ │
+│  │ (Tauri)  │  │ (Swift)  │  │ (Swift)  │  │ (Tray)  │ │
+│  └────┬─────┘  └────┬─────┘  └────┬─────┘  └────┬────┘ │
+│       └──────────────┴───────────┴──────────────┘       │
+│                      │                                   │
+│  ┌───────────────────┴───────────────────────────────┐  │
+│  │  Shared Engine Client (TypeScript / Swift)         │  │
+│  └───────┬──────────────────┬────────────────────────┘  │
+│          │                  │                            │
+│  ┌───────┴────────┐ ┌──────┴──────┐                    │
+│  │ Local Biofield │ │ Selemene API │                    │
+│  │ (Python/Rust)  │ │ (15 engines) │                    │
+│  └────────────────┘ └─────────────┘                     │
+└──────────────────────────────────────────────────────────┘
+```
+
+- **Local compute** — Biofield engine runs locally (camera → WebGL shader → metrics via Python/Rust)
+- **Remote compute** — Other 15 engines call Selemene API (`selemene.tryambakam.space/api/v1/`)
+- **Auth** — Supabase for user data + Selemene JWT for engine access
+
+---
+
+## Quick Start
+
+### Prerequisites
+
+- Node.js 20+
+- Python 3.9+ (for biofield backend)
+- Rust toolchain (for Tauri desktop builds)
+
+### Development
+
+```bash
+# Frontend (web dev server)
+cd frontend
+npm install
+npm run dev
+# → http://localhost:5173
+
+# Backend (biofield compute API)
+cd backend
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8000
+
+# Desktop (Tauri)
+cd frontend
+npm run tauri:dev
+```
+
+### Build
+
+```bash
+# Web build
+cd frontend && npm run build
+
+# Desktop build (macOS)
+cd frontend && npm run tauri:build
+```
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React 19, Vite, TypeScript 5.9, Tailwind CSS, Framer Motion |
+| Desktop | Tauri 2 (Rust shell), WebGL2 shaders |
+| Biofield Compute | Python FastAPI, OpenCV, NumPy, SciPy, MediaPipe, TensorFlow.js |
+| Rust Compute | Tauri IPC → native metrics calculation |
+| Database | Supabase (PostgreSQL, Auth, Storage, Realtime) |
+| Vision | MediaPipe body/face segmentation, TensorFlow.js |
+
+---
+
+## Project Structure
+
+```
+fmrl/
+├── frontend/           # React 19 + Vite web app
+│   ├── src/
+│   │   ├── components/ # UI components
+│   │   ├── services/   # ComputeRouter, PIPRenderer, MetricsCalculator
+│   │   ├── hooks/      # useRealTimeMetrics, useCamera, useSegmentation
+│   │   ├── pages/      # Dashboard, Settings, Analysis, Account
+│   │   └── context/    # AppContext, AuthContext
+│   └── src-tauri/      # Tauri 2 Rust backend + config
+├── backend/            # Python FastAPI biofield compute
+│   ├── api/routes/     # REST + WebSocket endpoints
+│   ├── core/           # Metrics, scores, segmentation, entrainment
+│   └── db/             # Supabase repositories
+├── supabase/           # Migrations + config
+├── docs/               # Design specs + deployment guides
+└── .plan/              # Phase-based development plan
 ```
 
 ---
 
 ## Documentation
 
-- [PIP Analysis System Specification](./PIP_Analysis_System_Specification.md)
-- [Web & Tauri Release Guide](./docs/deployment/fmrl-web-and-tauri-release.md)
-- [macOS Desktop Release](./docs/deployment/tauri-macos-release.md)
-- [Technical Blog: TouchDesigner Noise TOP in WebGL](./technical-blog.md)
-
----
-
-## Deployment
-
-The project uses GitHub Actions for CI/CD:
-
-- **Push to `main`** triggers automated build and deploy
-- **Docker images** pushed to Docker Hub
-- **Production** deployed to DigitalOcean droplet
-- **Domain:** `fmrl.tryambakam.space`
-
-See [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml) for details.
-
----
-
-## Version History
-
-See [CHANGELOG.md](./CHANGELOG.md) for release notes.
-
-| Version | Date | Notes |
-|---------|------|-------|
-| v0.0.1 | 2026-03-18 | Initial public release |
+- [Selemene Integration Spec](./docs/design/selemene-integration-spec.md)
+- [PIP Analysis System](./PIP_Analysis_System_Specification.md)
+- [Camera Calibration Spec](./docs/design/camera-calibration-spec.md)
+- [Audio Entrainment Spec](./docs/design/audio-entrainment-spec.md)
+- [macOS Release Guide](./docs/deployment/tauri-macos-release.md)
 
 ---
 
 ## Roadmap
 
-- [x] Real-time PIP video analysis
-- [x] Web dashboard with live metrics
-- [x] Desktop macOS app (Tauri)
-- [x] Supabase auth & persistence
-- [x] Audio entrainment generation
-- [ ] iOS native app
-- [ ] Backend bundling as Tauri sidecar
-- [ ] AI-powered pattern recognition
-- [ ] Multi-user research dashboards
+See [`.plan/MASTER-PLAN.md`](./.plan/MASTER-PLAN.md) for the full phased plan.
+
+- [x] **Phase 0** — Foundation & cleanup
+- [ ] **Phase 1** — Multi-engine architecture (SelemeneClient, auth bridge, engine routing)
+- [ ] **Phase 2** — Timing engines (Panchanga, Vedic Clock, Biorhythm, Numerology)
+- [ ] **Phase 3** — Profile engines (Human Design, Gene Keys)
+- [ ] **Phase 4** — Workflows & synthesis views
+- [ ] **Phase 5** — Platform expansion (watchOS, widgets, menu bar)
+- [ ] **Phase 6** — Production & polish (CI/CD, testing, App Store)
 
 ---
 
@@ -192,5 +196,5 @@ Proprietary — All rights reserved.
 ---
 
 <p align="center">
-  <em>FMRL — Seeing the unseen</em>
+  <em>Part of <a href="https://tryambakam.space">Tryambakam Noesis</a> — a living inquiry field where success means you outgrow the system.</em>
 </p>

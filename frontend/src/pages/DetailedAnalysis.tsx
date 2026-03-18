@@ -92,7 +92,7 @@ const getPersistenceBadge = (capturedData: CapturedAnalysisData) => {
     return {
       label: 'Persisted',
       className: 'is-success',
-      detail: 'This result is stored in Selene and can be revisited through persisted history surfaces.',
+      detail: 'This result is stored in Selemene and can be revisited through persisted history surfaces.',
     };
   }
 

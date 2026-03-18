@@ -198,7 +198,7 @@ async def list_sessions(
     offset: int = Query(default=0, ge=0),
     db: AsyncSession = Depends(get_db_session),
 ):
-    """List Biofield sessions for one Selene user."""
+    """List FMRL sessions for one Selemene user."""
     ensure_persistence_enabled()
     repository = BiofieldSessionsRepository(db)
     rows = await repository.list_sessions(

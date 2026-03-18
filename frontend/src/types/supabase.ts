@@ -1,6 +1,6 @@
 /**
  * Supabase Database Types
- * Based on the Selene × Biofield integration schema
+ * Based on the Selemene × FMRL integration schema
  */
 
 export type Json =

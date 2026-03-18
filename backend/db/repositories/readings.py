@@ -1,4 +1,4 @@
-"""Repository for Selene `public.readings` access."""
+"""Repository for Selemene `public.readings` access."""
 from __future__ import annotations
 
 from typing import Optional
@@ -9,7 +9,7 @@ from db.repositories.base import BaseRepository
 
 
 class ReadingsRepository(BaseRepository):
-    """Read/write repository for canonical Biofield-backed Selene readings."""
+    """Read/write repository for canonical FMRL-backed Selemene readings."""
 
     async def create_reading(self, payload: ReadingCreate):
         sql = """

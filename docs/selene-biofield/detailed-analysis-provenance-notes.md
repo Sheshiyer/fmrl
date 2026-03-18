@@ -3,7 +3,7 @@
 _Last updated: 2026-03-08_
 
 ## Purpose
-The Detailed Analysis screen now exposes explicit provenance and persistence context so users can distinguish between local preview results and persisted Selene-linked analysis records.
+The Detailed Analysis screen now exposes explicit provenance and persistence context so users can distinguish between local preview results and persisted Selemene-linked analysis records.
 
 ## Added signals
 ### Header badges

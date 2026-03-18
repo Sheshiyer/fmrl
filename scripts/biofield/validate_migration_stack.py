@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static validation for the drafted Selene × Biofield migration stack.
+"""Static validation for the drafted Selemene × FMRL migration stack.
 
 This script is intentionally conservative. It does not apply SQL; it checks that the
 expected migration files exist, appear in the correct order, include required objects,

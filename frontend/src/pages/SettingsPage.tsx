@@ -170,7 +170,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
               icon={<Palette className="w-4 h-4" />}
               title="Appearance"
               description="Tune the visual calm, density, and stage affordances for the one-fold bento workspace."
-              badge={<span className="mystic-badge !text-[10px] !px-2.5 !py-1 inline-flex items-center gap-1"><Cloud className="w-3 h-3" /> Selene profile</span>}
+              badge={<span className="mystic-badge !text-[10px] !px-2.5 !py-1 inline-flex items-center gap-1"><Cloud className="w-3 h-3" /> Selemene profile</span>}
             />
 
             <div className="grid grid-cols-1 2xl:grid-cols-2 gap-4">
@@ -303,7 +303,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
               icon={<Camera className="w-4 h-4" />}
               title="Capture & Export"
               description="Set the default analysis behavior, snapshot policy, and export intent for the Selemene capture flow."
-              badge={<span className="mystic-badge !text-[10px] !px-2.5 !py-1 inline-flex items-center gap-1"><Cloud className="w-3 h-3" /> Selene profile</span>}
+              badge={<span className="mystic-badge !text-[10px] !px-2.5 !py-1 inline-flex items-center gap-1"><Cloud className="w-3 h-3" /> Selemene profile</span>}
             />
 
             <div className="grid grid-cols-1 2xl:grid-cols-2 gap-4">
@@ -368,7 +368,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
             <SectionHeader
               icon={<Cloud className="w-4 h-4" />}
               title="Settings sync state"
-              description="Appearance and Capture settings sync to the Selene profile. Runtime stays local to this device."
+              description="Appearance and Capture settings sync to the Selemene profile. Runtime stays local to this device."
             />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
@@ -436,7 +436,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
               </div>
               <div className="mystic-status !p-3">
                 <div className="mystic-data-value text-sm">Capture policy syncs</div>
-                <p className="mt-1 text-xs text-pip-text-secondary">Snapshot and export defaults are part of the user’s Selemene workflow and belong in the Selene profile.</p>
+                <p className="mt-1 text-xs text-pip-text-secondary">Snapshot and export defaults are part of the user’s Selemene workflow and belong in the Selemene profile.</p>
               </div>
               <div className="mystic-status !p-3">
                 <div className="mystic-data-value text-sm">Runtime stays local</div>
@@ -449,7 +449,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
             <SectionHeader
               icon={<SlidersHorizontal className="w-4 h-4" />}
               title="Current profile-backed target"
-              description="The synced settings subset now writes through the backend into the Selene profile preferences envelope."
+              description="The synced settings subset now writes through the backend into the Selemene profile preferences envelope."
             />
 
             <div className="rounded-xl border border-dashed border-pip-border/55 bg-black/20 p-3 text-sm text-pip-text-secondary">

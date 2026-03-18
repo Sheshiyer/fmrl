@@ -3,7 +3,7 @@
 _Last updated: 2026-03-08_
 
 ## Purpose
-Define the local-first settings schema currently used by the app and the intended future mapping into Selene profile preferences.
+Define the local-first settings schema currently used by the app and the intended future mapping into Selemene profile preferences.
 
 ## Current storage model
 The current implementation uses a split model:

@@ -40,8 +40,8 @@ your biofield coherence shift during a Saturn return?").
 
 Both systems already share the same Supabase project (`qjnqdhvlxdmezxdnlrbj`).
 Biofield Mirror's bootstrap migration (`20260308173000_selene_compat_bootstrap.sql`)
-creates local stubs of Selene's core tables (`users`, `readings`,
-`user_profiles`, `progression_logs`) — in production, these tables are Selene's.
+creates local stubs of Selemene's core tables (`users`, `readings`,
+`user_profiles`, `progression_logs`) — in production, these tables are Selemene's.
 Biofield Mirror writes readings with `engine_id = 'biofield-mirror'`.
 
 **This means the integration path already exists.** The work is formalizing the
@@ -78,10 +78,10 @@ contract and removing the mock from `engine-biofield`.
 │ Supabase PostgreSQL     │
 │ (qjnqdhvlxdmezxdnlrbj) │
 │                         │
-│ • users                 │  ← Selene-owned
-│ • user_profiles         │  ← Selene-owned
-│ • readings              │  ← Selene-owned, Biofield writes here
-│ • progression_logs      │  ← Selene-owned
+│ • users                 │  ← Selemene-owned
+│ • user_profiles         │  ← Selemene-owned
+│ • readings              │  ← Selemene-owned, Biofield writes here
+│ • progression_logs      │  ← Selemene-owned
 │ • biofield_sessions     │  ← Biofield-owned
 │ • biofield_snapshots    │  ← Biofield-owned
 │ • biofield_timeline_pts │  ← Biofield-owned
@@ -124,10 +124,10 @@ contract and removing the mock from `engine-biofield`.
 
 | Resource | Owner | Both Access? |
 |----------|-------|-------------|
-| Supabase PostgreSQL | Selene project | **Yes** — same DB |
-| Supabase Auth | Selene project | **Yes** — same JWT issuer |
-| Supabase Storage | Selene project | Biofield: `biofield-captures`, `biofield-reports` |
-| Supabase Realtime | Selene project | Available to both |
+| Supabase PostgreSQL | Selemene project | **Yes** — same DB |
+| Supabase Auth | Selemene project | **Yes** — same JWT issuer |
+| Supabase Storage | Selemene project | Biofield: `biofield-captures`, `biofield-reports` |
+| Supabase Realtime | Selemene project | Available to both |
 
 ---
 
@@ -158,7 +158,7 @@ PostgreSQL again — a net negative.
 
 3. **Ownership boundaries preserved** — Biofield Mirror WRITES to `biofield_*`
    tables. Selemene's `engine-biofield` READS them. The `readings` table is
-   Selene-owned — Biofield Mirror writes readings there as a guest, using
+   Selemene-owned — Biofield Mirror writes readings there as a guest, using
    `engine_id = 'biofield-mirror'`.
 
 4. **Realtime for coordination** — When Biofield Mirror completes a session, it
@@ -194,14 +194,14 @@ PostgreSQL again — a net negative.
 
 Both systems use **Supabase Auth**. The same `auth.users` table is the identity
 source of truth. The `user_id` (UUID) in every `biofield_*` table is the same
-UUID that appears in Selene's `users.id` and `user_profiles.user_id`.
+UUID that appears in Selemene's `users.id` and `user_profiles.user_id`.
 
 ```
 auth.users.id  ←→  public.users.id  ←→  biofield_sessions.user_id
       │                   │                       │
       │                   │                       │
       ▼                   ▼                       ▼
-   JWT sub claim    Selene user record    Biofield session owner
+   JWT sub claim    Selemene user record    Biofield session owner
 ```
 
 **No mapping table is required.** The foreign key chain is:
@@ -480,13 +480,13 @@ export interface BaselineComparisonResult {
 }
 ```
 
-### 5.7 Readings Record (Selene-Owned)
+### 5.7 Readings Record (Selemene-Owned)
 
 When Biofield Mirror persists a full analysis, it writes to the shared `readings`
 table with this contract:
 
 ```typescript
-/** Reading record written by Biofield Mirror to Selene's readings table */
+/** Reading record written by Biofield Mirror to Selemene's readings table */
 export interface BiofieldReading {
   id: string;
   user_id: string;

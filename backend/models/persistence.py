@@ -1,4 +1,4 @@
-"""Canonical persistence models for Selene × Biofield integration."""
+"""Canonical persistence models for Selemene × FMRL integration."""
 from __future__ import annotations
 
 from datetime import datetime
@@ -70,7 +70,7 @@ class CanonicalReadingResult(BaseModel):
 
 
 class ReadingCreate(BaseModel):
-    """Create payload for canonical Biofield-backed Selene readings."""
+    """Create payload for canonical FMRL-backed Selemene readings."""
 
     user_id: UUID
     engine_id: str = "biofield-mirror"

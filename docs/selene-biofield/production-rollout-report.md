@@ -1,4 +1,4 @@
-# Production Rollout Report — Selene × Biofield
+# Production Rollout Report — Selemene × Biofield
 
 _Last updated: 2026-03-08_
 
@@ -19,7 +19,7 @@ Production preflight showed:
 - `public.users` count = `31`
 - matching ids = `0`
 
-That means the drafted `auth.uid()`-based policy model is unsafe for production as currently written. The identity model must be redesigned around the actual Selene production auth/user architecture before hosted RLS rollout.
+That means the drafted `auth.uid()`-based policy model is unsafe for production as currently written. The identity model must be redesigned around the actual Selemene production auth/user architecture before hosted RLS rollout.
 
 ## Backups captured before mutation
 - schema backup: session data `prod-preflight-schema.sql`
@@ -67,4 +67,4 @@ That means the drafted `auth.uid()`-based policy model is unsafe for production 
    - this needs a focused follow-up against real Biofield capture inputs before calling capture persistence fully production-verified
 
 ## Recommended next step
-Continue with the frontend history tranche using the now-validated session and snapshot surfaces, while separately redesigning hosted RLS around the real Selene identity model.
+Continue with the frontend history tranche using the now-validated session and snapshot surfaces, while separately redesigning hosted RLS around the real Selemene identity model.

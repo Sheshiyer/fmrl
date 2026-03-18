@@ -1,11 +1,11 @@
-# Local-Safe Validation Report — Selene × Biofield
+# Local-Safe Validation Report — Selemene × Biofield
 
 _Last updated: 2026-03-08_
 
 ## Outcome
-The drafted Selene × Biofield migration stack was successfully validated in a **local-safe Supabase environment** and exercised through the guarded backend API layer.
+The drafted Selemene × Biofield migration stack was successfully validated in a **local-safe Supabase environment** and exercised through the guarded backend API layer.
 
-This does **not** replace remote-safe validation against a true Selene-like environment, but it proves that:
+This does **not** replace remote-safe validation against a true Selemene-like environment, but it proves that:
 - the migration stack can apply cleanly in order
 - the drafted storage buckets and helper views are created
 - targeted RLS policies are applied
@@ -125,7 +125,7 @@ Artifacts written under session data:
 ## Important bugs discovered and fixed during validation
 
 ### 1. Local stack prerequisite gap
-**Issue:** Local Supabase startup failed because the Biofield foundation migration assumed existing Selene tables (`public.readings`, `public.users`, etc.).
+**Issue:** Local Supabase startup failed because the Biofield foundation migration assumed existing Selemene tables (`public.readings`, `public.users`, etc.).
 
 **Fix:** Added `20260308173000_selene_compat_bootstrap.sql`, a no-op compatibility bootstrap for environments where those tables are absent.
 
@@ -155,9 +155,9 @@ Artifacts written under session data:
 
 ## Remaining limits
 This report does **not yet** prove:
-- real remote `auth.uid()` ↔ `public.users.id` mapping in the Selene target environment
+- real remote `auth.uid()` ↔ `public.users.id` mapping in the Selemene target environment
 - compatibility with live remote service-role/admin automation
-- true remote-safe apply against the existing Selene project
+- true remote-safe apply against the existing Selemene project
 
 Those remain the next verification layer.
 
@@ -169,4 +169,4 @@ The Biofield integration is now materially stronger than before this validation 
 - guarded APIs are locally proven
 - key runtime bugs were surfaced and fixed through actual end-to-end execution
 
-The next best step is **remote-safe validation** against a non-production Selene-like environment or branch project, using the same migration order and smoke workflow.
+The next best step is **remote-safe validation** against a non-production Selemene-like environment or branch project, using the same migration order and smoke workflow.

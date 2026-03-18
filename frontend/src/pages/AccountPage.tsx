@@ -68,7 +68,7 @@ export const AccountPage: React.FC<AccountPageProps> = ({
       <div className="mystic-page-header flex items-center justify-between gap-3">
         <div>
           <h1 className="mystic-section-title text-lg sm:text-xl">Account</h1>
-          <p className="mt-1 text-sm text-pip-text-secondary">Selene identity, persistence health, and recent Selemene records.</p>
+          <p className="mt-1 text-sm text-pip-text-secondary">Selemene identity, persistence health, and recent Selemene records.</p>
         </div>
         <button className="mystic-btn mystic-btn-secondary !px-3 !py-2" onClick={onRefresh}>Refresh</button>
       </div>
@@ -80,12 +80,12 @@ export const AccountPage: React.FC<AccountPageProps> = ({
               <UserCircle2 className="w-6 h-6 text-pip-gold" />
               <div>
                 <span className="mystic-eyebrow">Profile</span>
-                <p className="mt-2 text-sm text-pip-text-secondary">Configure the active Selene user UUID used by the frontend persistence bridge.</p>
+                <p className="mt-2 text-sm text-pip-text-secondary">Configure the active Selemene user UUID used by the frontend persistence bridge.</p>
               </div>
             </div>
 
             <label className="flex flex-col gap-2">
-              <span className="text-xs uppercase tracking-[0.18em] text-pip-text-muted">Active Selene User ID</span>
+              <span className="text-xs uppercase tracking-[0.18em] text-pip-text-muted">Active Selemene User ID</span>
               <input
                 value={userIdInput}
                 onChange={(event) => setUserIdInput(event.target.value)}
@@ -173,7 +173,7 @@ export const AccountPage: React.FC<AccountPageProps> = ({
             <div>
               <span className="mystic-eyebrow">Cutover note</span>
               <p className="mt-2 text-sm text-pip-text-secondary">
-                Capture still preserves local preview UX, but when the backend is healthy and a Selene user UUID is configured, the app now threads session and snapshot context into the persistence layer.
+                Capture still preserves local preview UX, but when the backend is healthy and a Selemene user UUID is configured, the app now threads session and snapshot context into the persistence layer.
               </p>
             </div>
           </section>

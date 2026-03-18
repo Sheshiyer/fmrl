@@ -10,7 +10,7 @@ Biofield Mirror already has a meaningful product shape and a usable scoring engi
 2. **Backend capture analysis path** — richer backend metric engine, but not yet canonical for the main dashboard
 3. **Legacy/shared app-state path** — older global state types for baselines, history, and session identifiers
 
-This split is the central integration problem that must be solved before safe Selene persistence can be considered complete.
+This split is the central integration problem that must be solved before safe Selemene persistence can be considered complete.
 
 ---
 
@@ -251,7 +251,7 @@ This is already close to a canonical snapshot aggregate, but:
 - `frontend/src/pages/AccountPage.tsx`
 
 ### Observation
-The Account page is currently a UI shell only. It is the right insertion point for Selene profile integration but does not yet read or write live account data.
+The Account page is currently a UI shell only. It is the right insertion point for Selemene profile integration but does not yet read or write live account data.
 
 ---
 
@@ -276,17 +276,17 @@ Timeline points are transient.
 The system does not yet persist enough metadata to distinguish live estimates from backend-detailed analysis.
 
 ### Gap F — No unified profile integration
-The Account page and profile data are not yet wired to Selene.
+The Account page and profile data are not yet wired to Selemene.
 
 ---
 
 ## 10. Recommended architecture direction
 
-The safest path is to keep **Selene readings as the top-level canonical analysis record** and add Biofield-specific structure around it for:
+The safest path is to keep **Selemene readings as the top-level canonical analysis record** and add Biofield-specific structure around it for:
 - sessions
 - snapshots
 - timeline points
 - baselines
 - artifacts
 
-This preserves existing Selene architecture while allowing Biofield Mirror to become a first-class engine/workflow inside the product.
+This preserves existing Selemene architecture while allowing Biofield Mirror to become a first-class engine/workflow inside the product.

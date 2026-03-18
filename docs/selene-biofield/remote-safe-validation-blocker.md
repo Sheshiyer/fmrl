@@ -3,7 +3,7 @@
 _Last updated: 2026-03-08_
 
 ## Status
-Remote-safe validation against a hosted non-production Selene-like Supabase environment is currently **blocked**.
+Remote-safe validation against a hosted non-production Selemene-like Supabase environment is currently **blocked**.
 
 ## What Craft Agent verified
 ### Supabase CLI auth

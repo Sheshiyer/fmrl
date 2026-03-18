@@ -3,7 +3,7 @@
 _Last updated: 2026-03-08_
 
 ## Purpose
-This scaffold begins the transition from purely local/in-memory frontend flows toward the canonical Selene × Biofield persistence layer.
+This scaffold begins the transition from purely local/in-memory frontend flows toward the canonical Selemene × Biofield persistence layer.
 
 It is intentionally:
 - **best-effort** — local preview behavior still works if persistence is unavailable
@@ -31,7 +31,7 @@ Provides wrappers for:
 
 Provides app-facing state and actions for:
 - persistence readiness
-- configured Selene user UUID
+- configured Selemene user UUID
 - session bootstrap
 - timeline flushing
 - persisted capture/snapshot recording
@@ -64,7 +64,7 @@ Changes:
 - `frontend/src/pages/AccountPage.tsx`
 
 The Account page now shows:
-- configured Selene user UUID
+- configured Selemene user UUID
 - backend persistence enabled/healthy state
 - active session ID / status
 - last reading ID / snapshot ID
@@ -77,7 +77,7 @@ This is not full profile integration yet, but it is now a practical persistence-
 
 ## Current limitations
 - No true Supabase auth/user bootstrap exists on the frontend yet.
-- The configured user UUID is currently a local setting, not a logged-in Selene identity.
+- The configured user UUID is currently a local setting, not a logged-in Selemene identity.
 - The analysis page displays persisted IDs in data only; richer persisted-history navigation is still ahead.
 - The cutover is compile-validated but not yet fully exercised through the desktop frontend against a hosted non-production backend.
 
@@ -88,7 +88,7 @@ This is not full profile integration yet, but it is now a practical persistence-
 - backend local-safe validation already proved the target APIs behind this scaffold
 
 ## Recommended next frontend steps
-1. true Selene auth/session bootstrap
+1. true Selemene auth/session bootstrap
 2. account/profile fetch/update route integration
 3. persisted history browser surfaces for sessions and snapshots
 4. baseline comparison UI wired to live persisted state
