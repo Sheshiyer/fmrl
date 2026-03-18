@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     """Application settings."""
     
     # Application
-    VERSION: str = "1.0.0"
+    VERSION: str = "0.0.1"
     DEBUG: bool = False
     
     # Server

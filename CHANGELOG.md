@@ -1,62 +1,93 @@
-# TouchDesigner Noise TOP Implementation - Changelog
+# Changelog
 
-## [2024-01-XX] - TouchDesigner Noise TOP Implementation
+All notable changes to the FMRL (Frequency Modulated Reality Lens) project.
 
-### Added
-- **Proper TouchDesigner Noise TOP workflow**: Implemented single-pass GPU shader that matches TouchDesigner's Noise TOP behavior
-- **Video-driven noise coordinates**: Implemented TouchDesigner's key feature where video RGB values drive noise coordinate generation
-- **Video Influence control**: Added parameter to control how much video content affects noise coordinates (0-100%)
-- **Image-based color lookup**: Revolutionary feature to use custom images as color palettes for noise generation
-- **Three color modes**: Default Perlin, Enhanced HSL, and Image Lookup for maximum creative control
-- **File upload functionality**: Upload any image to use as a color lookup texture
-- **Dynamic color pattern generation**: Procedurally generated psychedelic default color pattern
-- **Gaussian blur post-processing**: Add dreamy, soft blur effects to the final output (0-10 intensity)
-- **Enhanced color mapping**: Sophisticated noise-to-color conversion based on video content analysis
-- **Color Saturation control**: User-adjustable saturation boost for more vibrant results (0-200%)
-- **Hue Shift control**: Control how much noise affects hue vs preserving original video hue (0-100%)
-- **TouchDesigner Composite workflow**: Proper Video -> Noise -> Composite pipeline matching TouchDesigner
-- **Multiple blend modes**: Added support for Multiply, Add, Subtract, and Color blend operations
-- **TouchDesigner-style coordinate generation**: Fixed frequency calculation to match TouchDesigner's approach
-- **Proper noise reshaping**: Implemented TouchDesigner's exact noise processing pipeline:
-  1. Generate base noise with fbm using video-driven coordinates
-  2. Apply exponent: `sign(n) * pow(abs(n), uExponent)`
-  3. Apply amplitude and offset: `n * uAmplitude + uOffset`
-  4. Clamp to [0,1] range
-- **Blend mode selector**: Added dropdown to switch between different TouchDesigner Channel Pre-Op/Post-Op modes
-- **Intensity control**: Added ability to mix between original video and processed result
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-### Changed
-- **Fragment shader architecture**: Restructured to follow TouchDesigner's 6-step pipeline:
-  1. Input sampling
-  2. Video-driven noise coordinate generation
-  3. Noise reshaping
-  4. Enhanced color mapping
-  5. TouchDesigner composite operations
-  6. Output writing
-- **Noise coordinate system**: **MAJOR FIX** - Now uses video RGB values as coordinate input like TouchDesigner
-- **Color generation**: Enhanced from simple `fract()` to sophisticated HSL-based color mapping
-- **Composite operations**: Improved all blend modes with better color balance and preservation
-- **Default mode**: Changed default to "Color" mode for best visual results
-- **Default parameters**: Updated to match typical TouchDesigner Noise TOP settings for more organic results
-- **Time animation**: Slowed down time evolution for more natural movement
+---
 
-### Fixed
-- **Critical: Video coordinate mapping**: Now properly uses video as coordinate map instead of simple overlay
-- **Organic noise patterns**: Video content now drives noise generation for content-aware effects
-- **TouchDesigner accuracy**: Matches actual TouchDesigner Noise TOP behavior when video is input
-- **Color vibrancy**: Enhanced color mapping produces more vibrant, natural-looking results
-- **Oversaturation**: Added saturation clamping to prevent color overflow
-- **Parameter scaling**: Adjusted coordinate scaling to better match TouchDesigner's behavior
+## [0.0.1] - 2026-03-18
 
-### Technical Details
-- **Video-driven coordinates**: `mix(spatialCoord, videoCoord, uVideoInfluence)` replicates TouchDesigner's coordinate mapping
-- **Enhanced color mapping**: HSL-based color generation with video content analysis
-- **TouchDesigner composite**: Proper hue/saturation overlay with luminance preservation
-- **Single-pass GPU processing**: All operations happen in one shader pass, matching TouchDesigner's efficiency
-- **Proper uniform handling**: Added `uColorSaturation` and `uHueShift` uniforms for color control
-- **TouchDesigner-compatible parameters**: All noise parameters now work exactly like TouchDesigner's Noise TOP
-- **Output clamping**: Added proper clamping to prevent color overflow
+### Added — Initial Release
 
-### Files Modified
-- `touchdesigner-style.html`: Complete shader rewrite with enhanced color mapping and TouchDesigner composite workflow
-- `CHANGELOG.md`: Updated to track all implementation progress and enhancements 
+#### Web Application (`@fmrl/web`)
+- Real-time video capture with WebRTC
+- PIP (Polycontrast Interference Photography) shader visualization using WebGL2
+- TouchDesigner-style Noise TOP implementation with video-driven coordinates
+- Live biofield metric extraction and display
+- Interactive dashboard with Recharts visualizations
+- Session management and capture history
+- PDF/CSV export functionality
+- Discord OAuth integration via Supabase Auth
+- Responsive design with Tailwind CSS v4
+
+#### Backend API (`fmrl-api`)
+- FastAPI-based REST API with WebSocket support
+- Real-time video analysis pipeline (OpenCV + NumPy + SciPy)
+- PIP metric calculations:
+  - Energy distribution scoring
+  - Symmetry analysis (left/right balance)
+  - Coherence measurement
+  - Complexity indices
+  - Regulation metrics
+  - Color balance analysis
+- Audio entrainment generation (sounddevice + soundfile)
+- Baseline establishment and tracking
+- Timeline and snapshot persistence
+- Export services (PDF reports, CSV data)
+
+#### Desktop Application (`fmrl-desktop`)
+- Tauri v2 native macOS application
+- Camera and microphone permissions
+- File system access for exports
+- Local backend integration (localhost:8000)
+- Native window controls and menus
+- Code-signed and notarization-ready configuration
+
+#### Infrastructure
+- Docker containerization (dev + production)
+- GitHub Actions CI/CD pipeline
+- DigitalOcean deployment automation
+- Domain: `fmrl.tryambakam.space`
+- Supabase integration (PostgreSQL + Auth + Storage)
+
+#### Documentation
+- Comprehensive README with architecture overview
+- Deployment guides for web and desktop
+- Technical specification documents
+- API documentation (inline FastAPI)
+
+### Technical Stack
+
+| Layer | Technology |
+|-------|------------|
+| Frontend | React 19, TypeScript 5.9, Vite 7 |
+| Styling | Tailwind CSS 4, Framer Motion |
+| Vision | TensorFlow.js, MediaPipe, WebGL2 |
+| Backend | Python 3.11, FastAPI, OpenCV |
+| Desktop | Tauri v2, Rust |
+| Database | Supabase (PostgreSQL), Redis |
+| Deploy | Docker, GitHub Actions, DigitalOcean |
+
+### Notes
+
+This is the first public release of FMRL (Frequency Modulated Reality Lens), previously developed under the working name "Biofield Engine" / "Selemene Engine". The system represents a complete rewrite and consolidation of earlier PIP analysis prototypes into a unified web + API + desktop platform.
+
+---
+
+## Pre-Release History
+
+Prior to v0.0.1, development occurred in the `biofield-engine` repository under various internal codenames. Key milestones included:
+
+- TouchDesigner Noise TOP shader reverse-engineering
+- WebGL2 PIP visualization prototypes
+- TensorFlow.js body segmentation integration
+- MediaPipe face landmark detection
+- Early FastAPI analysis backend
+
+These components have been consolidated into the unified FMRL platform as of v0.0.1.
+
+---
+
+[0.0.1]: https://github.com/witnessalchemist/fmrl/releases/tag/v0.0.1

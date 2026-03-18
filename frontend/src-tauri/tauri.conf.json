@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Selemene Engine",
-  "version": "0.3.0",
-  "identifier": "com.selemene.engine",
+  "productName": "FMRL",
+  "version": "0.0.1",
+  "identifier": "com.fmrl.app",
   "build": {
     "beforeDevCommand": "npm run dev:tauri",
     "beforeBuildCommand": "npm run build",
@@ -13,7 +13,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "Selemene Engine",
+        "title": "FMRL",
         "width": 1440,
         "height": 900,
         "minWidth": 1280,

@@ -1,7 +1,7 @@
 {
-  "name": "frontend",
+  "name": "@fmrl/web",
   "private": true,
-  "version": "0.3.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite --strictPort --port 5173",

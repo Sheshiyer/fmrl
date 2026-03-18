@@ -1,14 +1,14 @@
 [package]
-name = "selemene-engine"
-version = "0.3.0"
-description = "Selemene Engine Desktop"
+name = "fmrl-desktop"
+version = "0.0.1"
+description = "FMRL Desktop — Frequency Modulated Reality Lens"
 authors = ["Witness Alchemist"]
 license = ""
 repository = ""
 edition = "2021"
 
 [lib]
-name = "selemene_engine_lib"
+name = "fmrl_desktop_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]

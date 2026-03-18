@@ -14,15 +14,15 @@ from db import database_manager
 async def lifespan(app: FastAPI):
     """Application lifespan events."""
     # Startup
-    print(f"Starting PIP Analysis Backend v{settings.VERSION}")
+    print(f"Starting FMRL Backend v{settings.VERSION}")
     yield
     # Shutdown
-    print("Shutting down PIP Analysis Backend")
+    print("Shutting down FMRL Backend")
 
 
 app = FastAPI(
-    title="PIP Analysis System",
-    description="Real-time and static analysis of Polycontrast Interference Photography images",
+    title="FMRL API",
+    description="Frequency Modulated Reality Lens — Real-time biofield analysis API",
     version=settings.VERSION,
     lifespan=lifespan
 )
