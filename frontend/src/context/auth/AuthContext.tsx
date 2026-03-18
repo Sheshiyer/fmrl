@@ -35,17 +35,20 @@ export interface AuthState {
   status: AuthStatus;
   user: User | null;           // Supabase Auth user
   session: Session | null;     // Current JWT session
-  
+
+  // Selemene Engine token (bridge: Supabase JWT used as-is)
+  selemeneToken: string | null;
+
   // Database user (public.users)
   dbUser: DbUser | null;
-  
+
   // User profile (public.user_profiles)
   profile: UserProfile | null;
-  
+
   // Loading states
   isLoading: boolean;
   isProfileLoading: boolean;
-  
+
   // Error state
   error: AuthError | Error | null;
 }
@@ -112,7 +115,8 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isProfileLoading, setIsProfileLoading] = useState(false);
   const [error, setError] = useState<AuthError | Error | null>(null);
-  
+  const [selemeneToken, setSelemeneToken] = useState<string | null>(null);
+
   // Refs to prevent memory leaks and duplicate fetches
   const isMounted = useRef(true);
   const profileFetchInProgress = useRef(false);
@@ -140,6 +144,7 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
         if (data.session) {
           setSession(data.session);
           setUser(data.session.user);
+          setSelemeneToken(data.session.access_token ?? null);
           setStatus('authenticated');
           // Profile will be fetched by the user effect below
         } else {
@@ -171,16 +176,18 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
           case 'SIGNED_IN':
             setSession(newSession);
             setUser(newSession?.user ?? null);
+            setSelemeneToken(newSession?.access_token ?? null);
             setStatus('authenticated');
             // Clear guest mode if active
             localStorage.removeItem('selemene_guest_mode');
             break;
-            
+
           case 'SIGNED_OUT':
             setSession(null);
             setUser(null);
             setDbUser(null);
             setProfile(null);
+            setSelemeneToken(null);
             setStatus('unauthenticated');
             break;
             
@@ -190,6 +197,7 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
             
           case 'TOKEN_REFRESHED':
             setSession(newSession);
+            setSelemeneToken(newSession?.access_token ?? null);
             break;
         }
       }
@@ -416,6 +424,7 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
     status,
     user,
     session,
+    selemeneToken,
     dbUser,
     profile,
     isLoading: status === 'loading',

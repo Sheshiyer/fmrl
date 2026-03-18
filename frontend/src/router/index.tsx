@@ -22,6 +22,10 @@ const AccountPageWrapper = lazy(() => import('../pages/AccountPageWrapper').then
 const DetailedAnalysisPage = lazy(() => import('../pages/DetailedAnalysisPage').then(m => ({ default: m.DetailedAnalysisPage })));
 const MetricsGuidePage = lazy(() => import('../pages/MetricsGuidePage').then(m => ({ default: m.MetricsGuidePage })));
 const OnboardingPage = lazy(() => import('../pages/OnboardingPage').then(m => ({ default: m.OnboardingPage })));
+const EngineDirectoryPage = lazy(() => import('../pages/EngineDirectoryPage').then(m => ({ default: m.EngineDirectoryPage })));
+const EnginePage = lazy(() => import('../pages/EnginePage').then(m => ({ default: m.EnginePage })));
+const WorkflowPage = lazy(() => import('../pages/WorkflowPage').then(m => ({ default: m.WorkflowPage })));
+const ReadingsPage = lazy(() => import('../pages/ReadingsPage').then(m => ({ default: m.ReadingsPage })));
 
 // Loading fallback
 function PageLoader() {
@@ -145,6 +149,22 @@ export const router = createBrowserRouter([
       {
         path: 'metrics-guide',
         element: <MetricsGuidePage />,
+      },
+      {
+        path: 'engines',
+        element: <EngineDirectoryPage />,
+      },
+      {
+        path: 'engines/:engineId',
+        element: <EnginePage />,
+      },
+      {
+        path: 'workflows/:workflowId',
+        element: <WorkflowPage />,
+      },
+      {
+        path: 'readings',
+        element: <ReadingsPage />,
       },
     ],
   },

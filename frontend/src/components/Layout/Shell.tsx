@@ -6,12 +6,14 @@
 import React, { type ReactNode, createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  LayoutDashboard, 
-  Settings, 
-  BookOpenText, 
-  Info, 
+import {
+  LayoutDashboard,
+  Settings,
+  BookOpenText,
+  Info,
   UserCircle2,
+  Compass,
+  History,
   Menu,
   ChevronLeft,
   ChevronRight,
@@ -25,7 +27,7 @@ import { UserMenu } from '../Auth/UserMenu';
 import { useKeyboardShortcuts } from '../../hooks/useKeyboardShortcuts';
 import { useMotionPreference } from '../../hooks/useMotionPreference';
 
-export type ShellView = 'dashboard' | 'settings' | 'docs' | 'info' | 'account';
+export type ShellView = 'dashboard' | 'settings' | 'docs' | 'info' | 'account' | 'engines' | 'readings';
 
 // Shell context for sharing state with child pages
 interface ShellContextValue {
@@ -79,11 +81,24 @@ const navItems: Array<{
     icon: <Info className="w-4 h-4" />,
     path: '/info',
   },
-  { 
-    key: 'account', 
-    label: 'Account', 
+  {
+    key: 'account',
+    label: 'Account',
     icon: <UserCircle2 className="w-4 h-4" />,
     path: '/account',
+  },
+  // --- Selemene Engine views ---
+  {
+    key: 'engines',
+    label: 'Engines',
+    icon: <Compass className="w-4 h-4" />,
+    path: '/engines',
+  },
+  {
+    key: 'readings',
+    label: 'Readings',
+    icon: <History className="w-4 h-4" />,
+    path: '/readings',
   },
 ];
 
