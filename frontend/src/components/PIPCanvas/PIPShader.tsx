@@ -876,11 +876,15 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
         (video.srcObject as MediaStream).getTracks().forEach(track => track.stop());
         video.srcObject = null;
       }
-      // Clean up WebGL resources to prevent stale uniform references on re-mount
-      const glCtx = canvasRef.current?.getContext('webgl2');
-      if (glCtx) {
-        glCtx.getExtension('WEBGL_lose_context')?.loseContext();
-      }
+      // Delete the shader program to free GPU resources — but do NOT lose the
+      // WebGL context itself, because React StrictMode will re-mount and needs
+      // the same canvas context to create a new program.
+      try {
+        const glCtx = canvasRef.current?.getContext('webgl2');
+        if (glCtx && program) {
+          glCtx.deleteProgram(program);
+        }
+      } catch { /* ignore cleanup errors */ }
     };
   }, [createProgram, onFrameData, drawSegmentationMask]);
 
