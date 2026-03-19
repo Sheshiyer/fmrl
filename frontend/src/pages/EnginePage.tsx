@@ -54,7 +54,7 @@ export function EnginePage() {
           <WifiOff className="w-10 h-10 text-pip-warning" />
           <h2 className="mystic-section-title text-lg">Not Connected</h2>
           <p className="text-sm text-pip-text-secondary">
-            Connect to Selemene Engine to run calculations.
+            Connect to Selemene API to run calculations.
           </p>
         </div>
       </div>

@@ -1,5 +1,5 @@
 /**
- * Selemene Engine API Types
+ * Selemene API Types
  * Mirrors the Rust noesis-sdk type definitions
  * See: .plan/phases/PHASE-1-multi-engine.md for API contract
  */

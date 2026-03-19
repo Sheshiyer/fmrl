@@ -245,7 +245,7 @@ export function ReadingsPage() {
           <WifiOff className="w-10 h-10 text-pip-warning" />
           <h2 className="mystic-section-title text-lg">Not Connected</h2>
           <p className="text-sm text-pip-text-secondary">
-            Connect to Selemene Engine to view your reading history.
+            Connect to Selemene API to view your reading history.
           </p>
         </div>
       </div>

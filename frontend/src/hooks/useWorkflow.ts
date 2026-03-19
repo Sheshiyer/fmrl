@@ -25,7 +25,7 @@ export function useWorkflow(): UseWorkflowReturn {
 
   const execute = useCallback(async (workflowId: string, input: EngineInput) => {
     if (!isConnected) {
-      setError(new Error('Not connected to Selemene Engine'));
+      setError(new Error('Not connected to Selemene API'));
       return null;
     }
     setIsLoading(true);

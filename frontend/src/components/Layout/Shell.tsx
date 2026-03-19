@@ -87,7 +87,7 @@ const navItems: Array<{
     icon: <UserCircle2 className="w-4 h-4" />,
     path: '/account',
   },
-  // --- Selemene Engine views ---
+  // --- Engine views ---
   {
     key: 'engines',
     label: 'Engines',
@@ -276,11 +276,11 @@ export const Shell: React.FC<ShellProps> = ({ children }) => {
                             transition-all duration-200
                             ${!isSidebarOpen && !isMobile ? 'text-sm' : ''}
                           `}>
-                            {!isSidebarOpen && !isMobile ? 'SE' : 'Selemene Engine'}
+                            {!isSidebarOpen && !isMobile ? 'F' : 'FMRL'}
                           </h1>
                           {(isSidebarOpen || isMobile) && (
                             <p className="text-xs text-pip-text-muted mt-1">
-                              Native consciousness workstation
+                              Frequency Modulated Reality Lens
                             </p>
                           )}
                         </motion.div>

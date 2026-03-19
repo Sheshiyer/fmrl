@@ -116,7 +116,7 @@ export function WorkflowPage() {
                 <h3 className="text-sm font-medium text-pip-gold">Consciousness Phase Required</h3>
                 <p className="text-xs text-pip-text-secondary mt-1">
                   This workflow requires Phase {meta.requiredPhase} or higher. Continue your practice
-                  to unlock deeper layers of the Selemene Engine.
+                  to unlock deeper layers of FMRL.
                 </p>
               </div>
             </div>

@@ -36,7 +36,7 @@ export interface AuthState {
   user: User | null;           // Supabase Auth user
   session: Session | null;     // Current JWT session
 
-  // Selemene Engine token (bridge: Supabase JWT used as-is)
+  // Selemene API token (bridge: Supabase JWT used as-is)
   selemeneToken: string | null;
 
   // Database user (public.users)

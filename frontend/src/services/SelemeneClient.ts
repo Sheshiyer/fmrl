@@ -1,5 +1,5 @@
 /**
- * SelemeneClient — TypeScript API client for Selemene Engine
+ * SelemeneClient — TypeScript API client for Selemene API
  * Mirrors the Rust noesis-sdk interface
  * See: .plan/phases/PHASE-1-multi-engine.md for API contract
  */

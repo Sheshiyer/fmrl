@@ -119,7 +119,7 @@ describe('useEngine', () => {
       });
 
       expect(result.current.error).toBeInstanceOf(Error);
-      expect(result.current.error!.message).toBe('Not connected to Selemene Engine');
+      expect(result.current.error!.message).toBe('Not connected to Selemene API');
       expect(mockCalculate).not.toHaveBeenCalled();
     });
   });

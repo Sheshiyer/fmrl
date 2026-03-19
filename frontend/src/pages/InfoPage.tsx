@@ -11,7 +11,7 @@ export const InfoPage: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 min-h-0">
         <section className="mystic-panel !p-4">
           <span className="mystic-eyebrow">App</span>
-          <p className="mt-2 text-sm text-pip-text-secondary">Selemene Engine Desktop</p>
+          <p className="mt-2 text-sm text-pip-text-secondary">FMRL — Frequency Modulated Reality Lens</p>
           <p className="text-sm text-pip-text-secondary">Version 0.1.0</p>
         </section>
         <section className="mystic-panel !p-4">

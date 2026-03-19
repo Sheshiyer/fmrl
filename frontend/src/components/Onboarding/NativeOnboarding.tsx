@@ -167,7 +167,7 @@ export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
       <div className="mystic-panel w-full max-w-3xl p-6 sm:p-8 lg:p-10 space-y-7">
         <div className="space-y-2 text-center">
           <p className="text-xs tracking-[0.35em] uppercase text-pip-gold/90">Consciousness Interface</p>
-          <h1 className="mystic-title text-3xl sm:text-4xl">Selemene Engine Setup</h1>
+          <h1 className="mystic-title text-3xl sm:text-4xl">FMRL Setup</h1>
           <p className="text-pip-text-secondary max-w-xl mx-auto">
             Configure native permissions with a guided flow for camera access, export readiness, and runtime health.
           </p>
@@ -333,7 +333,7 @@ export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
             {cameraState === 'denied' && isDesktopRuntime && (
               <ol className="list-decimal list-inside text-xs text-pip-text-muted space-y-1">
                 <li>Click <strong>Repair Permissions</strong> once if the app is missing from the Camera list.</li>
-                <li>Quit and reopen Selemene Engine from Applications.</li>
+                <li>Quit and reopen FMRL from Applications.</li>
                 <li>Click <strong>Request Camera Access</strong> to trigger a fresh macOS prompt.</li>
               </ol>
             )}
@@ -425,7 +425,7 @@ export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
             </div>
 
             <p className="text-sm text-pip-text-secondary">
-              Selemene Engine works fully offline with local compute. The backend server connects automatically in the background when available.
+              FMRL works fully offline with local compute. The backend server connects automatically in the background when available.
             </p>
 
             {runtimeReady && (
@@ -461,7 +461,7 @@ export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
                 className="mystic-btn mystic-btn-primary"
                 onClick={() => onComplete({ force: !runtimeReady })}
               >
-                Enter Selemene Engine
+                Enter FMRL
               </button>
             </div>
           </section>

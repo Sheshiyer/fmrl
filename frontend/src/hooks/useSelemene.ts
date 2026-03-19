@@ -1,5 +1,5 @@
 /**
- * useSelemene — React hook for Selemene Engine connectivity and data
+ * useSelemene — React hook for Selemene API connectivity and data
  * Provides a memoized SelemeneClient, connection status, and engine/workflow lists.
  */
 import { useState, useEffect, useMemo } from 'react';

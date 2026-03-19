@@ -14,7 +14,7 @@ export function useEngine(engineId: string) {
 
   const calculate = useCallback(async (input: EngineInput) => {
     if (!isConnected) {
-      setError(new Error('Not connected to Selemene Engine'));
+      setError(new Error('Not connected to Selemene API'));
       return null;
     }
     setIsLoading(true);
