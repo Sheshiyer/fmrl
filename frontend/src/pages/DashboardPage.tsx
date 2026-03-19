@@ -16,6 +16,7 @@ import { ShortcutsHelp } from '../components/UI/ShortcutsHelp';
 
 import type { AnalysisResult, CapturedAnalysisData } from '../types';
 import { StaggerContainer, StaggerItem } from '../components/Animations';
+import { TodaySection } from '../components/Dashboard/TodaySection';
 
 function buildSnapshotLabel(template: string) {
   const now = new Date();
@@ -121,6 +122,11 @@ export function DashboardPage() {
     <StaggerContainer className="h-full flex flex-col gap-1.5 sm:gap-2">
       {/* Shortcuts Help Overlay */}
       <ShortcutsHelp isOpen={showShortcuts} onClose={() => setShowShortcuts(false)} />
+
+      {/* Today Section — Timing Engines */}
+      <StaggerItem>
+        <TodaySection />
+      </StaggerItem>
 
       {/* Timeline Strip - Top Row */}
       <StaggerItem>

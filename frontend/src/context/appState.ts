@@ -8,6 +8,7 @@ import type {
   AnalysisMode,
 } from '../types';
 import { DEFAULT_PIP_SETTINGS } from '../types';
+import type { BirthData } from '../types/selemene';
 
 export interface AppState {
   isPlaying: boolean;
@@ -24,6 +25,7 @@ export interface AppState {
   showControls: boolean;
   isConnected: boolean;
   sessionId: string | null;
+  birthData: BirthData | null;
 }
 
 export type Action =
@@ -42,6 +44,7 @@ export type Action =
   | { type: 'SET_SHOW_CONTROLS'; payload: boolean }
   | { type: 'SET_CONNECTED'; payload: boolean }
   | { type: 'SET_SESSION_ID'; payload: string | null }
+  | { type: 'SET_BIRTH_DATA'; payload: BirthData | null }
   | { type: 'CLEAR_HISTORY' }
   | { type: 'RESET_STATE' };
 
@@ -67,6 +70,7 @@ export const initialState: AppState = {
   showControls: true,
   isConnected: false,
   sessionId: null,
+  birthData: null,
 };
 
 export function appReducer(state: AppState, action: Action): AppState {
@@ -106,6 +110,8 @@ export function appReducer(state: AppState, action: Action): AppState {
       return { ...state, isConnected: action.payload };
     case 'SET_SESSION_ID':
       return { ...state, sessionId: action.payload };
+    case 'SET_BIRTH_DATA':
+      return { ...state, birthData: action.payload };
     case 'CLEAR_HISTORY':
       return { ...state, metricsHistory: [] };
     case 'RESET_STATE':
@@ -126,6 +132,7 @@ export interface AppContextValue {
   setScores: (scores: Partial<CompositeScores>) => void;
   setAnalysisMode: (mode: AnalysisMode) => void;
   toggleControls: () => void;
+  setBirthData: (birthData: BirthData | null) => void;
 }
 
 export const AppContext = createContext<AppContextValue | null>(null);

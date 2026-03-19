@@ -1,9 +1,10 @@
 /**
  * Application State Management Context
  */
-import { useReducer } from 'react';
+import { useReducer, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import type { PIPSettings, RealTimeMetrics, CompositeScores, AnalysisMode } from '../types';
+import type { BirthData } from '../types/selemene';
 import { AppContext, appReducer, initialState, type AppContextValue } from './appState';
 
 // Provider component
@@ -29,6 +30,25 @@ export function AppProvider({ children }: AppProviderProps) {
     dispatch({ type: 'SET_ANALYSIS_MODE', payload: mode });
   const toggleControls = () =>
     dispatch({ type: 'SET_SHOW_CONTROLS', payload: !state.showControls });
+  const setBirthData = (birthData: BirthData | null) => {
+    dispatch({ type: 'SET_BIRTH_DATA', payload: birthData });
+    // Persist to localStorage
+    if (birthData) {
+      localStorage.setItem('fmrl_birth_data', JSON.stringify(birthData));
+    } else {
+      localStorage.removeItem('fmrl_birth_data');
+    }
+  };
+
+  // Restore birth data from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('fmrl_birth_data');
+      if (saved) {
+        dispatch({ type: 'SET_BIRTH_DATA', payload: JSON.parse(saved) });
+      }
+    } catch { /* ignore corrupt data */ }
+  }, []);
 
   const value: AppContextValue = {
     state,
@@ -41,6 +61,7 @@ export function AppProvider({ children }: AppProviderProps) {
     setScores,
     setAnalysisMode,
     toggleControls,
+    setBirthData,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
