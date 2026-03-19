@@ -649,7 +649,20 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
       const constraints = await buildPreferredCameraConstraints();
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       video.srcObject = stream;
-      await video.play();
+      // Retry play() if interrupted by a concurrent load — common in React StrictMode
+      // and Tauri WebView where the effect may re-run during mount
+      for (let attempt = 0; attempt < 3; attempt++) {
+        try {
+          await video.play();
+          break;
+        } catch (playErr) {
+          if (playErr instanceof DOMException && playErr.name === 'AbortError' && attempt < 2) {
+            await new Promise(r => setTimeout(r, 100));
+            continue;
+          }
+          throw playErr;
+        }
+      }
 
       const tracks = stream.getVideoTracks();
       if (tracks.length === 0) {
