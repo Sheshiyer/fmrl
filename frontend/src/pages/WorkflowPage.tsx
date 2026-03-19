@@ -1,25 +1,148 @@
 /**
- * WorkflowPage
- * Placeholder for workflow execution — coming in Phase 4
+ * WorkflowPage — Full workflow execution page
+ * Phase 4 implementation replacing the placeholder.
+ * Orchestrates birth data input, workflow execution, progress tracking,
+ * and result display with synthesis + per-engine grid.
  */
 import { useParams } from 'react-router-dom';
-import { Workflow } from 'lucide-react';
+import { Workflow, ShieldAlert, AlertTriangle, Play } from 'lucide-react';
+import { useWorkflow } from '../hooks/useWorkflow';
+import { useAppState } from '../context/appState';
+import { BirthDataForm } from '../components/Shared/BirthDataForm';
+import { WorkflowProgress } from '../components/Workflows/WorkflowProgress';
+import { SynthesisView } from '../components/Workflows/SynthesisView';
+import { EngineResultGrid } from '../components/Workflows/EngineResultGrid';
+import { useState } from 'react';
+import type { BirthData, EngineInput } from '../types/selemene';
+
+const WORKFLOW_META: Record<string, { name: string; description: string; engines: string[]; requiredPhase: number }> = {
+  'birth-blueprint': { name: 'Birth Blueprint', description: 'Core identity mapping through numerology, human design, and vimshottari', engines: ['numerology', 'human-design', 'vimshottari'], requiredPhase: 0 },
+  'daily-practice': { name: 'Daily Practice', description: 'Daily rhythm optimization with panchanga, vedic clock, and biorhythm', engines: ['panchanga', 'vedic-clock', 'biorhythm'], requiredPhase: 0 },
+  'decision-support': { name: 'Decision Support', description: 'Multi-perspective decision making with tarot, i-ching, and human design', engines: ['tarot', 'i-ching', 'human-design'], requiredPhase: 1 },
+  'self-inquiry': { name: 'Self Inquiry', description: 'Shadow work and type exploration with gene keys and enneagram', engines: ['gene-keys', 'enneagram'], requiredPhase: 2 },
+  'creative-expression': { name: 'Creative Expression', description: 'Generative aesthetic guidance with sigil forge and sacred geometry', engines: ['sigil-forge', 'sacred-geometry'], requiredPhase: 1 },
+  'full-spectrum': { name: 'Full Spectrum', description: 'Complete consciousness toolkit with all 16 engines', engines: ['all'], requiredPhase: 3 },
+};
 
 export function WorkflowPage() {
   const { workflowId } = useParams<{ workflowId: string }>();
+  const { state: { birthData } } = useAppState();
+  const { result, isLoading, error, isPhaseGated, execute, reset } = useWorkflow();
+  const [localBirthData, setLocalBirthData] = useState<BirthData | null>(birthData);
+
+  const meta = workflowId ? WORKFLOW_META[workflowId] : null;
+
+  if (!workflowId || !meta) {
+    return (
+      <div className="h-full flex items-center justify-center p-6">
+        <div className="mystic-panel !p-8 max-w-md text-center flex flex-col items-center gap-4">
+          <AlertTriangle className="w-10 h-10 text-pip-gold" />
+          <h2 className="mystic-section-title text-lg font-mono">Unknown Workflow</h2>
+          <p className="text-sm text-pip-text-secondary">
+            Workflow "{workflowId}" is not recognized. Check the URL and try again.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  const handleExecute = async () => {
+    if (!localBirthData || !workflowId) return;
+    reset();
+    const input: EngineInput = {
+      birth_data: localBirthData,
+      current_time: new Date().toISOString(),
+      precision: 'Standard',
+    };
+    await execute(workflowId, input);
+  };
 
   return (
-    <div className="h-full flex items-center justify-center p-6">
-      <div className="mystic-panel !p-8 max-w-md text-center flex flex-col items-center gap-4">
-        <Workflow className="w-10 h-10 text-pip-text-muted" />
-        <h2 className="mystic-section-title text-lg font-mono">{workflowId}</h2>
-        <p className="text-sm text-pip-text-secondary">
-          Workflow orchestration is coming in Phase 4. This engine will coordinate
-          multi-step calculations across the Selemene pipeline.
-        </p>
-        <span className="px-3 py-1 rounded-full text-xs border border-pip-border/50 bg-black/20 text-pip-text-muted">
-          Phase 4
-        </span>
+    <div className="h-full overflow-y-auto p-6">
+      <div className="max-w-4xl mx-auto space-y-6">
+        {/* Header */}
+        <div className="flex items-start gap-4">
+          <div className="p-3 rounded-lg bg-pip-gold/10 border border-pip-gold/20">
+            <Workflow className="w-6 h-6 text-pip-gold" />
+          </div>
+          <div>
+            <h1 className="text-xl font-mono text-pip-text-primary">{meta.name}</h1>
+            <p className="text-sm text-pip-text-secondary mt-1">{meta.description}</p>
+            <div className="flex items-center gap-2 mt-2">
+              <span className="px-2 py-0.5 rounded-full text-[10px] border border-pip-border/50 bg-black/20 text-pip-text-muted">
+                Phase {meta.requiredPhase}+
+              </span>
+              <span className="text-[10px] text-pip-text-muted">
+                {meta.engines.length} engine{meta.engines.length !== 1 ? 's' : ''}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Birth Data Input */}
+        <div className="mystic-panel !p-5">
+          <span className="text-[10px] uppercase tracking-wider text-pip-text-muted font-medium block mb-3">
+            Birth Data
+          </span>
+          <BirthDataForm
+            initialData={localBirthData ?? undefined}
+            onSubmit={(data) => setLocalBirthData(data)}
+          />
+        </div>
+
+        {/* Execute Button */}
+        <button
+          onClick={handleExecute}
+          disabled={isLoading || !localBirthData}
+          className="w-full mystic-panel !p-4 flex items-center justify-center gap-2 text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed hover:border-pip-gold/50 hover:bg-pip-gold/5 text-pip-gold"
+        >
+          <Play className="w-4 h-4" />
+          {isLoading ? 'Executing Workflow...' : 'Execute Workflow'}
+        </button>
+
+        {/* Progress */}
+        <WorkflowProgress
+          isLoading={isLoading}
+          engines={meta.engines}
+          result={result}
+        />
+
+        {/* Phase-Gated Warning */}
+        {isPhaseGated && (
+          <div className="mystic-panel !p-5 border-pip-gold/40">
+            <div className="flex items-start gap-3">
+              <ShieldAlert className="w-5 h-5 text-pip-gold flex-shrink-0 mt-0.5" />
+              <div>
+                <h3 className="text-sm font-medium text-pip-gold">Consciousness Phase Required</h3>
+                <p className="text-xs text-pip-text-secondary mt-1">
+                  This workflow requires Phase {meta.requiredPhase} or higher. Continue your practice
+                  to unlock deeper layers of the Selemene Engine.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Error Display */}
+        {error && !isPhaseGated && (
+          <div className="mystic-panel !p-5 border-pip-danger/40">
+            <div className="flex items-start gap-3">
+              <AlertTriangle className="w-5 h-5 text-pip-danger flex-shrink-0 mt-0.5" />
+              <div>
+                <h3 className="text-sm font-medium text-pip-danger">Execution Failed</h3>
+                <p className="text-xs text-pip-text-secondary mt-1">{error.message}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Results */}
+        {result && (
+          <div className="space-y-6">
+            <SynthesisView synthesis={result.synthesis} workflowName={meta.name} />
+            <EngineResultGrid engineOutputs={result.engine_outputs} />
+          </div>
+        )}
       </div>
     </div>
   );
