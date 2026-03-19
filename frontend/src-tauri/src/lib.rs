@@ -19,7 +19,7 @@ const HEALTH_INTERVAL: Duration = Duration::from_millis(250);
 const START_ATTEMPTS: u8 = 3;
 const RETRY_BACKOFF: Duration = Duration::from_millis(700);
 const LOG_CAPACITY: usize = 500;
-const APP_BUNDLE_ID: &str = "com.fmrl.app";
+const APP_BUNDLE_ID: &str = "space.tryambakam.fmrl";
 
 #[derive(Debug)]
 struct BackendState {
