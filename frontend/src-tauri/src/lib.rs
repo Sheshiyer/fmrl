@@ -19,7 +19,7 @@ const HEALTH_INTERVAL: Duration = Duration::from_millis(250);
 const START_ATTEMPTS: u8 = 3;
 const RETRY_BACKOFF: Duration = Duration::from_millis(700);
 const LOG_CAPACITY: usize = 500;
-const APP_BUNDLE_ID: &str = "com.selemene.engine";
+const APP_BUNDLE_ID: &str = "com.fmrl.app";
 
 #[derive(Debug)]
 struct BackendState {
@@ -705,7 +705,7 @@ fn repair_camera_permission_state() -> Result<String, String> {
 
         let _ = open_app_settings(Some("camera".to_string()));
 
-        Ok("Permissions reset complete. Quit Selemene Engine, reopen from /Applications, then click Request Camera Access again.".to_string())
+        Ok("Permissions reset complete. Quit FMRL, reopen from /Applications, then click Request Camera Access again.".to_string())
     }
 
     #[cfg(not(target_os = "macos"))]
