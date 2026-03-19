@@ -670,12 +670,30 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
         throw new Error('No video track available from selected camera.');
       }
 
+      // Wait for video to have actual frame data before starting render loop
+      // This prevents texImage2D from silently failing with an empty video
+      if (video.readyState < 2) {
+        await new Promise<void>((resolve) => {
+          video.addEventListener('loadeddata', () => resolve(), { once: true });
+          // Safety timeout — don't wait forever
+          setTimeout(resolve, 3000);
+        });
+      }
+
+      if (disposed) return; // Check again after waiting
+
       setLoadingStatus('');
       startTimeRef.current = performance.now();
+      let firstFrameLogged = false;
 
       const render = async () => {
           if (!gl || !canvas || disposed) return;
           try {
+          // Skip frame if video still not ready (e.g., stream interrupted)
+          if (video.readyState < 2 || video.videoWidth === 0) {
+            animationRef.current = requestAnimationFrame(render);
+            return;
+          }
           // Ensure correct program is active (prevents stale uniform errors on re-mount)
           gl.useProgram(program);
           const vw = video.videoWidth || 640;
@@ -694,6 +712,11 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
           gl.activeTexture(gl.TEXTURE0);
           gl.bindTexture(gl.TEXTURE_2D, videoTex);
           gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, video);
+
+          if (!firstFrameLogged) {
+            console.log('[PIPShader] First frame rendered:', vw, 'x', vh, 'readyState:', video.readyState);
+            firstFrameLogged = true;
+          }
 
           const region = analysisRegionRef.current;
           const useMask = region !== 'full';
