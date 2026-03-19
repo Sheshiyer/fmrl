@@ -569,6 +569,7 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
     const video = videoRef.current;
     if (!canvas || !video) return;
 
+    let disposed = false;
     let program: WebGLProgram;
     try {
     const maskCanvas = document.createElement('canvas');
@@ -673,8 +674,10 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
       startTimeRef.current = performance.now();
 
       const render = async () => {
-          if (!gl || !canvas) return;
+          if (!gl || !canvas || disposed) return;
           try {
+          // Ensure correct program is active (prevents stale uniform errors on re-mount)
+          gl.useProgram(program);
           const vw = video.videoWidth || 640;
           const vh = video.videoHeight || 480;
           const timestamp = performance.now();
@@ -855,6 +858,7 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
       };
 
     void startVideoPipeline().catch((err) => {
+      if (disposed) return; // Ignore errors after cleanup
       const message = err instanceof Error ? err.message : 'Camera not available';
       console.warn('Camera not available:', err);
       setLoadingStatus(`Camera unavailable: ${message}`);
@@ -866,9 +870,16 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
     }
 
     return () => {
+      disposed = true;
       cancelAnimationFrame(animationRef.current);
       if (video.srcObject) {
         (video.srcObject as MediaStream).getTracks().forEach(track => track.stop());
+        video.srcObject = null;
+      }
+      // Clean up WebGL resources to prevent stale uniform references on re-mount
+      const glCtx = canvasRef.current?.getContext('webgl2');
+      if (glCtx) {
+        glCtx.getExtension('WEBGL_lose_context')?.loseContext();
       }
     };
   }, [createProgram, onFrameData, drawSegmentationMask]);
