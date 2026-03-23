@@ -927,7 +927,9 @@ pub fn run() {
             #[cfg(desktop)]
             {
                 use tauri_plugin_deep_link::DeepLinkExt;
-                app.deep_link().register_all()?;
+                if let Err(e) = app.deep_link().register_all() {
+                    eprintln!("[FMRL] Deep link registration failed (non-fatal): {e}");
+                }
             }
             Ok(())
         })
