@@ -25,11 +25,18 @@ import type { ReadingRecord } from '../types/selemene';
 /* ------------------------------------------------------------------ */
 
 const ENGINE_COLORS: Record<string, string> = {
-  vedic_chart: 'bg-purple-500/20 text-purple-300 border-purple-500/40',
-  natal_chart: 'bg-blue-500/20 text-blue-300 border-blue-500/40',
-  transit: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
-  synastry: 'bg-rose-500/20 text-rose-300 border-rose-500/40',
-  progression: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
+  panchanga: 'bg-purple-500/20 text-purple-300 border-purple-500/40',
+  'vedic-clock': 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40',
+  biorhythm: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+  numerology: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
+  'human-design': 'bg-blue-500/20 text-blue-300 border-blue-500/40',
+  'gene-keys': 'bg-rose-500/20 text-rose-300 border-rose-500/40',
+  vimshottari: 'bg-violet-500/20 text-violet-300 border-violet-500/40',
+  tarot: 'bg-fuchsia-500/20 text-fuchsia-300 border-fuchsia-500/40',
+  'i-ching': 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40',
+  enneagram: 'bg-orange-500/20 text-orange-300 border-orange-500/40',
+  'sigil-forge': 'bg-red-500/20 text-red-300 border-red-500/40',
+  'sacred-geometry': 'bg-teal-500/20 text-teal-300 border-teal-500/40',
 };
 
 const DEFAULT_ENGINE_COLOR = 'bg-pip-gold/15 text-pip-gold border-pip-gold/40';

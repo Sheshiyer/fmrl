@@ -1,11 +1,15 @@
 /**
  * Account Page Wrapper
  * Preserves all account and persistence functionality
+ * Auto-fetches Selemene user profile via getMe() for seamless ID resolution
  */
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { AccountPage } from './AccountPage';
 import { useSelemenePersistence } from '../hooks/useSelemenePersistence';
+import { useSelemene } from '../hooks/useSelemene';
 import { FadeIn } from '../components/Animations';
+import type { SelemeneUserProfile } from '../types/selemene';
 
 export function AccountPageWrapper() {
   const location = useLocation();
@@ -16,6 +20,19 @@ export function AccountPageWrapper() {
   const persistence = useSelemenePersistence({
     active: true,
   });
+
+  // Auto-fetch Selemene user profile for seamless ID resolution
+  const { client, isConnected } = useSelemene();
+  const [selemeneProfile, setSelemeneProfile] = useState<SelemeneUserProfile | null>(null);
+
+  useEffect(() => {
+    if (!isConnected || !client) return;
+    let cancelled = false;
+    client.getMe().then(profile => {
+      if (!cancelled) setSelemeneProfile(profile);
+    }).catch(() => { /* not critical — manual UUID entry still available */ });
+    return () => { cancelled = true; };
+  }, [client, isConnected]);
 
   const handleRefresh = () => {
     void persistence.refreshHealth();
@@ -28,7 +45,7 @@ export function AccountPageWrapper() {
   return (
     <FadeIn className="h-full overflow-auto">
       <AccountPage
-        configuredUserId={persistence.configuredUserId ?? null}
+        configuredUserId={persistence.configuredUserId ?? selemeneProfile?.id ?? null}
         canPersist={persistence.canPersist}
         persistenceEnabled={persistence.enabled}
         persistenceHealthy={persistence.healthy}

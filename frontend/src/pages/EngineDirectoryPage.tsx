@@ -3,8 +3,9 @@
  * Displays a grid of available Selemene engines with status and navigation
  */
 import { useNavigate } from 'react-router-dom';
-import { Compass, AlertCircle, RefreshCw, WifiOff } from 'lucide-react';
+import { Compass, AlertCircle, RefreshCw, WifiOff, ShieldAlert } from 'lucide-react';
 import { useSelemene } from '../hooks/useSelemene';
+import { useAuth } from '../context/auth/AuthContext';
 import type { EngineInfo } from '../types/selemene';
 
 function SkeletonCard() {
@@ -46,17 +47,31 @@ function EngineCard({ engine, onClick }: { engine: EngineInfo; onClick: () => vo
 export function EngineDirectoryPage() {
   const navigate = useNavigate();
   const { engines, isConnected, isLoading, error } = useSelemene();
+  const { status: authStatus } = useAuth();
 
   // Not connected state
   if (!isConnected && !isLoading) {
+    const isGuest = authStatus === 'guest';
     return (
       <div className="h-full flex items-center justify-center p-6">
         <div className="mystic-panel !p-8 max-w-md text-center flex flex-col items-center gap-4">
-          <WifiOff className="w-10 h-10 text-pip-warning" />
-          <h2 className="mystic-section-title text-lg">Not Connected</h2>
-          <p className="text-sm text-pip-text-secondary">
-            Connect to Selemene API to browse available engines.
-          </p>
+          {isGuest ? (
+            <>
+              <ShieldAlert className="w-10 h-10 text-pip-gold" />
+              <h2 className="mystic-section-title text-lg">Sign In to Browse Engines</h2>
+              <p className="text-sm text-pip-text-secondary">
+                The engine directory requires a Selemene account. Sign in or create an account to browse and run all 12 engines.
+              </p>
+            </>
+          ) : (
+            <>
+              <WifiOff className="w-10 h-10 text-pip-warning" />
+              <h2 className="mystic-section-title text-lg">Not Connected</h2>
+              <p className="text-sm text-pip-text-secondary">
+                Connect to Selemene API to browse available engines.
+              </p>
+            </>
+          )}
         </div>
       </div>
     );

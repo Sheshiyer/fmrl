@@ -14,6 +14,9 @@ import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import { useShell } from '../components/Layout/Shell';
 import { ShortcutsHelp } from '../components/UI/ShortcutsHelp';
 
+import { useAuth } from '../context/auth/AuthContext';
+import { useSelemene } from '../hooks/useSelemene';
+import { SelemeneStatusBadge } from '../components/UI/SelemeneStatusBadge';
 import type { AnalysisResult, CapturedAnalysisData } from '../types';
 import { StaggerContainer, StaggerItem } from '../components/Animations';
 import { TodaySection } from '../components/Dashboard/TodaySection';
@@ -53,6 +56,9 @@ export function DashboardPage() {
   } = useSelemeneSettings({
     configuredUserId: persistence.configuredUserId,
   });
+
+  const { selemeneStatus } = useAuth();
+  const { engines: selemeneEngines } = useSelemene();
 
   // --- Keyboard shortcuts ---
   const toggleFullscreen = useCallback(async () => {
@@ -122,6 +128,16 @@ export function DashboardPage() {
     <StaggerContainer className="h-full flex flex-col gap-1.5 sm:gap-2">
       {/* Shortcuts Help Overlay */}
       <ShortcutsHelp isOpen={showShortcuts} onClose={() => setShowShortcuts(false)} />
+
+      {/* Selemene Status + Today Section */}
+      <StaggerItem>
+        <div className="flex items-center justify-between gap-3 px-1">
+          <SelemeneStatusBadge 
+            status={selemeneStatus} 
+            engineCount={selemeneEngines.length} 
+          />
+        </div>
+      </StaggerItem>
 
       {/* Today Section — Timing Engines */}
       <StaggerItem>

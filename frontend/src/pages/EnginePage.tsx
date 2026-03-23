@@ -6,9 +6,11 @@ import { useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Loader2, AlertCircle, ShieldAlert, WifiOff } from 'lucide-react';
 import { useEngine } from '../hooks/useEngine';
+import { useSelemene } from '../hooks/useSelemene';
 import { EngineResultRenderer } from '../components/Engines/EngineResultRenderer';
 import { useAppState } from '../context/appState';
-import type { EngineInput, BirthData } from '../types/selemene';
+import { useAuth } from '../context/auth/AuthContext';
+import type { EngineInput, BirthData, ValidationResult } from '../types/selemene';
 
 const DEFAULT_BIRTH_DATA: BirthData = {
   date: '',
@@ -22,7 +24,10 @@ export function EnginePage() {
   const { engineId } = useParams<{ engineId: string }>();
   const navigate = useNavigate();
   const { result, isLoading, error, calculate, reset, isConnected } = useEngine(engineId ?? '');
+  const { client } = useSelemene();
   const { state, setBirthData: setGlobalBirthData } = useAppState();
+  const [validationResult, setValidationResult] = useState<ValidationResult | null>(null);
+  const { status: authStatus } = useAuth();
 
   // Initialize from global birth data, fall back to defaults
   const [birthData, setBirthData] = useState<BirthData>(() =>
@@ -36,11 +41,12 @@ export function EnginePage() {
     setBirthData((prev) => ({ ...prev, [field]: value }));
   }, []);
 
-  const handleCalculate = useCallback(() => {
+  const handleCalculate = useCallback(async () => {
     if (!effectiveBirthData.date) return;
 
     // Save birth data globally (triggers Supabase + Selemene sync)
     setGlobalBirthData(effectiveBirthData);
+    setValidationResult(null);
 
     const input: EngineInput = {
       birth_data: {
@@ -49,8 +55,18 @@ export function EnginePage() {
         longitude: Number(effectiveBirthData.longitude),
       },
     };
-    calculate(input);
-  }, [effectiveBirthData, calculate, setGlobalBirthData]);
+    const output = await calculate(input);
+
+    // Run validation if calculation succeeded
+    if (output && client && engineId) {
+      try {
+        const validation = await client.validate(engineId, output);
+        setValidationResult(validation);
+      } catch {
+        // Validation is optional — don't block on failure
+      }
+    }
+  }, [effectiveBirthData, calculate, setGlobalBirthData, client, engineId]);
 
   const handleReset = useCallback(() => {
     setBirthData({ ...DEFAULT_BIRTH_DATA });
@@ -59,14 +75,27 @@ export function EnginePage() {
 
   // Not connected
   if (!isConnected) {
+    const isGuest = authStatus === 'guest';
     return (
       <div className="h-full flex items-center justify-center p-6">
         <div className="mystic-panel !p-8 max-w-md text-center flex flex-col items-center gap-4">
-          <WifiOff className="w-10 h-10 text-pip-warning" />
-          <h2 className="mystic-section-title text-lg">Not Connected</h2>
-          <p className="text-sm text-pip-text-secondary">
-            Connect to Selemene API to run calculations.
-          </p>
+          {isGuest ? (
+            <>
+              <ShieldAlert className="w-10 h-10 text-pip-gold" />
+              <h2 className="mystic-section-title text-lg">Sign In to Unlock Engines</h2>
+              <p className="text-sm text-pip-text-secondary">
+                Engine calculations require a Selemene account. Sign in or create an account to access all 12 engines.
+              </p>
+            </>
+          ) : (
+            <>
+              <WifiOff className="w-10 h-10 text-pip-warning" />
+              <h2 className="mystic-section-title text-lg">Not Connected</h2>
+              <p className="text-sm text-pip-text-secondary">
+                Connect to Selemene API to run calculations.
+              </p>
+            </>
+          )}
         </div>
       </div>
     );
@@ -210,7 +239,18 @@ export function EnginePage() {
           )}
 
           {result && !error && (
-            <EngineResultRenderer engineId={engineId ?? ''} result={result} />
+            <>
+              <EngineResultRenderer engineId={engineId ?? ''} result={result} />
+              {validationResult && (
+                <div className={`mt-3 mystic-panel !p-3 text-xs flex items-center gap-2 ${validationResult.valid ? 'border-emerald-500/30' : 'border-amber-500/30'}`}>
+                  <span className={`w-2 h-2 rounded-full ${validationResult.valid ? 'bg-emerald-400' : 'bg-amber-400'}`} />
+                  <span className="text-pip-text-secondary">
+                    Validation: {validationResult.valid ? 'Verified' : 'Flagged'}
+                    {validationResult.confidence != null && ` (${Math.round(validationResult.confidence * 100)}%)`}
+                  </span>
+                </div>
+              )}
+            </>
           )}
 
           {!result && !error && !isLoading && (

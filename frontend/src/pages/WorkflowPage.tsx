@@ -8,14 +8,16 @@ import { useParams } from 'react-router-dom';
 import { Workflow, ShieldAlert, AlertTriangle, Play } from 'lucide-react';
 import { useWorkflow } from '../hooks/useWorkflow';
 import { useAppState } from '../context/appState';
+import { useAuth } from '../context/auth/AuthContext';
+import { useSelemene } from '../hooks/useSelemene';
 import { BirthDataForm } from '../components/Shared/BirthDataForm';
 import { WorkflowProgress } from '../components/Workflows/WorkflowProgress';
 import { SynthesisView } from '../components/Workflows/SynthesisView';
 import { EngineResultGrid } from '../components/Workflows/EngineResultGrid';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import type { BirthData, EngineInput } from '../types/selemene';
 
-const WORKFLOW_META: Record<string, { name: string; description: string; engines: string[]; requiredPhase: number }> = {
+const WORKFLOW_FALLBACK: Record<string, { name: string; description: string; engines: string[]; requiredPhase: number }> = {
   'birth-blueprint': { name: 'Birth Blueprint', description: 'Core identity mapping through numerology, human design, and vimshottari', engines: ['numerology', 'human-design', 'vimshottari'], requiredPhase: 0 },
   'daily-practice': { name: 'Daily Practice', description: 'Daily rhythm optimization with panchanga, vedic clock, and biorhythm', engines: ['panchanga', 'vedic-clock', 'biorhythm'], requiredPhase: 0 },
   'decision-support': { name: 'Decision Support', description: 'Multi-perspective decision making with tarot, i-ching, and human design', engines: ['tarot', 'i-ching', 'human-design'], requiredPhase: 1 },
@@ -28,9 +30,26 @@ export function WorkflowPage() {
   const { workflowId } = useParams<{ workflowId: string }>();
   const { state: { birthData } } = useAppState();
   const { result, isLoading, error, isPhaseGated, execute, reset } = useWorkflow();
+  const { workflows } = useSelemene();
+  const { status: authStatus } = useAuth();
+  const isGuest = authStatus === 'guest';
   const [localBirthData, setLocalBirthData] = useState<BirthData | null>(birthData);
 
-  const meta = workflowId ? WORKFLOW_META[workflowId] : null;
+  // Convert API workflows array to lookup, or fall back to hardcoded data
+  const meta = useMemo(() => {
+    if (workflows.length > 0) {
+      const fromApi = workflows.find(w => w.workflow_id === workflowId);
+      if (fromApi) {
+        return {
+          name: fromApi.name,
+          description: fromApi.description ?? '',
+          engines: fromApi.engines,
+          requiredPhase: fromApi.required_phase,
+        };
+      }
+    }
+    return workflowId ? WORKFLOW_FALLBACK[workflowId] ?? null : null;
+  }, [workflows, workflowId]);
 
   if (!workflowId || !meta) {
     return (
@@ -93,12 +112,25 @@ export function WorkflowPage() {
         {/* Execute Button */}
         <button
           onClick={handleExecute}
-          disabled={isLoading || !localBirthData}
+          disabled={isLoading || !localBirthData || isGuest}
           className="w-full mystic-panel !p-4 flex items-center justify-center gap-2 text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed hover:border-pip-gold/50 hover:bg-pip-gold/5 text-pip-gold"
         >
           <Play className="w-4 h-4" />
           {isLoading ? 'Executing Workflow...' : 'Execute Workflow'}
         </button>
+
+        {/* Guest Sign-In Notice */}
+        {isGuest && (
+          <div className="mystic-panel !p-4 flex items-start gap-3 border-pip-gold/30">
+            <ShieldAlert className="w-5 h-5 text-pip-gold flex-shrink-0 mt-0.5" />
+            <div>
+              <h3 className="text-sm font-medium text-pip-gold">Sign In Required</h3>
+              <p className="text-xs text-pip-text-secondary mt-1">
+                Workflow execution requires a Selemene account. Sign in or create an account to run workflows.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Progress */}
         <WorkflowProgress

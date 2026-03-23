@@ -17,6 +17,7 @@ import {
 import { useAuth } from '../../context/auth/AuthContext';
 import { AuthModal } from './AuthModal';
 import { useMotionPreference } from '../../hooks/useMotionPreference';
+import { SelemeneStatusBadge } from '../UI/SelemeneStatusBadge';
 
 export function UserMenu() {
   const { 
@@ -25,7 +26,8 @@ export function UserMenu() {
     profile, 
     signOut, 
     disableGuestMode,
-    isProfileLoading 
+    isProfileLoading,
+    selemeneStatus,
   } = useAuth();
   const { shouldAnimate, isMinimal } = useMotionPreference();
   
@@ -250,6 +252,7 @@ export function UserMenu() {
                       Synced
                     </span>
                   )}
+                  <SelemeneStatusBadge status={selemeneStatus} compact />
                 </div>
               </div>
 
