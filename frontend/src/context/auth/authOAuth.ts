@@ -3,6 +3,10 @@ export const USER_ID_SOURCE_STORAGE_KEY = 'selemene_active_user_id_source';
 export const AUTH_MANAGED_USER_ID_SOURCE = 'auth';
 export const MANUAL_USER_ID_SOURCE = 'manual';
 
+/** Deep-link scheme used by the Tauri desktop app. */
+export const DEEP_LINK_SCHEME = 'fmrl';
+export const DEEP_LINK_AUTH_CALLBACK = `${DEEP_LINK_SCHEME}://auth/callback`;
+
 type StorageLike = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
 
 export function resolveAuthRedirectUrl(currentOrigin: string, explicitRedirectUrl?: string | null): string {
@@ -12,6 +16,26 @@ export function resolveAuthRedirectUrl(currentOrigin: string, explicitRedirectUr
   }
 
   return currentOrigin.endsWith('/') ? currentOrigin : `${currentOrigin}/`;
+}
+
+/**
+ * Parse OAuth tokens from a deep-link callback URL.
+ * Supabase implicit flow appends tokens as a hash fragment:
+ *   fmrl://auth/callback#access_token=...&refresh_token=...
+ */
+export function parseDeepLinkTokens(url: string): { access_token: string; refresh_token: string } | null {
+  try {
+    const hashIdx = url.indexOf('#');
+    if (hashIdx === -1) return null;
+    const fragment = url.slice(hashIdx + 1);
+    const params = new URLSearchParams(fragment);
+    const access_token = params.get('access_token');
+    const refresh_token = params.get('refresh_token');
+    if (!access_token || !refresh_token) return null;
+    return { access_token, refresh_token };
+  } catch {
+    return null;
+  }
 }
 
 export function setManualPersistenceUserId(storage: StorageLike, userId: string): void {

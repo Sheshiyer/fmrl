@@ -18,7 +18,10 @@ import {
   clearAuthManagedPersistenceUserId,
   resolveAuthRedirectUrl,
   syncAuthManagedPersistenceUserId,
+  DEEP_LINK_AUTH_CALLBACK,
+  parseDeepLinkTokens,
 } from './authOAuth';
+import { isTauriRuntime } from '../../utils/runtimeApi';
 
 // Types
 type UserProfile = Database['public']['Tables']['user_profiles']['Row'];
@@ -209,6 +212,39 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
     };
   }, [allowGuest]);
 
+  // Listen for deep-link OAuth callbacks (Tauri desktop only)
+  useEffect(() => {
+    if (!isTauriRuntime()) return;
+
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const { onOpenUrl } = await import('@tauri-apps/plugin-deep-link');
+        await onOpenUrl(async (urls: string[]) => {
+          if (cancelled) return;
+          for (const url of urls) {
+            if (!url.startsWith('fmrl://auth/callback')) continue;
+            const tokens = parseDeepLinkTokens(url);
+            if (!tokens) {
+              console.warn('[Auth] Deep-link callback missing tokens:', url);
+              continue;
+            }
+            const { error: sessionError } = await supabase.auth.setSession(tokens);
+            if (sessionError) {
+              console.error('[Auth] setSession from deep link failed:', sessionError);
+              setError(sessionError);
+            }
+          }
+        });
+      } catch (err) {
+        console.warn('[Auth] Deep-link listener unavailable:', err);
+      }
+    })();
+
+    return () => { cancelled = true; };
+  }, []);
+
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
@@ -310,6 +346,31 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
   // Sign in with Discord OAuth
   const signInWithDiscord = useCallback(async () => {
     setError(null);
+
+    // In Tauri desktop, open OAuth in system browser so passkeys work
+    if (isTauriRuntime()) {
+      try {
+        const { data, error: oauthError } = await supabase.auth.signInWithOAuth({
+          provider: 'discord',
+          options: {
+            skipBrowserRedirect: true,
+            redirectTo: DEEP_LINK_AUTH_CALLBACK,
+          },
+        });
+        if (oauthError) { setError(oauthError); return { error: oauthError }; }
+        if (data?.url) {
+          const { openUrl } = await import('@tauri-apps/plugin-opener');
+          await openUrl(data.url);
+        }
+        return { error: null };
+      } catch (e) {
+        const err = e instanceof Error ? e : new Error(String(e));
+        setError(err);
+        return { error: err as AuthError };
+      }
+    }
+
+    // Browser fallback — redirect in webview (original behaviour)
     const redirectTo = resolveAuthRedirectUrl(
       window.location.origin,
       typeof import.meta.env.VITE_SUPABASE_AUTH_REDIRECT_URL === 'string'

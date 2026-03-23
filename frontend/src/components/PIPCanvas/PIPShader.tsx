@@ -328,6 +328,10 @@ type ShaderUniforms = {
 export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ className, analysisRegion = 'full', onFrameData }, ref) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Stable ref for onFrameData — prevents useEffect re-fire on callback identity change
+  const onFrameDataRef = useRef(onFrameData);
+  useEffect(() => { onFrameDataRef.current = onFrameData; }, [onFrameData]);
   const maskCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const glRef = useRef<WebGL2RenderingContext | null>(null);
   const animationRef = useRef<number>(0);
@@ -647,23 +651,61 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
     gl.uniform1i(uniforms.uVideo, 0);
     gl.uniform1i(uniforms.uMask, 1);
 
-    const startVideoPipeline = async () => {
-      const constraints = await buildPreferredCameraConstraints();
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
-      video.srcObject = stream;
-      await video.play();
+    // eslint-disable-next-line prefer-const -- reassigned in cleanup closure
+    let cancelled = false;
 
-      const tracks = stream.getVideoTracks();
-      if (tracks.length === 0) {
-        throw new Error('No video track available from selected camera.');
+    const startVideoPipeline = async () => {
+      const MAX_RETRIES = 3;
+      const RETRY_DELAY_MS = 600;
+      let lastError: unknown;
+
+      for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+        if (cancelled) return;
+        try {
+          if (attempt > 0) {
+            console.log(`[PIPShader] Camera retry ${attempt}/${MAX_RETRIES - 1}...`);
+            setCameraStatus(`Retrying camera (${attempt}/${MAX_RETRIES - 1})...`);
+            await new Promise(r => setTimeout(r, RETRY_DELAY_MS * attempt));
+            if (cancelled) return;
+          }
+
+          const constraints = await buildPreferredCameraConstraints();
+          if (cancelled) return;
+
+          const stream = await navigator.mediaDevices.getUserMedia(constraints);
+          if (cancelled) {
+            stream.getTracks().forEach(t => t.stop());
+            return;
+          }
+
+          video.srcObject = stream;
+          await video.play();
+          if (cancelled) {
+            stream.getTracks().forEach(t => t.stop());
+            return;
+          }
+
+          const tracks = stream.getVideoTracks();
+          if (tracks.length === 0) {
+            throw new Error('No video track available from selected camera.');
+          }
+
+          setCameraStatus('');
+          cameraReadyRef.current = true;
+          startTimeRef.current = performance.now();
+          lastError = undefined;
+          break; // success
+        } catch (err) {
+          lastError = err;
+          const isAbort = err instanceof DOMException && (err.name === 'AbortError' || err.name === 'NotReadableError');
+          if (!isAbort || attempt >= MAX_RETRIES - 1) throw err;
+        }
       }
 
-      setCameraStatus('');
-      cameraReadyRef.current = true;
-      startTimeRef.current = performance.now();
+      if (lastError) throw lastError;
 
       const render = async () => {
-          if (!gl || !canvas) return;
+          if (!gl || !canvas || cancelled) return;
           try {
           const vw = video.videoWidth || 640;
           const vh = video.videoHeight || 480;
@@ -728,7 +770,7 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
           // Compute metrics using time-based throttling (every METRICS_INTERVAL_MS)
           frameCountRef.current++;
           const now = performance.now();
-          const shouldComputeMetrics = onFrameData && (now - lastMetricsTimeRef.current >= METRICS_INTERVAL_MS);
+          const shouldComputeMetrics = onFrameDataRef.current && (now - lastMetricsTimeRef.current >= METRICS_INTERVAL_MS);
 
           if (shouldComputeMetrics) {
             lastMetricsTimeRef.current = now;
@@ -827,11 +869,11 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
               }
               const verticalSymmetry = vSymCount > 0 ? vSymSum / vSymCount : 0.5;
 
-              onFrameData({ brightness: avgBrightness, colorEntropy, horizontalSymmetry, verticalSymmetry, saturationMean });
+              onFrameDataRef.current?.({ brightness: avgBrightness, colorEntropy, horizontalSymmetry, verticalSymmetry, saturationMean });
             } else {
               const centerIdx = (Math.floor(vh / 2) * vw + Math.floor(vw / 2)) * 4;
               const brightness = (pixels[centerIdx] + pixels[centerIdx + 1] + pixels[centerIdx + 2]) / (3 * 255);
-              onFrameData({ brightness, colorEntropy: 0.7, horizontalSymmetry: 0.5, verticalSymmetry: 0.5, saturationMean: 0.5 });
+              onFrameDataRef.current?.({ brightness, colorEntropy: 0.7, horizontalSymmetry: 0.5, verticalSymmetry: 0.5, saturationMean: 0.5 });
             }
           }
 
@@ -839,12 +881,15 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
             console.warn('[PIPShader] Render frame error (continuing):', frameErr);
           }
 
-          animationRef.current = requestAnimationFrame(render);
+          if (!cancelled) {
+            animationRef.current = requestAnimationFrame(render);
+          }
         };
         render();
       };
 
     void startVideoPipeline().catch((err) => {
+      if (cancelled) return;
       const message = err instanceof Error ? err.message : 'Camera not available';
       console.warn('Camera not available:', err);
       setCameraStatus(`Camera unavailable: ${message}`);
@@ -856,12 +901,13 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
     }
 
     return () => {
+      cancelled = true;
       cancelAnimationFrame(animationRef.current);
       if (video.srcObject) {
         (video.srcObject as MediaStream).getTracks().forEach(track => track.stop());
       }
     };
-  }, [createProgram, onFrameData, drawSegmentationMask]);
+  }, [createProgram, drawSegmentationMask]);
 
   return (
     <div className={`relative flex items-center justify-center bg-black overflow-hidden ${className || ''}`}>

@@ -28,6 +28,13 @@
       ]
     }
   },
+  "plugins": {
+    "deep-link": {
+      "desktop": {
+        "schemes": ["fmrl"]
+      }
+    }
+  },
   "bundle": {
     "active": true,
     "targets": "all",
