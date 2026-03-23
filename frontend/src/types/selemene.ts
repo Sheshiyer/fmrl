@@ -105,7 +105,15 @@ export interface ReadingRecord {
 // --- Auth Types ---
 
 export interface SelemeneAuthResponse {
-  access_token: string;
+  token: string;
+  user_id: string;
+  email: string;
+  tier: 'free' | 'premium' | 'enterprise';
+}
+
+export interface SelemeneRegisterResponse {
+  id: string;
+  message: string;
 }
 
 // --- Error Types ---

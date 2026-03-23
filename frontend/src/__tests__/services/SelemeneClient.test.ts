@@ -109,7 +109,7 @@ describe('SelemeneClient', () => {
 
   describe('login', () => {
     it('POSTs to /api/v1/auth/login and sets token from response', async () => {
-      const authResp = { access_token: 'jwt-xyz', user: { id: '1', email: 'a@b.com' } };
+      const authResp = { token: 'jwt-xyz', user_id: '1', email: 'a@b.com', tier: 'free' };
       mockFetch.mockResolvedValueOnce(mockResponse(authResp));
 
       const result = await client.login('a@b.com', 'pass123');
@@ -121,7 +121,7 @@ describe('SelemeneClient', () => {
           body: JSON.stringify({ email: 'a@b.com', password: 'pass123' }),
         }),
       );
-      expect(result.access_token).toBe('jwt-xyz');
+      expect(result.token).toBe('jwt-xyz');
       expect(client.getToken()).toBe('jwt-xyz');
     });
   });

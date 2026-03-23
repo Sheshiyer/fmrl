@@ -22,6 +22,12 @@ import {
   parseDeepLinkTokens,
 } from './authOAuth';
 import { isTauriRuntime } from '../../utils/runtimeApi';
+import {
+  bridgeAuthenticate,
+  bridgeDisconnect,
+  type SelemeneConnectionStatus,
+} from '../../services/SelemeneAuthBridge';
+import { SelemeneClient } from '../../services/SelemeneClient';
 
 // Types
 type UserProfile = Database['public']['Tables']['user_profiles']['Row'];
@@ -39,8 +45,9 @@ export interface AuthState {
   user: User | null;           // Supabase Auth user
   session: Session | null;     // Current JWT session
 
-  // Selemene API token (bridge: Supabase JWT used as-is)
+  // Selemene Engine API token (managed by SelemeneAuthBridge)
   selemeneToken: string | null;
+  selemeneStatus: SelemeneConnectionStatus;
 
   // Database user (public.users)
   dbUser: DbUser | null;
@@ -119,6 +126,7 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
   const [isProfileLoading, setIsProfileLoading] = useState(false);
   const [error, setError] = useState<AuthError | Error | null>(null);
   const [selemeneToken, setSelemeneToken] = useState<string | null>(null);
+  const [selemeneStatus, setSelemeneStatus] = useState<SelemeneConnectionStatus>('disconnected');
 
   // Refs to prevent memory leaks and duplicate fetches
   const isMounted = useRef(true);
@@ -147,8 +155,8 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
         if (data.session) {
           setSession(data.session);
           setUser(data.session.user);
-          setSelemeneToken(data.session.access_token ?? null);
           setStatus('authenticated');
+          // Selemene bridge will be triggered by the effect below
           // Profile will be fetched by the user effect below
         } else {
           // Check for guest mode in localStorage
@@ -179,10 +187,10 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
           case 'SIGNED_IN':
             setSession(newSession);
             setUser(newSession?.user ?? null);
-            setSelemeneToken(newSession?.access_token ?? null);
             setStatus('authenticated');
             // Clear guest mode if active
             localStorage.removeItem('selemene_guest_mode');
+            // Selemene bridge will be triggered by the effect below
             break;
 
           case 'SIGNED_OUT':
@@ -191,6 +199,8 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
             setDbUser(null);
             setProfile(null);
             setSelemeneToken(null);
+            setSelemeneStatus('disconnected');
+            bridgeDisconnect();
             setStatus('unauthenticated');
             break;
             
@@ -200,7 +210,6 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
             
           case 'TOKEN_REFRESHED':
             setSession(newSession);
-            setSelemeneToken(newSession?.access_token ?? null);
             break;
         }
       }
@@ -257,6 +266,38 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
       clearAuthManagedPersistenceUserId(window.localStorage);
     }
   }, [status, user?.id]);
+
+  // Selemene Engine API auth bridge — auto-authenticate when Supabase user signs in
+  useEffect(() => {
+    if (status !== 'authenticated' || !user?.email) {
+      return;
+    }
+
+    let cancelled = false;
+    const connectSelemene = async () => {
+      setSelemeneStatus('connecting');
+      const client = new SelemeneClient(
+        import.meta.env.VITE_SELEMENE_API_URL ?? 'https://selemene.tryambakam.space'
+      );
+
+      const displayName = user.user_metadata?.full_name
+        || user.user_metadata?.name
+        || user.email?.split('@')[0]
+        || 'FMRL User';
+
+      const result = await bridgeAuthenticate(client, user.email!, displayName);
+
+      if (cancelled) return;
+      setSelemeneToken(result.token);
+      setSelemeneStatus(result.status);
+      if (result.error) {
+        console.warn('[Auth] Selemene bridge:', result.error);
+      }
+    };
+
+    connectSelemene();
+    return () => { cancelled = true; };
+  }, [status, user?.email, user?.user_metadata?.full_name, user?.user_metadata?.name]);
 
   // Fetch database user and profile when auth user changes
   useEffect(() => {
@@ -486,6 +527,7 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
     user,
     session,
     selemeneToken,
+    selemeneStatus,
     dbUser,
     profile,
     isLoading: status === 'loading',

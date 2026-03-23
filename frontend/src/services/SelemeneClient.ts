@@ -12,6 +12,7 @@ import type {
   ValidationResult,
   ReadingRecord,
   SelemeneAuthResponse,
+  SelemeneRegisterResponse,
   SelemeneError,
   SelemeneUserProfile,
 } from '../types/selemene';
@@ -79,7 +80,28 @@ export class SelemeneClient {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });
-    this.token = resp.access_token;
+    this.token = resp.token;
+    return resp;
+  }
+
+  async register(email: string, password: string, fullName?: string): Promise<SelemeneRegisterResponse> {
+    return this.request<SelemeneRegisterResponse>('/api/v1/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({ email, password, full_name: fullName }),
+    });
+  }
+
+  async discordAuthorizeUrl(): Promise<string> {
+    const resp = await this.request<{ url: string }>('/api/v1/auth/discord/authorize');
+    return resp.url;
+  }
+
+  async discordCallback(code: string): Promise<SelemeneAuthResponse> {
+    const resp = await this.request<SelemeneAuthResponse>('/api/v1/auth/discord/callback', {
+      method: 'POST',
+      body: JSON.stringify({ code }),
+    });
+    this.token = resp.token;
     return resp;
   }
 
