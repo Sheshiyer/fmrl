@@ -865,7 +865,7 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
 
   return (
     <div className={`relative flex items-center justify-center bg-black overflow-hidden ${className || ''}`}>
-      <video ref={videoRef} playsInline muted style={{ position: 'absolute', width: 0, height: 0, opacity: 0, pointerEvents: 'none' }} />
+      <video ref={videoRef} playsInline muted style={{ position: 'absolute', visibility: 'hidden', width: '1px', height: '1px' }} />
       <canvas ref={canvasRef} className="w-full h-full object-contain" />
       {/* Full overlay only while camera is not ready */}
       {cameraStatus && (
