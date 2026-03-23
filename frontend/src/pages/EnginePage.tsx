@@ -7,6 +7,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Loader2, AlertCircle, ShieldAlert, WifiOff } from 'lucide-react';
 import { useEngine } from '../hooks/useEngine';
 import { EngineResultRenderer } from '../components/Engines/EngineResultRenderer';
+import { useAppState } from '../context/appState';
 import type { EngineInput, BirthData } from '../types/selemene';
 
 const DEFAULT_BIRTH_DATA: BirthData = {
@@ -21,25 +22,35 @@ export function EnginePage() {
   const { engineId } = useParams<{ engineId: string }>();
   const navigate = useNavigate();
   const { result, isLoading, error, calculate, reset, isConnected } = useEngine(engineId ?? '');
+  const { state, setBirthData: setGlobalBirthData } = useAppState();
 
-  const [birthData, setBirthData] = useState<BirthData>({ ...DEFAULT_BIRTH_DATA });
+  // Initialize from global birth data, fall back to defaults
+  const [birthData, setBirthData] = useState<BirthData>(() =>
+    state.birthData ?? { ...DEFAULT_BIRTH_DATA }
+  );
+
+  // Use global birth data as source of truth, with local override for editing
+  const effectiveBirthData = birthData.date ? birthData : (state.birthData ?? birthData);
 
   const handleFieldChange = useCallback((field: keyof BirthData, value: string | number) => {
     setBirthData((prev) => ({ ...prev, [field]: value }));
   }, []);
 
   const handleCalculate = useCallback(() => {
-    if (!birthData.date) return;
+    if (!effectiveBirthData.date) return;
+
+    // Save birth data globally (triggers Supabase + Selemene sync)
+    setGlobalBirthData(effectiveBirthData);
 
     const input: EngineInput = {
       birth_data: {
-        ...birthData,
-        latitude: Number(birthData.latitude),
-        longitude: Number(birthData.longitude),
+        ...effectiveBirthData,
+        latitude: Number(effectiveBirthData.latitude),
+        longitude: Number(effectiveBirthData.longitude),
       },
     };
     calculate(input);
-  }, [birthData, calculate]);
+  }, [effectiveBirthData, calculate, setGlobalBirthData]);
 
   const handleReset = useCallback(() => {
     setBirthData({ ...DEFAULT_BIRTH_DATA });
@@ -89,7 +100,7 @@ export function EnginePage() {
               <span className="text-xs text-pip-text-muted">Date</span>
               <input
                 type="date"
-                value={birthData.date}
+                value={effectiveBirthData.date}
                 onChange={(e) => handleFieldChange('date', e.target.value)}
                 className="w-full bg-black/20 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-pip-gold/50"
               />
@@ -99,7 +110,7 @@ export function EnginePage() {
               <span className="text-xs text-pip-text-muted">Time</span>
               <input
                 type="time"
-                value={birthData.time ?? ''}
+                value={effectiveBirthData.time ?? ''}
                 onChange={(e) => handleFieldChange('time', e.target.value)}
                 className="w-full bg-black/20 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-pip-gold/50"
               />
@@ -111,7 +122,7 @@ export function EnginePage() {
                 <input
                   type="number"
                   step="any"
-                  value={birthData.latitude}
+                  value={effectiveBirthData.latitude}
                   onChange={(e) => handleFieldChange('latitude', parseFloat(e.target.value) || 0)}
                   className="w-full bg-black/20 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-pip-gold/50"
                   placeholder="28.6139"
@@ -123,7 +134,7 @@ export function EnginePage() {
                 <input
                   type="number"
                   step="any"
-                  value={birthData.longitude}
+                  value={effectiveBirthData.longitude}
                   onChange={(e) => handleFieldChange('longitude', parseFloat(e.target.value) || 0)}
                   className="w-full bg-black/20 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-pip-gold/50"
                   placeholder="77.2090"
@@ -135,7 +146,7 @@ export function EnginePage() {
               <span className="text-xs text-pip-text-muted">Timezone</span>
               <input
                 type="text"
-                value={birthData.timezone}
+                value={effectiveBirthData.timezone}
                 onChange={(e) => handleFieldChange('timezone', e.target.value)}
                 className="w-full bg-black/20 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-pip-gold/50"
                 placeholder="Asia/Kolkata"
@@ -147,7 +158,7 @@ export function EnginePage() {
             <button
               type="button"
               onClick={handleCalculate}
-              disabled={isLoading || !birthData.date}
+              disabled={isLoading || !effectiveBirthData.date}
               className="mystic-btn mystic-btn-primary !px-4 !py-2 flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               {isLoading ? (

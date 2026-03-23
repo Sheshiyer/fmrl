@@ -15,6 +15,7 @@ import type {
   SelemeneRegisterResponse,
   SelemeneError,
   SelemeneUserProfile,
+  SelemeneProfileUpdate,
 } from '../types/selemene';
 
 export class SelemeneClient {
@@ -152,6 +153,13 @@ export class SelemeneClient {
 
   async getMe(): Promise<SelemeneUserProfile> {
     return this.request<SelemeneUserProfile>('/api/v1/users/me');
+  }
+
+  async updateMe(updates: SelemeneProfileUpdate): Promise<SelemeneUserProfile> {
+    return this.request<SelemeneUserProfile>('/api/v1/users/me', {
+      method: 'PUT',
+      body: JSON.stringify(updates),
+    });
   }
 
   // --- Health ---

@@ -133,3 +133,13 @@ export interface SelemeneUserProfile {
   consciousness_level: number;
   created_at: string;
 }
+
+export interface SelemeneProfileUpdate {
+  full_name?: string;
+  birth_date?: string;
+  birth_time?: string;
+  birth_location_lat?: number;
+  birth_location_lng?: number;
+  birth_location_name?: string;
+  timezone?: string;
+}

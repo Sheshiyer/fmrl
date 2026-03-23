@@ -25,12 +25,11 @@ function extractPrimary(result: Record<string, unknown> | null | undefined, ...k
 
 export function TodaySection() {
   const { panchanga, vedicClock, biorhythm, numerology, isLoading, error, hasBirthData } = useTodayEngines();
-  const { state, dispatch } = useAppState();
+  const { state, setBirthData } = useAppState();
   const [showForm, setShowForm] = useState(false);
 
   const handleSaveBirthData = (data: BirthData) => {
-    dispatch({ type: 'SET_BIRTH_DATA', payload: data });
-    localStorage.setItem('fmrl_birth_data', JSON.stringify(data));
+    setBirthData(data);
     setShowForm(false);
   };
 
