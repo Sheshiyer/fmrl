@@ -348,7 +348,9 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
   const bodySegmenterRef = useRef<BodySegmenter | null>(null);
   const faceSegmenterRef = useRef<FaceSegmenter | null>(null);
   const modelsReadyRef = useRef(false);
-  const [loadingStatus, setLoadingStatus] = useState('Initializing ML models...');
+  const [cameraStatus, setCameraStatus] = useState<string>('Waiting for camera...');
+  const [mlStatus, setMlStatus] = useState<string>('Initializing ML models...');
+  const cameraReadyRef = useRef(false);
 
   // Expose captureImage method via ref
   useImperativeHandle(ref, () => ({
@@ -419,24 +421,24 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
 
     const initModels = async () => {
       try {
-        setLoadingStatus('Loading body segmentation model...');
+        setMlStatus('Loading body segmentation model...');
         bodySegmenterRef.current = new BodySegmenter({ runningMode: 'VIDEO' });
         await withTimeout(bodySegmenterRef.current.initialize(), 30_000, 'Body segmentation model');
         if (cancelled) return;
         console.log('[PIPShader] Body segmenter initialized (MediaPipe Selfie Segmentation)');
 
-        setLoadingStatus('Loading face detection model...');
+        setMlStatus('Loading face detection model...');
         faceSegmenterRef.current = new FaceSegmenter({ runningMode: 'VIDEO', numFaces: 1 });
         await withTimeout(faceSegmenterRef.current.initialize(), 30_000, 'Face detection model');
         if (cancelled) return;
         console.log('[PIPShader] Face segmenter initialized (MediaPipe Face Mesh - 478 landmarks)');
 
         modelsReadyRef.current = true;
-        setLoadingStatus('');
+        setMlStatus('');
       } catch (error) {
         console.error('[PIPShader] ML model initialization failed:', error);
         // Still allow the shader to run in 'full' mode without ML models
-        setLoadingStatus('');
+        setMlStatus('');
         console.warn('[PIPShader] Continuing without ML segmentation — full-frame mode only');
       }
     };
@@ -569,7 +571,6 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
     const video = videoRef.current;
     if (!canvas || !video) return;
 
-    let disposed = false;
     let program: WebGLProgram;
     try {
     const maskCanvas = document.createElement('canvas');
@@ -582,7 +583,7 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
       premultipliedAlpha: false,
       preserveDrawingBuffer: true  // Required for toDataURL() to work
     });
-    if (!gl) { setLoadingStatus('WebGL2 not supported by this device'); return; }
+    if (!gl) { setCameraStatus('WebGL2 not supported by this device'); return; }
     glRef.current = gl;
 
     program = createProgram(gl);
@@ -650,52 +651,20 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
       const constraints = await buildPreferredCameraConstraints();
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
       video.srcObject = stream;
-      // Retry play() if interrupted by a concurrent load — common in React StrictMode
-      // and Tauri WebView where the effect may re-run during mount
-      for (let attempt = 0; attempt < 3; attempt++) {
-        try {
-          await video.play();
-          break;
-        } catch (playErr) {
-          if (playErr instanceof DOMException && playErr.name === 'AbortError' && attempt < 2) {
-            await new Promise(r => setTimeout(r, 100));
-            continue;
-          }
-          throw playErr;
-        }
-      }
+      await video.play();
 
       const tracks = stream.getVideoTracks();
       if (tracks.length === 0) {
         throw new Error('No video track available from selected camera.');
       }
 
-      // Wait for video to have actual frame data before starting render loop
-      // This prevents texImage2D from silently failing with an empty video
-      if (video.readyState < 2) {
-        await new Promise<void>((resolve) => {
-          video.addEventListener('loadeddata', () => resolve(), { once: true });
-          // Safety timeout — don't wait forever
-          setTimeout(resolve, 3000);
-        });
-      }
-
-      if (disposed) return; // Check again after waiting
-
-      setLoadingStatus('');
+      setCameraStatus('');
+      cameraReadyRef.current = true;
       startTimeRef.current = performance.now();
-      let firstFrameLogged = false;
 
       const render = async () => {
-          if (!gl || !canvas || disposed) return;
+          if (!gl || !canvas) return;
           try {
-          // Skip frame if video still not ready (e.g., stream interrupted)
-          if (video.readyState < 2 || video.videoWidth === 0) {
-            animationRef.current = requestAnimationFrame(render);
-            return;
-          }
-          // Ensure correct program is active (prevents stale uniform errors on re-mount)
-          gl.useProgram(program);
           const vw = video.videoWidth || 640;
           const vh = video.videoHeight || 480;
           const timestamp = performance.now();
@@ -712,11 +681,6 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
           gl.activeTexture(gl.TEXTURE0);
           gl.bindTexture(gl.TEXTURE_2D, videoTex);
           gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, video);
-
-          if (!firstFrameLogged) {
-            console.log('[PIPShader] First frame rendered:', vw, 'x', vh, 'readyState:', video.readyState);
-            firstFrameLogged = true;
-          }
 
           const region = analysisRegionRef.current;
           const useMask = region !== 'full';
@@ -881,43 +845,38 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
       };
 
     void startVideoPipeline().catch((err) => {
-      if (disposed) return; // Ignore errors after cleanup
       const message = err instanceof Error ? err.message : 'Camera not available';
       console.warn('Camera not available:', err);
-      setLoadingStatus(`Camera unavailable: ${message}`);
+      setCameraStatus(`Camera unavailable: ${message}`);
     });
 
     } catch (initErr) {
       console.error('[PIPShader] Initialization failed:', initErr);
-      setLoadingStatus(`Init error: ${initErr instanceof Error ? initErr.message : 'Unknown error'}`);
+      setCameraStatus(`Init error: ${initErr instanceof Error ? initErr.message : 'Unknown error'}`);
     }
 
     return () => {
-      disposed = true;
       cancelAnimationFrame(animationRef.current);
       if (video.srcObject) {
         (video.srcObject as MediaStream).getTracks().forEach(track => track.stop());
-        video.srcObject = null;
       }
-      // Delete the shader program to free GPU resources — but do NOT lose the
-      // WebGL context itself, because React StrictMode will re-mount and needs
-      // the same canvas context to create a new program.
-      try {
-        const glCtx = canvasRef.current?.getContext('webgl2');
-        if (glCtx && program) {
-          glCtx.deleteProgram(program);
-        }
-      } catch { /* ignore cleanup errors */ }
     };
   }, [createProgram, onFrameData, drawSegmentationMask]);
 
   return (
     <div className={`relative flex items-center justify-center bg-black overflow-hidden ${className || ''}`}>
-      <video ref={videoRef} playsInline muted style={{ display: 'none' }} />
+      <video ref={videoRef} playsInline muted style={{ position: 'absolute', width: 0, height: 0, opacity: 0, pointerEvents: 'none' }} />
       <canvas ref={canvasRef} className="w-full h-full object-contain" />
-      {loadingStatus && (
+      {/* Full overlay only while camera is not ready */}
+      {cameraStatus && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/70 text-white text-sm">
-          {loadingStatus}
+          {cameraStatus}
+        </div>
+      )}
+      {/* Non-blocking badge for ML model loading (camera can render behind it) */}
+      {!cameraStatus && mlStatus && (
+        <div className="absolute top-2 left-2 px-2.5 py-1 rounded-md bg-black/60 backdrop-blur text-white/70 text-[10px] pointer-events-none">
+          {mlStatus}
         </div>
       )}
     </div>
