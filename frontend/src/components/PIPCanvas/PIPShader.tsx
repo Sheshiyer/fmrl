@@ -576,6 +576,8 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
     if (!canvas || !video) return;
 
     let program: WebGLProgram;
+    // eslint-disable-next-line prefer-const -- reassigned in cleanup closure
+    let cancelled = false;
     try {
     const maskCanvas = document.createElement('canvas');
     maskCanvas.width = 640;
@@ -650,9 +652,6 @@ export const PIPShader = forwardRef<PIPShaderHandle, PIPShaderProps>(({ classNam
     uniformsRef.current = uniforms;
     gl.uniform1i(uniforms.uVideo, 0);
     gl.uniform1i(uniforms.uMask, 1);
-
-    // eslint-disable-next-line prefer-const -- reassigned in cleanup closure
-    let cancelled = false;
 
     const startVideoPipeline = async () => {
       const MAX_RETRIES = 3;
