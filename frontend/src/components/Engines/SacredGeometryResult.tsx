@@ -326,7 +326,7 @@ export function SacredGeometryResult({ result }: { result: EngineOutput }) {
               <span className="text-4xl font-bold text-pip-gold">{String(frequency)}</span>
               <span className="text-xs uppercase tracking-wider text-pip-text-muted">Hz</span>
             </div>
-            {colorFreq && (
+            {!!colorFreq && (
               <div className="flex flex-col items-center gap-1 px-4 border-l border-pip-border/30">
                 <span className="text-lg font-medium text-pip-text-primary">{String(colorFreq)}</span>
                 <span className="text-[10px] uppercase tracking-wider text-pip-text-muted">Color Frequency</span>

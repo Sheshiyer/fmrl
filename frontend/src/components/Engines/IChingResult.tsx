@@ -173,13 +173,13 @@ export function IChingResult({ result }: { result: EngineOutput }) {
         </span>
         <span className="px-3 py-1 rounded-full text-xs border border-pip-gold/30 bg-pip-gold/10 text-pip-gold flex items-center gap-1.5">
           <Sparkles className="w-3 h-3" />
-          Level {result.consciousness_level}
+          Level {String(result.consciousness_level)}
         </span>
-        {hexNumber > 0 && (
+        {hexNumber > 0 ? (
           <span className="px-3 py-1 rounded-full text-xs border border-pip-gold/30 bg-pip-gold/10 text-pip-gold">
-            Hexagram {hexNumber}
+            Hexagram {String(hexNumber)}
           </span>
-        )}
+        ) : null}
       </div>
 
       {/* ── 3. Hexagram Display ── */}
@@ -196,7 +196,7 @@ export function IChingResult({ result }: { result: EngineOutput }) {
           <div className="flex-1 min-w-0">
             <div className="flex items-baseline gap-3 mb-1">
               {hexNumber > 0 && (
-                <span className="text-3xl font-bold text-pip-gold">{hexNumber}</span>
+                <span className="text-3xl font-bold text-pip-gold">{String(hexNumber)}</span>
               )}
               <span className="text-xl font-semibold text-pip-text-primary">{hexName}</span>
             </div>
@@ -216,7 +216,7 @@ export function IChingResult({ result }: { result: EngineOutput }) {
       </div>
 
       {/* ── 4. Trigram Breakdown ── */}
-      {(upperTrigram.name || lowerTrigram.name) && (
+      {!!(upperTrigram.name || lowerTrigram.name) && (
         <div className="mystic-panel !p-4">
           <div className="mystic-eyebrow text-xs mb-3 flex items-center gap-1.5">
             <Layers className="w-3.5 h-3.5 text-pip-text-muted" />
@@ -229,7 +229,7 @@ export function IChingResult({ result }: { result: EngineOutput }) {
               <div className="text-base font-semibold text-pip-text-primary">
                 {str(upperTrigram.name)}
               </div>
-              {upperTrigram.attribute && (
+              {!!upperTrigram.attribute && (
                 <div className="text-xs text-pip-gold mt-1">{str(upperTrigram.attribute)}</div>
               )}
             </div>
@@ -239,7 +239,7 @@ export function IChingResult({ result }: { result: EngineOutput }) {
               <div className="text-base font-semibold text-pip-text-primary">
                 {str(lowerTrigram.name)}
               </div>
-              {lowerTrigram.attribute && (
+              {!!lowerTrigram.attribute && (
                 <div className="text-xs text-pip-gold mt-1">{str(lowerTrigram.attribute)}</div>
               )}
             </div>
@@ -282,23 +282,23 @@ export function IChingResult({ result }: { result: EngineOutput }) {
             Relating Hexagram
           </div>
           <div className="flex items-baseline gap-3">
-            {relatingHex.number && (
+            {!!relatingHex.number && (
               <span className="text-2xl font-bold text-pip-gold">
-                {num(relatingHex.number)}
+                {String(num(relatingHex.number))}
               </span>
             )}
             <span className="text-lg font-semibold text-pip-text-primary">
               {str(relatingHex.name)}
             </span>
-            {relatingHex.chinese_name && (
+            {!!relatingHex.chinese_name && (
               <span className="text-sm text-pip-text-muted">
-                {str(relatingHex.chinese_name)}
+                {String(relatingHex.chinese_name)}
               </span>
             )}
           </div>
-          {relatingHex.judgment && (
+          {!!relatingHex.judgment && (
             <p className="text-sm text-pip-text-secondary mt-2 leading-relaxed">
-              {str(relatingHex.judgment)}
+              {String(relatingHex.judgment)}
             </p>
           )}
         </div>
@@ -324,7 +324,7 @@ export function IChingResult({ result }: { result: EngineOutput }) {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
             <div className="flex items-center gap-2 text-pip-text-secondary">
               <Clock className="w-3.5 h-3.5 text-pip-text-muted" />
-              <span>{result.metadata.calculation_time_ms}ms</span>
+              <span>{String(result.metadata.calculation_time_ms)}ms</span>
             </div>
             <div className="flex items-center gap-2 text-pip-text-secondary">
               <Cpu className="w-3.5 h-3.5 text-pip-text-muted" />
