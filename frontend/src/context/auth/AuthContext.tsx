@@ -201,6 +201,10 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
             setSelemeneToken(null);
             setSelemeneStatus('disconnected');
             bridgeDisconnect();
+            // Clear all auth-related localStorage so onboarding gate triggers
+            localStorage.removeItem('selemene_onboarding_complete_v2');
+            localStorage.removeItem('selemene_guest_mode');
+            localStorage.removeItem('fmrl_selemene_bridge');
             setStatus('unauthenticated');
             break;
             

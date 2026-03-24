@@ -3,6 +3,7 @@
  * Displays user avatar, name, and auth actions in the shell
  */
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   User, 
@@ -30,6 +31,7 @@ export function UserMenu() {
     selemeneStatus,
   } = useAuth();
   const { shouldAnimate, isMinimal } = useMotionPreference();
+  const navigate = useNavigate();
   
   const [isOpen, setIsOpen] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -109,6 +111,8 @@ export function UserMenu() {
   const handleSignOut = async () => {
     setIsOpen(false);
     await signOut();
+    // Navigate to onboarding — localStorage flags cleared by AuthContext
+    navigate('/onboarding', { replace: true });
   };
 
   const handleDisableGuest = () => {
