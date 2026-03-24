@@ -416,8 +416,11 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
 
     // In-webview OAuth: redirect within the current window
     // Works for both browser and Tauri (when opener plugin is unavailable)
+    // On macOS Tauri, window.location.origin is tauri://localhost (custom scheme)
+    // which Supabase won't match — use https://tauri.localhost/ instead
+    const origin = isTauriRuntime() ? 'https://tauri.localhost' : window.location.origin;
     const redirectTo = resolveAuthRedirectUrl(
-      window.location.origin,
+      origin,
       typeof import.meta.env.VITE_SUPABASE_AUTH_REDIRECT_URL === 'string'
         ? import.meta.env.VITE_SUPABASE_AUTH_REDIRECT_URL
         : undefined,
