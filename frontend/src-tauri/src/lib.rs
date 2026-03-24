@@ -620,6 +620,33 @@ fn backend_logs(limit: Option<usize>) -> Vec<String> {
     logs.iter().skip(start).cloned().collect()
 }
 
+/// Open a URL in the system default browser (bypasses plugin ACL)
+#[tauri::command]
+fn open_url_in_browser(url: String) -> Result<(), String> {
+    #[cfg(target_os = "macos")]
+    {
+        Command::new("open")
+            .arg(&url)
+            .spawn()
+            .map_err(|e| format!("Failed to open URL: {e}"))?;
+    }
+    #[cfg(target_os = "windows")]
+    {
+        Command::new("cmd")
+            .args(["/C", "start", &url])
+            .spawn()
+            .map_err(|e| format!("Failed to open URL: {e}"))?;
+    }
+    #[cfg(target_os = "linux")]
+    {
+        Command::new("xdg-open")
+            .arg(&url)
+            .spawn()
+            .map_err(|e| format!("Failed to open URL: {e}"))?;
+    }
+    Ok(())
+}
+
 #[tauri::command]
 fn open_app_settings(target: Option<String>) -> Result<bool, String> {
     let target_value = target.unwrap_or_else(|| "camera".to_string());
@@ -948,6 +975,7 @@ pub fn run() {
             backend_logs,
             open_app_settings,
             open_camera_privacy_settings,
+            open_url_in_browser,
             repair_camera_permission_state,
             compute_metrics,
             compute_probe,

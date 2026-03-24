@@ -392,7 +392,7 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
   const signInWithDiscord = useCallback(async () => {
     setError(null);
 
-    // In Tauri desktop, try opening OAuth in system browser via deep-link flow
+    // In Tauri desktop, open OAuth in system browser via deep-link callback
     if (isTauriRuntime()) {
       try {
         const { data, error: oauthError } = await supabase.auth.signInWithOAuth({
@@ -404,13 +404,14 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
         });
         if (oauthError) { setError(oauthError); return { error: oauthError }; }
         if (data?.url) {
-          const { openUrl } = await import('@tauri-apps/plugin-opener');
-          await openUrl(data.url);
+          const { invoke } = await import('@tauri-apps/api/core');
+          await invoke('open_url_in_browser', { url: data.url });
         }
         return { error: null };
       } catch (e) {
-        console.warn('[Auth] Opener plugin unavailable, falling back to in-webview OAuth:', e);
-        // Fall through to in-webview OAuth flow below
+        const err = e instanceof Error ? e : new Error(String(e));
+        setError(err);
+        return { error: err as AuthError };
       }
     }
 
