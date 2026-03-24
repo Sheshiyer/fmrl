@@ -404,8 +404,13 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
         });
         if (oauthError) { setError(oauthError); return { error: oauthError }; }
         if (data?.url) {
-          const { openUrl } = await import('@tauri-apps/plugin-opener');
-          await openUrl(data.url);
+          try {
+            const { openUrl } = await import('@tauri-apps/plugin-opener');
+            await openUrl(data.url);
+          } catch {
+            // Fallback: open in webview if opener ACL is denied
+            window.open(data.url, '_blank');
+          }
         }
         return { error: null };
       } catch (e) {
