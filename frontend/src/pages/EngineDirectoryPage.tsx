@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Compass, AlertCircle, RefreshCw, WifiOff, ShieldAlert } from 'lucide-react';
 import { useSelemene } from '../hooks/useSelemene';
 import { useAuth } from '../context/auth/AuthContext';
+import { SacredGeometryOverlay } from '../components/UI/SacredGeometryOverlay';
 import type { EngineInfo } from '../types/selemene';
 
 function SkeletonCard() {
@@ -133,7 +134,13 @@ export function EngineDirectoryPage() {
   }
 
   return (
-    <div className="h-full min-h-0 flex flex-col gap-4 overflow-auto p-1">
+    <div className="relative h-full min-h-0 flex flex-col gap-4 overflow-auto p-1">
+      <SacredGeometryOverlay
+        variant="flower-of-life"
+        size={300}
+        opacity={0.025}
+        className="absolute right-0 top-10"
+      />
       <div className="flex items-center gap-3">
         <Compass className="w-5 h-5 text-pip-gold" />
         <h1 className="mystic-section-title text-lg">Engines</h1>

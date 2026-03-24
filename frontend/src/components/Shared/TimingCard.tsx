@@ -48,22 +48,25 @@ export function TimingCard({
 
   return (
     <div
-      className={`mystic-panel !p-4 transition-all duration-200 ${onClick ? 'cursor-pointer hover:border-pip-gold/40' : ''}`}
+      className={`relative overflow-hidden rounded-2xl border border-white/[0.08] bg-white/[0.03] backdrop-blur-lg p-4 transition-all duration-200 ${onClick ? 'cursor-pointer hover:border-pip-sacred-line hover:bg-white/[0.05] hover:-translate-y-0.5' : ''}`}
       onClick={onClick}
       role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
       onKeyDown={onClick ? (e) => { if (e.key === 'Enter' || e.key === ' ') onClick(); } : undefined}
     >
+      {/* Subtle gold accent line at top */}
+      <div className="absolute top-0 left-4 right-4 h-px bg-gradient-to-r from-transparent via-pip-sacred/20 to-transparent" />
+
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <span className="text-pip-gold">{icon}</span>
-          <span className="text-[10px] uppercase tracking-wider text-pip-text-muted font-medium">{title}</span>
+          <span className="text-pip-sacred">{icon}</span>
+          <span className="text-[10px] uppercase tracking-[0.18em] text-pip-text-muted font-medium">{title}</span>
         </div>
         {isLive && (
           <span className="flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-pip-emerald animate-pulse" />
-            <span className="text-[9px] uppercase tracking-wider text-pip-emerald">Live</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-pip-optimal animate-pulse" />
+            <span className="text-[9px] uppercase tracking-wider text-pip-optimal">Live</span>
           </span>
         )}
       </div>

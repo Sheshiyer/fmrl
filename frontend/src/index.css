@@ -320,6 +320,31 @@ body::before {
   background: rgba(10, 14, 24, 0.94);
 }
 
+/* WitnessOS button enhancements */
+.mystic-btn-sacred {
+  color: var(--color-pip-sacred);
+  border-color: rgba(245, 158, 11, 0.4);
+  background: rgba(245, 158, 11, 0.08);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.1);
+}
+
+.mystic-btn-sacred:not(:disabled):hover {
+  border-color: rgba(245, 158, 11, 0.6);
+  background: rgba(245, 158, 11, 0.15);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.15);
+}
+
+.mystic-btn-optimal {
+  color: var(--color-pip-optimal);
+  border-color: rgba(74, 222, 128, 0.4);
+  background: rgba(74, 222, 128, 0.08);
+}
+
+.mystic-btn-optimal:not(:disabled):hover {
+  border-color: rgba(74, 222, 128, 0.6);
+  background: rgba(74, 222, 128, 0.15);
+}
+
 /* Glass Panel Styles - upgraded to mystic treatment */
 .glass-panel {
   background: linear-gradient(150deg, rgba(8, 13, 24, 0.86), rgba(6, 9, 18, 0.9));

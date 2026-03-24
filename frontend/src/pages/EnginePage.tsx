@@ -10,6 +10,7 @@ import { useSelemene } from '../hooks/useSelemene';
 import { EngineResultRenderer } from '../components/Engines/EngineResultRenderer';
 import { useAppState } from '../context/appState';
 import { useAuth } from '../context/auth/AuthContext';
+import { SacredGeometryOverlay } from '../components/UI/SacredGeometryOverlay';
 import type { EngineInput, BirthData, ValidationResult } from '../types/selemene';
 
 const DEFAULT_BIRTH_DATA: BirthData = {
@@ -212,7 +213,13 @@ export function EnginePage() {
         </div>
 
         {/* Result Area */}
-        <div className="min-h-0 overflow-auto">
+        <div className="relative min-h-0 overflow-auto">
+          <SacredGeometryOverlay
+            variant="sri-yantra"
+            size={200}
+            opacity={0.02}
+            className="absolute right-2 top-2"
+          />
           {isLoading && !result && (
             <div className="mystic-panel !p-8 flex items-center justify-center">
               <Loader2 className="w-8 h-8 text-pip-gold animate-spin" />

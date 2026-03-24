@@ -14,6 +14,7 @@ import { BirthDataForm } from '../components/Shared/BirthDataForm';
 import { WorkflowProgress } from '../components/Workflows/WorkflowProgress';
 import { SynthesisView } from '../components/Workflows/SynthesisView';
 import { EngineResultGrid } from '../components/Workflows/EngineResultGrid';
+import { SacredGeometryOverlay } from '../components/UI/SacredGeometryOverlay';
 import { useState, useMemo } from 'react';
 import type { BirthData, EngineInput } from '../types/selemene';
 
@@ -77,12 +78,18 @@ export function WorkflowPage() {
   };
 
   return (
-    <div className="h-full overflow-y-auto p-6">
+    <div className="h-full overflow-y-auto p-6 relative">
+      <SacredGeometryOverlay
+        variant="flower-of-life"
+        size={250}
+        opacity={0.02}
+        className="absolute right-4 top-8"
+      />
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-start gap-4">
-          <div className="p-3 rounded-lg bg-pip-gold/10 border border-pip-gold/20">
-            <Workflow className="w-6 h-6 text-pip-gold" />
+          <div className="p-3 rounded-lg bg-pip-sacred/10 border border-pip-sacred/20">
+            <Workflow className="w-6 h-6 text-pip-sacred" />
           </div>
           <div>
             <h1 className="text-xl font-mono text-pip-text-primary">{meta.name}</h1>

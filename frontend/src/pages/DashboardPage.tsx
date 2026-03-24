@@ -17,6 +17,9 @@ import { ShortcutsHelp } from '../components/UI/ShortcutsHelp';
 import { useAuth } from '../context/auth/AuthContext';
 import { useSelemene } from '../hooks/useSelemene';
 import { SelemeneStatusBadge } from '../components/UI/SelemeneStatusBadge';
+import { CoherenceRing } from '../components/UI/CoherenceRing';
+import { BreathNav } from '../components/UI/BreathNav';
+import { SacredGeometryOverlay } from '../components/UI/SacredGeometryOverlay';
 import type { AnalysisResult, CapturedAnalysisData } from '../types';
 import { StaggerContainer, StaggerItem } from '../components/Animations';
 import { TodaySection } from '../components/Dashboard/TodaySection';
@@ -129,13 +132,30 @@ export function DashboardPage() {
       {/* Shortcuts Help Overlay */}
       <ShortcutsHelp isOpen={showShortcuts} onClose={() => setShowShortcuts(false)} />
 
-      {/* Selemene Status + Today Section */}
+      {/* WitnessOS Dashboard Header */}
       <StaggerItem>
-        <div className="flex items-center justify-between gap-3 px-1">
-          <SelemeneStatusBadge 
-            status={selemeneStatus} 
-            engineCount={selemeneEngines.length} 
+        <div className="relative flex items-center justify-between gap-4 px-1">
+          <SacredGeometryOverlay
+            variant="seed-of-life"
+            size={140}
+            opacity={0.03}
+            className="absolute -left-6 -top-4"
           />
+          <div className="flex items-center gap-4 z-10">
+            <span className="witnessOS-heading text-[11px]">Consciousness Dashboard</span>
+            <SelemeneStatusBadge 
+              status={selemeneStatus} 
+              engineCount={selemeneEngines.length} 
+            />
+          </div>
+          <div className="flex items-center gap-4 z-10">
+            <BreathNav width={120} className="hidden sm:flex" />
+            <CoherenceRing
+              score={Math.round((scores.energy + scores.coherence + scores.symmetry) / 3 * 100)}
+              size={52}
+              label="Score"
+            />
+          </div>
         </div>
       </StaggerItem>
 
