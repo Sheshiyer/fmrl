@@ -22,9 +22,20 @@ export function resolveAuthRedirectUrl(currentOrigin: string, explicitRedirectUr
  * Parse OAuth tokens from a deep-link callback URL.
  * Supabase implicit flow appends tokens as a hash fragment:
  *   fmrl://auth/callback#access_token=...&refresh_token=...
+ * Also supports query params as fallback (e.g. PKCE flow or intermediary redirect).
  */
 export function parseDeepLinkTokens(url: string): { access_token: string; refresh_token: string } | null {
   try {
+    // Try query params first (more reliable across OS URL handlers)
+    const qIdx = url.indexOf('?');
+    if (qIdx !== -1) {
+      const queryStr = url.slice(qIdx + 1).split('#')[0];
+      const qParams = new URLSearchParams(queryStr);
+      const qAccess = qParams.get('access_token');
+      const qRefresh = qParams.get('refresh_token');
+      if (qAccess && qRefresh) return { access_token: qAccess, refresh_token: qRefresh };
+    }
+    // Fallback: hash fragment (standard implicit flow)
     const hashIdx = url.indexOf('#');
     if (hashIdx === -1) return null;
     const fragment = url.slice(hashIdx + 1);

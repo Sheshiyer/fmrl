@@ -392,7 +392,7 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
   const signInWithDiscord = useCallback(async () => {
     setError(null);
 
-    // In Tauri desktop, open OAuth in system browser via deep-link callback
+    // In Tauri desktop, open OAuth in a managed WebView window
     if (isTauriRuntime()) {
       try {
         const { data, error: oauthError } = await supabase.auth.signInWithOAuth({
@@ -404,8 +404,33 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
         });
         if (oauthError) { setError(oauthError); return { error: oauthError }; }
         if (data?.url) {
-          const { invoke } = await import('@tauri-apps/api/core');
-          await invoke('open_url_in_browser', { url: data.url });
+          const [{ invoke }, { listen }] = await Promise.all([
+            import('@tauri-apps/api/core'),
+            import('@tauri-apps/api/event'),
+          ]);
+
+          // Listen for tokens emitted by the OAuth window's on_navigation interceptor
+          const unlisten = await listen<string>('oauth-tokens', async (event) => {
+            unlisten();
+            const params = new URLSearchParams(event.payload);
+            const access_token = params.get('access_token');
+            const refresh_token = params.get('refresh_token');
+            if (access_token && refresh_token) {
+              const { error: sessionError } = await supabase.auth.setSession({
+                access_token,
+                refresh_token,
+              });
+              if (sessionError) {
+                console.error('[Auth] setSession from OAuth window failed:', sessionError);
+                setError(sessionError);
+              }
+            } else {
+              console.warn('[Auth] OAuth tokens incomplete in event payload');
+            }
+          });
+
+          // Open a dedicated WebView window that intercepts the callback redirect
+          await invoke('open_oauth_window', { url: data.url });
         }
         return { error: null };
       } catch (e) {
@@ -415,13 +440,9 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
       }
     }
 
-    // In-webview OAuth: redirect within the current window
-    // Works for both browser and Tauri (when opener plugin is unavailable)
-    // On macOS Tauri, window.location.origin is tauri://localhost (custom scheme)
-    // which Supabase won't match — use https://tauri.localhost/ instead
-    const origin = isTauriRuntime() ? 'https://tauri.localhost' : window.location.origin;
+    // Browser fallback: standard OAuth redirect within the current window
     const redirectTo = resolveAuthRedirectUrl(
-      origin,
+      window.location.origin,
       typeof import.meta.env.VITE_SUPABASE_AUTH_REDIRECT_URL === 'string'
         ? import.meta.env.VITE_SUPABASE_AUTH_REDIRECT_URL
         : undefined,

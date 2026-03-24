@@ -647,6 +647,62 @@ fn open_url_in_browser(url: String) -> Result<(), String> {
     Ok(())
 }
 
+/// Open a managed WebView window for OAuth that intercepts the callback redirect.
+/// Extracts tokens from the redirect URL fragment and emits them via event.
+#[tauri::command]
+async fn open_oauth_window(app: tauri::AppHandle, url: String) -> Result<(), String> {
+    use tauri::{Emitter, Manager, Url, WebviewUrl, WebviewWindowBuilder};
+
+    let oauth_url = Url::parse(&url).map_err(|e| format!("Invalid OAuth URL: {e}"))?;
+
+    // Close any existing OAuth window
+    if let Some(existing) = app.get_webview_window("oauth") {
+        let _ = existing.close();
+    }
+
+    let app_handle = app.clone();
+
+    WebviewWindowBuilder::new(&app, "oauth", WebviewUrl::External(oauth_url))
+        .title("Sign in — FMRL")
+        .inner_size(520.0, 720.0)
+        .resizable(true)
+        .on_navigation(move |nav_url| {
+            let url_str = nav_url.as_str();
+            // Intercept the OAuth callback redirect (fmrl:// is not a loadable scheme)
+            if url_str.starts_with("fmrl://auth/callback") {
+                // Prefer hash fragment (implicit flow), fall back to query params (PKCE)
+                let token_string = match nav_url.fragment() {
+                    Some(f) if !f.is_empty() => f.to_string(),
+                    _ => nav_url.query().unwrap_or("").to_string(),
+                };
+
+                if !token_string.is_empty() {
+                    let ah = app_handle.clone();
+                    let _ = ah.emit("oauth-tokens", token_string);
+                    // Close the window after a brief delay to avoid deadlock
+                    std::thread::spawn(move || {
+                        use tauri::Manager;
+                        std::thread::sleep(Duration::from_millis(300));
+                        if let Some(win) = ah.get_webview_window("oauth") {
+                            let _ = win.close();
+                        }
+                    });
+                } else {
+                    eprintln!(
+                        "[FMRL] OAuth callback URL had no tokens: {}",
+                        &url_str[..url_str.len().min(80)]
+                    );
+                }
+                return false; // Prevent navigation to non-HTTP scheme
+            }
+            true
+        })
+        .build()
+        .map_err(|e| format!("Failed to open OAuth window: {e}"))?;
+
+    Ok(())
+}
+
 #[tauri::command]
 fn open_app_settings(target: Option<String>) -> Result<bool, String> {
     let target_value = target.unwrap_or_else(|| "camera".to_string());
@@ -976,6 +1032,7 @@ pub fn run() {
             open_app_settings,
             open_camera_privacy_settings,
             open_url_in_browser,
+            open_oauth_window,
             repair_camera_permission_state,
             compute_metrics,
             compute_probe,
