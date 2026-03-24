@@ -172,6 +172,14 @@
     linear-gradient(90deg, rgba(148, 163, 184, 0.03) 1px, transparent 1px);
 }
 
+/* WitnessOS sacred accent */
+[data-selemene-accent="sacred"] {
+  --color-pip-gold: #f59e0b;
+  --color-pip-accent: #10b981;
+  --color-pip-border: rgba(245, 158, 11, 0.24);
+  --color-pip-emerald: #4ade80;
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    COMPOUND STATES — Theme + Accent Interactions
    ═══════════════════════════════════════════════════════════════════════════

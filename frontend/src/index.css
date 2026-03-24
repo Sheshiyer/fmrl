@@ -20,6 +20,18 @@
   --color-pip-text-muted: rgba(170, 160, 143, 0.56);
   --color-pip-border: rgba(215, 178, 109, 0.24);
   --color-pip-highlight: rgba(127, 100, 255, 0.3);
+
+  /* WitnessOS semantic tokens */
+  --color-pip-optimal: #4ade80;
+  --color-pip-optimal-dim: rgba(74, 222, 128, 0.15);
+  --color-pip-sacred: #f59e0b;
+  --color-pip-sacred-dim: rgba(245, 158, 11, 0.12);
+  --color-pip-sacred-line: rgba(245, 158, 11, 0.18);
+  --color-pip-coherence: #10b981;
+  --color-pip-alert: #ef4444;
+  --color-pip-glass: rgba(255, 255, 255, 0.03);
+  --color-pip-glass-border: rgba(255, 255, 255, 0.08);
+  --color-pip-glass-hover: rgba(255, 255, 255, 0.06);
 }
 
 :root {
@@ -43,9 +55,9 @@ body {
   height: 100%;
   overflow: hidden;
   background:
-    radial-gradient(circle at 52% -8%, rgba(178, 135, 255, 0.14), transparent 36%),
-    radial-gradient(circle at 80% 78%, rgba(46, 199, 167, 0.05), transparent 34%),
-    radial-gradient(circle at 16% 76%, rgba(216, 179, 106, 0.09), transparent 40%),
+    radial-gradient(circle at 52% -8%, rgba(245, 158, 11, 0.06), transparent 36%),
+    radial-gradient(circle at 80% 78%, rgba(16, 185, 129, 0.04), transparent 34%),
+    radial-gradient(circle at 16% 76%, rgba(216, 179, 106, 0.07), transparent 40%),
     linear-gradient(165deg, #020306 0%, #04070d 45%, #010205 100%);
   background-attachment: fixed;
 }
@@ -142,6 +154,26 @@ body::before {
   color: rgba(249, 240, 218, 0.99);
   text-shadow: 0 0 14px rgba(216, 179, 106, 0.28);
 }
+
+.witnessOS-heading {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-pip-text-primary);
+  text-shadow: 0 0 18px rgba(245, 158, 11, 0.15);
+}
+
+.witnessOS-quote {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-style: italic;
+  color: var(--color-pip-sacred);
+  text-align: center;
+  line-height: 1.7;
+}
+
+.witnessOS-quote::before { content: '\201C'; }
+.witnessOS-quote::after { content: '\201D'; }
 
 .mystic-divider {
   height: 1px;
