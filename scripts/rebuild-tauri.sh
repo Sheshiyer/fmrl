@@ -5,18 +5,60 @@ REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 FRONTEND="$REPO_ROOT/frontend"
 TAURI="$FRONTEND/src-tauri"
 
+# Parse flags
+FRESH=false
+for arg in "$@"; do
+  case "$arg" in
+    --fresh) FRESH=true ;;
+    -h|--help)
+      echo "Usage: rebuild-tauri.sh [--fresh]"
+      echo "  --fresh  Clear WebView cache & localStorage (forces onboarding)"
+      exit 0
+      ;;
+  esac
+done
+
+# Tauri app identifier — must match tauri.conf.json → identifier
+TAURI_ID="space.tryambakam.fmrl"
+
 # Read current version from Cargo.toml
 CURRENT_VERSION=$(grep '^version' "$TAURI/Cargo.toml" | head -1 | sed 's/.*"\(.*\)"/\1/')
+
+STEP_COUNT=5
+if $FRESH; then STEP_COUNT=6; fi
 
 echo "╔══════════════════════════════════════════╗"
 echo "║  FMRL Tauri Rebuild — Clean & Fresh      ║"
 echo "╚══════════════════════════════════════════╝"
 echo ""
 echo "  Current version: $CURRENT_VERSION"
+if $FRESH; then
+  echo "  Mode: FRESH (WebView cache will be cleared)"
+fi
 echo ""
 
+# --- Step 0 (optional): Clear WebView cache & localStorage ---
+if $FRESH; then
+  echo "⟐ Step 1/$STEP_COUNT: Clearing WebView cache & localStorage..."
+  WEBKIT_DIR="$HOME/Library/WebKit/$TAURI_ID"
+  CACHE_DIR="$HOME/Library/Caches/$TAURI_ID"
+  # Also clear legacy identifier if present
+  LEGACY_WEBKIT="$HOME/Library/WebKit/com.fmrl.app"
+  LEGACY_CACHE="$HOME/Library/Caches/com.fmrl.app"
+
+  for dir in "$WEBKIT_DIR" "$CACHE_DIR" "$LEGACY_WEBKIT" "$LEGACY_CACHE"; do
+    if [ -d "$dir" ]; then
+      rm -rf "$dir"
+      echo "  ✓ Removed $dir"
+    fi
+  done
+  echo "  ✓ WebView state cleared — onboarding will run on next launch"
+fi
+
 # --- Step 1: Clean old builds ---
-echo "⟐ Step 1/5: Cleaning old builds..."
+STEP_BASE=1
+if $FRESH; then STEP_BASE=2; fi
+echo "⟐ Step $STEP_BASE/$STEP_COUNT: Cleaning old builds..."
 rm -rf "$TAURI/target/release/bundle"
 rm -rf "$TAURI/target/release/build"
 rm -rf "$TAURI/target/release/deps"
@@ -25,26 +67,26 @@ rm -f "$TAURI/target/release/fmrl-desktop" "$TAURI/target/release/fmrl_desktop"
 rm -rf "$FRONTEND/dist"
 echo "  ✓ Old .app, .dmg, and build artifacts removed"
 
-# --- Step 2: Install frontend deps ---
-echo "⟐ Step 2/5: Installing frontend dependencies..."
+# --- Step: Install frontend deps ---
+echo "⟐ Step $((STEP_BASE+1))/$STEP_COUNT: Installing frontend dependencies..."
 cd "$FRONTEND"
 npm install --silent 2>&1 | tail -1
 echo "  ✓ Dependencies up to date"
 
-# --- Step 3: Build frontend ---
-echo "⟐ Step 3/5: Building frontend (Vite)..."
+# --- Step: Build frontend ---
+echo "⟐ Step $((STEP_BASE+2))/$STEP_COUNT: Building frontend (Vite)..."
 npm run build 2>&1 | tail -3
 echo "  ✓ Frontend built to dist/"
 
-# --- Step 4: Build Tauri app ---
-echo "⟐ Step 4/5: Building Tauri .app + .dmg..."
+# --- Step: Build Tauri app ---
+echo "⟐ Step $((STEP_BASE+3))/$STEP_COUNT: Building Tauri .app + .dmg..."
 cd "$FRONTEND"
 npx tauri build 2>&1 | tail -5
 echo "  ✓ Tauri build complete"
 
-# --- Step 5: Report results ---
+# --- Step: Report results ---
 echo ""
-echo "⟐ Step 5/5: Build artifacts:"
+echo "⟐ Step $STEP_COUNT/$STEP_COUNT: Build artifacts:"
 VERSION=$(grep '^version' "$TAURI/Cargo.toml" | head -1 | sed 's/.*"\(.*\)"/\1/')
 DMG="$TAURI/target/release/bundle/dmg/FMRL_${VERSION}_aarch64.dmg"
 APP="$TAURI/target/release/bundle/macos/FMRL.app"
