@@ -11,6 +11,12 @@ import { BiorhythmResult } from './BiorhythmResult';
 import { NumerologyResult } from './NumerologyResult';
 import { HumanDesignResult } from './HumanDesignResult';
 import { GeneKeysResult } from './GeneKeysResult';
+import { VimshottariResult } from './VimshottariResult';
+import { TarotResult } from './TarotResult';
+import { EnneagramResult } from './EnneagramResult';
+import { SigilForgeResult } from './SigilForgeResult';
+import { SacredGeometryResult } from './SacredGeometryResult';
+import { IChingResult } from './IChingResult';
 
 interface EngineResultRendererProps {
   engineId: string;
@@ -25,6 +31,12 @@ const renderers: Record<string, React.ComponentType<{ result: EngineOutput }>> =
   'numerology': NumerologyResult,
   'human-design': HumanDesignResult,
   'gene-keys': GeneKeysResult,
+  'vimshottari': VimshottariResult,
+  'tarot': TarotResult,
+  'enneagram': EnneagramResult,
+  'sigil-forge': SigilForgeResult,
+  'sacred-geometry': SacredGeometryResult,
+  'i-ching': IChingResult,
 };
 
 export function EngineResultRenderer({ engineId, result }: EngineResultRendererProps) {
