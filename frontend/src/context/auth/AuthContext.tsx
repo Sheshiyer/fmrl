@@ -392,7 +392,7 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
   const signInWithDiscord = useCallback(async () => {
     setError(null);
 
-    // In Tauri desktop, open OAuth in system browser so passkeys work
+    // In Tauri desktop, try opening OAuth in system browser via deep-link flow
     if (isTauriRuntime()) {
       try {
         const { data, error: oauthError } = await supabase.auth.signInWithOAuth({
@@ -404,23 +404,18 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
         });
         if (oauthError) { setError(oauthError); return { error: oauthError }; }
         if (data?.url) {
-          try {
-            const { openUrl } = await import('@tauri-apps/plugin-opener');
-            await openUrl(data.url);
-          } catch {
-            // Fallback: open in webview if opener ACL is denied
-            window.open(data.url, '_blank');
-          }
+          const { openUrl } = await import('@tauri-apps/plugin-opener');
+          await openUrl(data.url);
         }
         return { error: null };
       } catch (e) {
-        const err = e instanceof Error ? e : new Error(String(e));
-        setError(err);
-        return { error: err as AuthError };
+        console.warn('[Auth] Opener plugin unavailable, falling back to in-webview OAuth:', e);
+        // Fall through to in-webview OAuth flow below
       }
     }
 
-    // Browser fallback — redirect in webview (original behaviour)
+    // In-webview OAuth: redirect within the current window
+    // Works for both browser and Tauri (when opener plugin is unavailable)
     const redirectTo = resolveAuthRedirectUrl(
       window.location.origin,
       typeof import.meta.env.VITE_SUPABASE_AUTH_REDIRECT_URL === 'string'
