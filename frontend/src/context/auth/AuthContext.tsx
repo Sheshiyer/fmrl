@@ -261,19 +261,24 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    if (status === 'authenticated' && user?.id) {
-      syncAuthManagedPersistenceUserId(window.localStorage, user.id);
+    // Use dbUser.id when available (handles Selene identity mismatch),
+    // fall back to auth user.id during initial load.
+    const persistenceId = dbUser?.id ?? user?.id;
+
+    if (status === 'authenticated' && persistenceId) {
+      syncAuthManagedPersistenceUserId(window.localStorage, persistenceId);
       return;
     }
 
     if (status === 'unauthenticated' || status === 'guest') {
       clearAuthManagedPersistenceUserId(window.localStorage);
     }
-  }, [status, user?.id]);
+  }, [status, user?.id, dbUser?.id]);
 
   // Selemene Engine API auth bridge — auto-authenticate when Supabase user signs in
+  // Waits for dbUser so user record is provisioned before Selemene bridge runs
   useEffect(() => {
-    if (status !== 'authenticated' || !user?.email) {
+    if (status !== 'authenticated' || !user?.email || !dbUser) {
       return;
     }
 
@@ -301,7 +306,7 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
 
     connectSelemene();
     return () => { cancelled = true; };
-  }, [status, user?.email, user?.user_metadata?.full_name, user?.user_metadata?.name]);
+  }, [status, user?.email, user?.user_metadata?.full_name, user?.user_metadata?.name, dbUser]);
 
   // Fetch database user and profile when auth user changes
   useEffect(() => {
@@ -313,13 +318,30 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
       
       try {
         // Fetch or create public.users entry
-        const { data: existingUser, error: userError } = await supabase
+        // First try by auth id, then fall back to email lookup (handles
+        // the Selene identity model where public.users may exist without
+        // matching auth.users rows).
+        let { data: existingUser, error: userError } = await supabase
           .from('users')
           .select('*')
           .eq('id', user.id)
           .single();
 
         if (!isMounted.current) return;
+
+        // Fallback: look up by email when id-based lookup misses
+        if ((userError || !existingUser) && user.email) {
+          const { data: emailUser } = await supabase
+            .from('users')
+            .select('*')
+            .eq('email', user.email)
+            .single();
+
+          if (emailUser) {
+            existingUser = emailUser;
+            userError = null;
+          }
+        }
 
         let dbUserData: DbUser;
 
@@ -340,11 +362,15 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
         if (!isMounted.current) return;
         setDbUser(dbUserData);
 
+        // Use the resolved user id for profile operations — this may differ
+        // from auth user.id when an existing Selene user was matched by email.
+        const resolvedUserId = dbUserData.id;
+
         // Fetch or create user profile
         const { data: existingProfile, error: profileError } = await supabase
           .from('user_profiles')
           .select('*')
-          .eq('user_id', user.id)
+          .eq('user_id', resolvedUserId)
           .single();
 
         if (!isMounted.current) return;
@@ -353,7 +379,7 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
           // Create profile if it doesn't exist
           const { data: newProfile, error: createProfileError } = await supabase
             .from('user_profiles')
-            .insert({ user_id: user.id, preferences: {} } as never)
+            .insert({ user_id: resolvedUserId, preferences: {} } as never)
             .select()
             .single();
 

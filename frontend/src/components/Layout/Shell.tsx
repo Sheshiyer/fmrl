@@ -26,6 +26,7 @@ import { FadeIn } from '../Animations';
 import { UserMenu } from '../Auth/UserMenu';
 import { useKeyboardShortcuts } from '../../hooks/useKeyboardShortcuts';
 import { useMotionPreference } from '../../hooks/useMotionPreference';
+import { useAuth } from '../../context/auth/AuthContext';
 
 export type ShellView = 'dashboard' | 'settings' | 'docs' | 'info' | 'account' | 'engines' | 'readings';
 
@@ -104,6 +105,36 @@ const navItems: Array<{
 
 // Mobile breakpoint
 const MOBILE_BREAKPOINT = 1024;
+
+/** Inline banner shown when the Selemene Engine API connection fails. */
+function SelemeneStatusBanner() {
+  const { selemeneStatus, status } = useAuth();
+  const [dismissed, setDismissed] = useState(false);
+
+  // Only show for authenticated users with a failed bridge connection
+  if (status !== 'authenticated' || selemeneStatus !== 'error' || dismissed) {
+    return null;
+  }
+
+  return (
+    <div
+      role="alert"
+      className="flex items-center justify-between gap-3 px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs"
+    >
+      <span>
+        Selemene Engine API connection failed — engine calculations and cloud sync are unavailable.
+      </span>
+      <button
+        type="button"
+        onClick={() => setDismissed(true)}
+        className="shrink-0 hover:text-amber-100 transition-colors"
+        aria-label="Dismiss"
+      >
+        ✕
+      </button>
+    </div>
+  );
+}
 
 interface ShellProps {
   children: ReactNode;
@@ -428,6 +459,9 @@ export const Shell: React.FC<ShellProps> = ({ children }) => {
                   </div>
                 </div>
               </header>
+
+              {/* Selemene Engine connection banner */}
+              <SelemeneStatusBanner />
 
               {/* Page Content */}
               <main className="flex-1 min-h-0 overflow-hidden">
