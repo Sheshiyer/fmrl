@@ -84,7 +84,7 @@ FMRL will surface all 16 consciousness engines from Selemene:
 
 - **Local compute** — Biofield engine runs locally (camera → WebGL shader → metrics via Python/Rust)
 - **Remote compute** — Other 15 engines call Selemene API (`selemene.tryambakam.space/api/v1/`)
-- **Auth** — Supabase for user data + Selemene JWT for engine access
+- **Auth** — Supabase sign-in plus Selemene JWT bearer auth for user-facing engine access; `X-API-Key` remains for CLI and external integrations
 
 ---
 
@@ -93,7 +93,7 @@ FMRL will surface all 16 consciousness engines from Selemene:
 ### Prerequisites
 
 - Node.js 20+
-- Python 3.9+ (for biofield backend)
+- Python 3.9+ (for local biofield compute services)
 - Rust toolchain (for Tauri desktop builds)
 
 ### Development
@@ -126,6 +126,50 @@ cd frontend && npm run build
 # Desktop build (macOS)
 cd frontend && npm run tauri:build
 ```
+
+## Desktop Releases
+
+Use the helper script from the repo root to build and export installable artifacts into a local `releases/` folder.
+
+```bash
+# macOS: clean build + export artifacts
+./scripts/rebuild-tauri.sh --fresh
+
+# Build a specific Rust target triple
+./scripts/rebuild-tauri.sh --target universal-apple-darwin
+
+# Skip local export copy step
+./scripts/rebuild-tauri.sh --no-export
+```
+
+Local artifacts are copied to:
+
+```text
+releases/<platform>/v<version>/
+```
+
+Example:
+
+```text
+releases/darwin-arm64/v0.0.1/
+```
+
+### Windows `.exe` Releases
+
+The GitHub release workflow now builds both macOS and Windows assets.
+
+1. Create and push a version tag:
+
+```bash
+git tag v0.0.1
+git push origin v0.0.1
+```
+
+2. GitHub Actions runs `.github/workflows/release.yml` and publishes release assets:
+- macOS bundle (universal target)
+- Windows NSIS installer (`.exe`)
+
+Windows installer output is attached to the GitHub Release for direct download by Windows users.
 
 ---
 

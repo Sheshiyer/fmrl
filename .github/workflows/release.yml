@@ -10,8 +10,18 @@ permissions:
 
 jobs:
   build-tauri:
-    name: Build Tauri (macOS)
-    runs-on: macos-latest
+    name: Build Tauri (${{ matrix.platform }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: macOS
+            os: macos-latest
+            args: --target universal-apple-darwin
+          - platform: Windows
+            os: windows-latest
+            args: --bundles nsis
     defaults:
       run:
         working-directory: frontend
@@ -25,9 +35,14 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
 
       - name: Install Rust stable
+        if: matrix.platform == 'macOS'
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: aarch64-apple-darwin,x86_64-apple-darwin
+
+      - name: Install Rust stable (Windows)
+        if: matrix.platform == 'Windows'
+        uses: dtolnay/rust-toolchain@stable
 
       - run: npm ci
 
@@ -51,4 +66,4 @@ jobs:
             See [CHANGELOG.md](https://github.com/Sheshiyer/fmrl/blob/main/CHANGELOG.md) for details.
           releaseDraft: true
           prerelease: false
-          args: --target universal-apple-darwin
+          args: ${{ matrix.args }}
