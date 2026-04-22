@@ -2,15 +2,18 @@ import { useEffect, useMemo, useState } from 'react';
 import { useCameraPermission } from '../../hooks/useCameraPermission';
 import { useStoragePermission } from '../../hooks/useStoragePermission';
 import { useAuth } from '../../context/auth/AuthContext';
+import { useAppState } from '../../context/appState';
+import { BirthDataForm } from '../Shared/BirthDataForm';
+import type { BirthData } from '../../types/selemene';
 import { ensureBackendReady, getBackendLogs, isTauriRuntime, openNativeSettings, repairCameraPermissionState } from '../../utils/runtimeApi';
 
-type Step = 'intent' | 'auth' | 'camera' | 'storage' | 'runtime';
+type Step = 'intent' | 'auth' | 'birthdata' | 'camera' | 'storage' | 'runtime';
 
 interface NativeOnboardingProps {
   onComplete: (options?: { force?: boolean }) => void;
 }
 
-const STEP_FLOW: Step[] = ['intent', 'auth', 'camera', 'storage', 'runtime'];
+const STEP_FLOW: Step[] = ['intent', 'auth', 'birthdata', 'camera', 'storage', 'runtime'];
 
 function stepLabel(step: Step): string {
   switch (step) {
@@ -18,6 +21,8 @@ function stepLabel(step: Step): string {
       return 'Intent';
     case 'auth':
       return 'Account';
+    case 'birthdata':
+      return 'Birth';
     case 'camera':
       return 'Camera';
     case 'storage':
@@ -32,6 +37,7 @@ function stepLabel(step: Step): string {
 export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
   const [step, setStep] = useState<Step>('intent');
   const auth = useAuth();
+  const { state: appState, setBirthData } = useAppState();
   const [settingsError, setSettingsError] = useState<string | null>(null);
   const [repairMessage, setRepairMessage] = useState<string | null>(null);
   const [repairInProgress, setRepairInProgress] = useState(false);
@@ -56,7 +62,7 @@ export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
   // Handles both: landing on 'intent' after redirect, and auth resolving while on 'auth' step
   useEffect(() => {
     if (auth.status === 'authenticated' && (step === 'intent' || step === 'auth')) {
-      setStep('camera');
+      setStep('birthdata');
     }
   }, [auth.status, step]);
 
@@ -175,7 +181,7 @@ export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
 
         <div className="mystic-divider" />
 
-        <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+        <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
           {STEP_FLOW.map((item, index) => {
             const active = item === step;
             const complete = index < stepIndex;
@@ -254,7 +260,7 @@ export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
                   className="mystic-btn mystic-btn-ghost w-full"
                   onClick={() => {
                     auth.enableGuestMode();
-                    setStep('camera');
+                    setStep('birthdata');
                   }}
                 >
                   Continue as Guest
@@ -273,13 +279,76 @@ export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
                 Back
               </button>
               {(auth.status === 'authenticated' || auth.status === 'guest') && (
-                <button type="button" className="mystic-btn mystic-btn-primary" onClick={() => setStep('camera')}>
+                <button type="button" className="mystic-btn mystic-btn-primary" onClick={() => setStep('birthdata')}>
                   Continue
                 </button>
               )}
             </div>
           </section>
         )}
+
+        {step === 'birthdata' && (() => {
+          const hasBirth = !!appState.birthData;
+          return (
+          <section className="mystic-card space-y-5">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <h2 className="text-xl font-medium tracking-wide">Birth Data</h2>
+              <span className={`mystic-badge ${hasBirth ? 'is-success' : 'is-warning'}`}>
+                {hasBirth ? 'Configured' : 'Not set'}
+              </span>
+            </div>
+
+            <p className="text-sm text-pip-text-secondary">
+              Enter your birth details to activate timing engines — Panchanga, Vedic Clock,
+              Biorhythm, Numerology, and all 16 consciousness engines.
+              {auth.status === 'authenticated' && ' Your data will sync to your Supabase profile automatically.'}
+            </p>
+
+            {hasBirth && (
+              <div className="space-y-3">
+                <div className="mystic-success text-sm flex items-center gap-2">
+                  <span>✓</span>
+                  <span>Birth data saved{appState.birthData!.name ? ` for ${appState.birthData!.name}` : ''} — {appState.birthData!.date}</span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-pip-text-muted">
+                  {appState.birthData!.time && <span>Time: {appState.birthData!.time}</span>}
+                  <span>Lat: {appState.birthData!.latitude}</span>
+                  <span>Lng: {appState.birthData!.longitude}</span>
+                  <span>TZ: {appState.birthData!.timezone}</span>
+                </div>
+                <button
+                  type="button"
+                  className="mystic-btn mystic-btn-ghost text-xs"
+                  onClick={() => setBirthData(null)}
+                >
+                  Edit Birth Data
+                </button>
+              </div>
+            )}
+
+            {!hasBirth && (
+              <BirthDataForm
+                initialData={appState.birthData}
+                onSubmit={(data: BirthData) => setBirthData(data)}
+                compact
+              />
+            )}
+
+            <div className="flex flex-wrap gap-2 pt-2">
+              <button type="button" className="mystic-btn mystic-btn-ghost" onClick={() => setStep('auth')}>
+                Back
+              </button>
+              <button
+                type="button"
+                className="mystic-btn mystic-btn-primary"
+                onClick={() => setStep('camera')}
+              >
+                {hasBirth ? 'Continue' : 'Skip for Now'}
+              </button>
+            </div>
+          </section>
+          );
+        })()}
 
         {step === 'camera' && (
           <section className="mystic-card space-y-5">
@@ -345,7 +414,7 @@ export function NativeOnboarding({ onComplete }: NativeOnboardingProps) {
             )}
 
             <div className="flex gap-2 pt-1">
-              <button type="button" className="mystic-btn mystic-btn-ghost" onClick={() => setStep('auth')}>
+              <button type="button" className="mystic-btn mystic-btn-ghost" onClick={() => setStep('birthdata')}>
                 Back
               </button>
               <button

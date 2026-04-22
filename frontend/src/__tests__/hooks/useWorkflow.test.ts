@@ -11,11 +11,14 @@ import { SelemeneApiError } from '../../services/SelemeneClient';
 const mockExecuteWorkflow = vi.fn();
 const mockClient = { executeWorkflow: mockExecuteWorkflow };
 let mockIsConnected = true;
+let mockCanAccessApi = true;
 
 vi.mock('../../hooks/useSelemene', () => ({
   useSelemene: () => ({
     client: mockClient,
     get isConnected() { return mockIsConnected; },
+    get canAccessApi() { return mockCanAccessApi; },
+    withAuthRecovery: <T,>(fn: () => Promise<T>) => fn(),
     engines: [],
     workflows: [],
     isLoading: false,
@@ -27,6 +30,7 @@ describe('useWorkflow', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockIsConnected = true;
+    mockCanAccessApi = true;
   });
 
   it('returns initial state', () => {
@@ -135,6 +139,7 @@ describe('useWorkflow', () => {
 
     it('returns null when not connected', async () => {
       mockIsConnected = false;
+      mockCanAccessApi = false;
 
       const { result } = renderHook(() => useWorkflow());
 
@@ -146,6 +151,26 @@ describe('useWorkflow', () => {
       expect(result.current.error).toBeInstanceOf(Error);
       expect(result.current.error!.message).toBe('Not connected to Selemene API');
       expect(mockExecuteWorkflow).not.toHaveBeenCalled();
+    });
+
+    it('still executes workflows when API access exists but live catalog discovery is unavailable', async () => {
+      mockIsConnected = false;
+      mockCanAccessApi = true;
+      const mockOutput = {
+        workflowId: 'daily-synthesis',
+        steps: [{ engine: 'panchanga', data: { tithi: 'Shukla Tritiya' } }],
+      };
+      mockExecuteWorkflow.mockResolvedValueOnce(mockOutput);
+
+      const { result } = renderHook(() => useWorkflow());
+
+      await act(async () => {
+        const returnValue = await result.current.execute('daily-synthesis', { birthDate: '1990-01-01' });
+        expect(returnValue).toEqual(mockOutput);
+      });
+
+      expect(mockExecuteWorkflow).toHaveBeenCalledWith('daily-synthesis', { birthDate: '1990-01-01' });
+      expect(result.current.result).toEqual(mockOutput);
     });
   });
 

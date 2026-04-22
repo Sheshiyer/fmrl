@@ -60,8 +60,23 @@ export function DashboardPage() {
     configuredUserId: persistence.configuredUserId,
   });
 
-  const { selemeneStatus } = useAuth();
-  const { engines: selemeneEngines } = useSelemene();
+  const { selemeneStatus, status: authStatus } = useAuth();
+  const {
+    engines: selemeneEngines,
+    canAccessApi,
+    isLoading: selemeneLoading,
+  } = useSelemene();
+
+  const dashboardSelemeneStatus =
+    canAccessApi
+      ? 'connected'
+      : selemeneStatus === 'error'
+        ? 'error'
+        : selemeneLoading
+          ? 'connecting'
+          : authStatus === 'authenticated'
+            ? 'connecting'
+            : 'disconnected';
 
   // --- Keyboard shortcuts ---
   const toggleFullscreen = useCallback(async () => {
@@ -144,7 +159,7 @@ export function DashboardPage() {
           <div className="flex items-center gap-4 z-10">
             <span className="witnessOS-heading text-[11px]">Consciousness Dashboard</span>
             <SelemeneStatusBadge 
-              status={selemeneStatus} 
+              status={dashboardSelemeneStatus} 
               engineCount={selemeneEngines.length} 
             />
           </div>

@@ -22,17 +22,17 @@ export function AccountPageWrapper() {
   });
 
   // Auto-fetch Selemene user profile for seamless ID resolution
-  const { client, isConnected } = useSelemene();
+  const { client, canAccessApi } = useSelemene();
   const [selemeneProfile, setSelemeneProfile] = useState<SelemeneUserProfile | null>(null);
 
   useEffect(() => {
-    if (!isConnected || !client) return;
+    if (!canAccessApi || !client) return;
     let cancelled = false;
     client.getMe().then(profile => {
       if (!cancelled) setSelemeneProfile(profile);
     }).catch(() => { /* not critical — manual UUID entry still available */ });
     return () => { cancelled = true; };
-  }, [client, isConnected]);
+  }, [canAccessApi, client]);
 
   const handleRefresh = () => {
     void persistence.refreshHealth();

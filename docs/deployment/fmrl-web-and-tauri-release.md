@@ -1,62 +1,39 @@
 # FMRL Web Deployment and Tauri Release
 
-This repo now supports a public web deployment where the frontend serves from a real domain and proxies API traffic to the backend through nginx.
+This repository is now aligned to a Tauri-first architecture where the Biofield app acts as the front-end client for Selemene engines.
 
-## Web target
+## Active Architecture Target
 
-- Public web URL: `https://fmrl.tryambakam.space`
-- Backend stays behind the same nginx host via `/api/*`, `/ws/*`, and `/health`
-- Frontend runtime now defaults to the current origin in production when `VITE_API_URL` is not set, so the public web build no longer falls back to `http://localhost:8000`
+- Desktop app: Tauri v2 client in `frontend/src-tauri`
+- Engines backend: Selemene API on Railway (`https://selemene.tryambakam.space`)
+- User/Auth/Data: Supabase (`qjnqdhvlxdmezxdnlrbj`)
 
-## Required infrastructure inputs
+## Runtime Configuration
 
-1. Point the DNS `A` record for `fmrl.tryambakam.space` to the production droplet IP.
-2. In GitHub repository variables, set `APP_DOMAIN=fmrl.tryambakam.space`.
-3. Ensure the droplet has a certificate at:
-   - `/etc/letsencrypt/live/fmrl.tryambakam.space/fullchain.pem`
-   - `/etc/letsencrypt/live/fmrl.tryambakam.space/privkey.pem`
-
-## GitHub Actions deploy path
-
-The current workflow at `.github/workflows/deploy.yml` now:
-
-1. Builds and pushes backend/frontend images.
-2. Copies `docker-compose.prod.yml` to the droplet.
-3. Writes `.env.production` on the droplet with:
-   - `DOCKER_REGISTRY`
-   - `IMAGE_TAG`
-   - `APP_DOMAIN`
-4. Runs:
-
-```bash
-docker compose --env-file .env.production -f docker-compose.prod.yml pull
-docker compose --env-file .env.production -f docker-compose.prod.yml up -d --force-recreate
-```
+1. Set frontend env values:
+   - `VITE_SELEMENE_API_URL=https://selemene.tryambakam.space`
+   - `VITE_SUPABASE_URL=https://qjnqdhvlxdmezxdnlrbj.supabase.co`
+   - `VITE_SUPABASE_ANON_KEY=<anon-key>`
+2. Keep Selemene Railway env values valid:
+   - `DATABASE_URL` must use Supabase session pooler on port `5432`
+   - `REDIS_URL` must point to Railway Redis service
 
 ## Supabase and Discord auth settings
 
-For the deployed web app, add this redirect URL in Supabase Auth URL configuration:
+For local web/dev and desktop auth round-trips, keep these redirect URLs in Supabase Auth:
 
-- `https://fmrl.tryambakam.space/`
+- `http://localhost:5173/`
+- `https://tauri.localhost/`
 
 Keep the Discord OAuth callback pointed at Supabase:
 
 - `https://qjnqdhvlxdmezxdnlrbj.supabase.co/auth/v1/callback`
 
-The app domain does not replace the Discord callback URL. It only needs to be present in Supabase redirect configuration so Supabase can send the browser back to the deployed site after auth.
-
-Recommended Supabase redirect URLs to keep:
-
-- `http://localhost:5173/`
-- `https://fmrl.tryambakam.space/`
-- `https://tauri.localhost/`
+The desktop app and local dev UI should rely on Supabase redirect handling, not a legacy proxy-backend path.
 
 ## Tauri public release path
 
-For the desktop app, the web deployment and the macOS release are separate tracks:
-
-- The web app ships to `fmrl.tryambakam.space`
-- The macOS Tauri app is a signed and notarized `.app` / `.dmg` built from `frontend/src-tauri`
+The macOS Tauri app is a signed and notarized `.app` / `.dmg` built from `frontend/src-tauri`.
 
 What is already in place:
 

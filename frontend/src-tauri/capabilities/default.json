@@ -15,6 +15,7 @@
         { "url": "https://cdn.jsdelivr.net/**" },
         { "url": "https://storage.googleapis.com/**" },
         { "url": "https://*.supabase.co/**" },
+        { "url": "https://selemene.tryambakam.space/**" },
         { "url": "http://127.0.0.1:8000/**" },
         { "url": "http://localhost:8000/**" }
       ]

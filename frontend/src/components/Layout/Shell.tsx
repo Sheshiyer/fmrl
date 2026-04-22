@@ -108,11 +108,12 @@ const MOBILE_BREAKPOINT = 1024;
 
 /** Inline banner shown when the Selemene Engine API connection fails. */
 function SelemeneStatusBanner() {
-  const { selemeneStatus, status } = useAuth();
+  const { selemeneStatus, status, selemeneToken, session } = useAuth();
   const [dismissed, setDismissed] = useState(false);
+  const hasApiCredential = Boolean(selemeneToken?.trim() || session?.access_token?.trim());
 
   // Only show for authenticated users with a failed bridge connection
-  if (status !== 'authenticated' || selemeneStatus !== 'error' || dismissed) {
+  if (status !== 'authenticated' || selemeneStatus !== 'error' || hasApiCredential || dismissed) {
     return null;
   }
 

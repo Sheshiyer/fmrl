@@ -98,11 +98,24 @@ export async function bridgeAuthenticate(
       supabaseDisplayName || supabaseEmail.split('@')[0],
     );
   } catch (err) {
-    if (err instanceof SelemeneApiError && err.statusCode === 409) {
-      // Account exists but our stored password is wrong — credentials mismatch
-      // Could happen if user registered directly on Selemene with a different password
+    const isAlreadyExists =
+      (err instanceof SelemeneApiError && err.statusCode === 409) ||
+      (err instanceof Error && /already exists/i.test(err.message));
+
+    if (isAlreadyExists) {
+      // Account exists — stored password may be stale. Clear and retry login
+      // with a freshly generated password.
       clearCredentials();
-      return errorState('Selemene account exists with different credentials. Sign in via Settings.');
+      const freshPassword = generateBridgePassword(supabaseEmail);
+      try {
+        const resp = await client.login(supabaseEmail, freshPassword);
+        saveCredentials({ email: supabaseEmail, password: freshPassword });
+        return authResponseToState(resp);
+      } catch {
+        // Login still fails — credentials genuinely mismatched; fall through
+        // so the caller can use the fallback API key instead of blocking.
+        return errorState('Selemene bridge auth failed — will use fallback key if available');
+      }
     }
     if (err instanceof SelemeneApiError) {
       return errorState(`Registration failed: ${err.message}`);

@@ -43,10 +43,6 @@ DEFAULT_EXCLUDES = [
 
 
 CONFIG_FILE_NAMES = {
-    "docker-compose.yml",
-    "docker-compose.prod.yml",
-    "Dockerfile",
-    ".dockerignore",
     ".env.example",
     "requirements.txt",
     "package.json",
@@ -174,8 +170,6 @@ def _detect_file_kind(rel_path: str) -> str:
 
 def _detect_language(rel_path: str) -> str:
     name = rel_path.split("/")[-1]
-    if name == "Dockerfile" or name.endswith(".Dockerfile"):
-        return "dockerfile"
     if rel_path.endswith(".py"):
         return "python"
     if rel_path.endswith(".tsx"):

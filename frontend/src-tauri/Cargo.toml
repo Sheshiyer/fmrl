@@ -1,6 +1,6 @@
 [package]
 name = "fmrl-desktop"
-version = "0.0.3"
+version = "0.0.4"
 description = "FMRL Desktop — Frequency Modulated Reality Lens"
 authors = ["Witness Alchemist"]
 license = ""

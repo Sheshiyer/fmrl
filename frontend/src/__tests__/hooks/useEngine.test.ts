@@ -10,11 +10,14 @@ import { useEngine } from '../../hooks/useEngine';
 const mockCalculate = vi.fn();
 const mockClient = { calculate: mockCalculate };
 let mockIsConnected = true;
+let mockCanAccessApi = true;
 
 vi.mock('../../hooks/useSelemene', () => ({
   useSelemene: () => ({
     client: mockClient,
     get isConnected() { return mockIsConnected; },
+    get canAccessApi() { return mockCanAccessApi; },
+    withAuthRecovery: <T,>(fn: () => Promise<T>) => fn(),
     engines: [],
     workflows: [],
     isLoading: false,
@@ -26,6 +29,7 @@ describe('useEngine', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mockIsConnected = true;
+    mockCanAccessApi = true;
   });
 
   it('returns initial state', () => {
@@ -110,6 +114,7 @@ describe('useEngine', () => {
 
     it('returns null when not connected', async () => {
       mockIsConnected = false;
+      mockCanAccessApi = false;
 
       const { result } = renderHook(() => useEngine('biorhythm'));
 
@@ -121,6 +126,23 @@ describe('useEngine', () => {
       expect(result.current.error).toBeInstanceOf(Error);
       expect(result.current.error!.message).toBe('Not connected to Selemene API');
       expect(mockCalculate).not.toHaveBeenCalled();
+    });
+
+    it('still calculates when API access exists but live catalog discovery is unavailable', async () => {
+      mockIsConnected = false;
+      mockCanAccessApi = true;
+      const mockOutput = { engine: 'panchanga', data: { tithi: 'Shukla Tritiya' } };
+      mockCalculate.mockResolvedValueOnce(mockOutput);
+
+      const { result } = renderHook(() => useEngine('panchanga'));
+
+      await act(async () => {
+        const returnValue = await result.current.calculate({ birthDate: '1990-01-01' });
+        expect(returnValue).toEqual(mockOutput);
+      });
+
+      expect(mockCalculate).toHaveBeenCalledWith('panchanga', { birthDate: '1990-01-01' });
+      expect(result.current.result).toEqual(mockOutput);
     });
   });
 

@@ -15,8 +15,10 @@ import {
   Calendar,
   Clock,
   X,
+  Loader2,
 } from 'lucide-react';
 import { useSelemene } from '../hooks/useSelemene';
+import { useAuth } from '../context/auth/AuthContext';
 import { EngineResultRenderer } from '../components/Engines/EngineResultRenderer';
 import type { ReadingRecord } from '../types/selemene';
 
@@ -177,7 +179,8 @@ function SkeletonList() {
 /* ------------------------------------------------------------------ */
 
 export function ReadingsPage() {
-  const { client, isConnected, isLoading: selemeneLoading } = useSelemene();
+  const { client, canAccessApi, isLoading: selemeneLoading, withAuthRecovery } = useSelemene();
+  const { status: authStatus, selemeneStatus } = useAuth();
 
   /* Data state */
   const [readings, setReadings] = useState<ReadingRecord[]>([]);
@@ -189,21 +192,22 @@ export function ReadingsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
+  const isBrowserTransportBlocked = error?.includes('blocked by CORS') ?? false;
 
   /* Fetch readings */
   const fetchReadings = useCallback(async () => {
-    if (!client || !isConnected) return;
+    if (!client || !canAccessApi) return;
     setIsLoading(true);
     setError(null);
     try {
-      const data = await client.listReadings(50);
+      const data = await withAuthRecovery(() => client.listReadings(50));
       setReadings(data ?? []);
     } catch (err) {
-      setError(String(err));
+      setError(err instanceof Error ? err.message : String(err));
     } finally {
       setIsLoading(false);
     }
-  }, [client, isConnected]);
+  }, [canAccessApi, client]);
 
   useEffect(() => {
     void fetchReadings();
@@ -244,8 +248,22 @@ export function ReadingsPage() {
     setDateTo('');
   }
 
+  if (!canAccessApi && authStatus === 'authenticated' && selemeneStatus === 'connecting') {
+    return (
+      <div className="h-full flex items-center justify-center p-6">
+        <div className="mystic-panel !p-8 max-w-md text-center flex flex-col items-center gap-4">
+          <Loader2 className="w-10 h-10 text-pip-gold animate-spin" />
+          <h2 className="mystic-section-title text-lg">Connecting to Selemene</h2>
+          <p className="text-sm text-pip-text-secondary">
+            Loading your reading history and engine archive.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   /* ---- Not connected ---- */
-  if (!isConnected && !selemeneLoading) {
+  if (!canAccessApi && !selemeneLoading) {
     return (
       <div className="h-full flex items-center justify-center p-6">
         <div className="mystic-panel !p-8 max-w-md text-center flex flex-col items-center gap-4">
@@ -278,8 +296,14 @@ export function ReadingsPage() {
       <div className="h-full flex items-center justify-center p-6">
         <div className="mystic-panel !p-8 max-w-md text-center flex flex-col items-center gap-4">
           <AlertCircle className="w-10 h-10 text-pip-warning" />
-          <h2 className="mystic-section-title text-lg">Failed to Load Readings</h2>
-          <p className="text-sm text-pip-text-secondary break-all">{error}</p>
+          <h2 className="mystic-section-title text-lg">
+            {isBrowserTransportBlocked ? 'Browser Access Blocked' : 'Failed to Load Readings'}
+          </h2>
+          <p className="text-sm text-pip-text-secondary break-all">
+            {isBrowserTransportBlocked
+              ? 'Live Selemene reading history is blocked in the browser by the current API CORS policy. Use the desktop runtime for live reading access.'
+              : error}
+          </p>
           <button
             type="button"
             onClick={() => void fetchReadings()}

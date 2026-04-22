@@ -17,14 +17,14 @@ interface UseWorkflowReturn {
 }
 
 export function useWorkflow(): UseWorkflowReturn {
-  const { client, isConnected } = useSelemene();
+  const { client, canAccessApi, withAuthRecovery } = useSelemene();
   const [result, setResult] = useState<WorkflowResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [isPhaseGated, setIsPhaseGated] = useState(false);
 
   const execute = useCallback(async (workflowId: string, input: EngineInput) => {
-    if (!isConnected) {
+    if (!canAccessApi) {
       setError(new Error('Not connected to Selemene API'));
       return null;
     }
@@ -32,7 +32,7 @@ export function useWorkflow(): UseWorkflowReturn {
     setError(null);
     setIsPhaseGated(false);
     try {
-      const output = await client.executeWorkflow(workflowId, input);
+      const output = await withAuthRecovery(() => client.executeWorkflow(workflowId, input));
       setResult(output);
       return output;
     } catch (err) {
@@ -44,7 +44,7 @@ export function useWorkflow(): UseWorkflowReturn {
     } finally {
       setIsLoading(false);
     }
-  }, [client, isConnected]);
+  }, [canAccessApi, client, withAuthRecovery]);
 
   const reset = useCallback(() => {
     setResult(null);

@@ -36,6 +36,12 @@ describe('authOAuth', () => {
     it('falls back to the current origin when no explicit redirect URL is configured', () => {
       expect(resolveAuthRedirectUrl('http://localhost:5173', '')).toBe('http://localhost:5173/');
     });
+
+    it('normalizes the bundled desktop localhost origin when no explicit redirect URL is configured', () => {
+      expect(resolveAuthRedirectUrl('https://tauri.localhost', undefined)).toBe(
+        'https://tauri.localhost/',
+      );
+    });
   });
 
   describe('auth-managed persistence identity', () => {

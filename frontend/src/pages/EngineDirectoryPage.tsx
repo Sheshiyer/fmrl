@@ -3,7 +3,7 @@
  * Displays a grid of available Selemene engines with status and navigation
  */
 import { useNavigate } from 'react-router-dom';
-import { Compass, AlertCircle, RefreshCw, WifiOff, ShieldAlert } from 'lucide-react';
+import { Compass, AlertCircle, RefreshCw, WifiOff, ShieldAlert, Loader2 } from 'lucide-react';
 import { useSelemene } from '../hooks/useSelemene';
 import { useAuth } from '../context/auth/AuthContext';
 import { SacredGeometryOverlay } from '../components/UI/SacredGeometryOverlay';
@@ -47,11 +47,25 @@ function EngineCard({ engine, onClick }: { engine: EngineInfo; onClick: () => vo
 
 export function EngineDirectoryPage() {
   const navigate = useNavigate();
-  const { engines, isConnected, isLoading, error } = useSelemene();
-  const { status: authStatus } = useAuth();
+  const { engines, canAccessApi, isLoading, error } = useSelemene();
+  const { status: authStatus, selemeneStatus } = useAuth();
+  const isBrowserTransportBlocked = error?.message.includes('blocked by CORS') ?? false;
 
-  // Not connected state
-  if (!isConnected && !isLoading) {
+  if (!canAccessApi && authStatus === 'authenticated' && selemeneStatus === 'connecting') {
+    return (
+      <div className="h-full flex items-center justify-center p-6">
+        <div className="mystic-panel !p-8 max-w-md text-center flex flex-col items-center gap-4">
+          <Loader2 className="w-10 h-10 text-pip-gold animate-spin" />
+          <h2 className="mystic-section-title text-lg">Connecting to Selemene</h2>
+          <p className="text-sm text-pip-text-secondary">
+            Restoring your engine catalog and live reflection surfaces.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!canAccessApi && !isLoading) {
     const isGuest = authStatus === 'guest';
     return (
       <div className="h-full flex items-center justify-center p-6">
@@ -101,8 +115,14 @@ export function EngineDirectoryPage() {
       <div className="h-full flex items-center justify-center p-6">
         <div className="mystic-panel !p-8 max-w-md text-center flex flex-col items-center gap-4">
           <AlertCircle className="w-10 h-10 text-pip-warning" />
-          <h2 className="mystic-section-title text-lg">Failed to Load Engines</h2>
-          <p className="text-sm text-pip-text-secondary">{String(error)}</p>
+          <h2 className="mystic-section-title text-lg">
+            {isBrowserTransportBlocked ? 'Browser Access Blocked' : 'Failed to Load Engines'}
+          </h2>
+          <p className="text-sm text-pip-text-secondary">
+            {isBrowserTransportBlocked
+              ? 'Live Selemene engine discovery is blocked in the browser by the current API CORS policy. Use the desktop runtime for live engine access.'
+              : String(error)}
+          </p>
           <button
             type="button"
             onClick={() => window.location.reload()}

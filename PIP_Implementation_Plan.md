@@ -34,7 +34,7 @@ Establish project structure, video capture, and PIP shader integration.
 |----|------|----------|------------|--------------|
 | 1.1 | Initialize React project with TypeScript and Vite | P0 | 2 | - |
 | 1.2 | Set up FastAPI backend project structure | P0 | 3 | - |
-| 1.3 | Configure Docker development environment | P1 | 4 | 1.1, 1.2 |
+| 1.3 | Configure local development environment | P1 | 4 | 1.1, 1.2 |
 | 1.4 | Implement WebRTC camera access hook | P0 | 4 | 1.1 |
 | 1.5 | Integrate existing PIP WebGL2 shader | P0 | 8 | 1.1 |
 | 1.6 | Create PIPRenderer class with parameter controls | P0 | 6 | 1.5 |
@@ -246,7 +246,7 @@ Implement persistence, historical analysis, and export functionality.
 
 | ID | Task | Priority | Est. Hours | Dependencies |
 |----|------|----------|------------|--------------|
-| 5.1 | Set up PostgreSQL database (Docker) | P0 | 3 | 1.3 |
+| 5.1 | Set up PostgreSQL database (local/dev) | P0 | 3 | 1.3 |
 | 5.2 | Create SQLAlchemy models (User, Session, Analysis, Baseline) | P0 | 6 | 5.1 |
 | 5.3 | Implement Alembic migrations | P0 | 4 | 5.2 |
 | 5.4 | Set up Redis for caching | P1 | 3 | 1.3 |

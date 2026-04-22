@@ -1,0 +1,5 @@
+id	area	question	baseline	change	metric	result	decision	notes	timestamp
+01	Sampling	Is sampling already deterministic?	Random 20%	Time-based 500ms	Code review	Already fixed (2 FPS metrics)	skip	Experiment unnecessary - improvement already made	2026-04-02T09:08:23Z
+02	Metric	Is saturation mean already calculated?	Default 0.5	Computed from RGB	Code review	Already implemented (line 826)	skip	Experiment unnecessary - already in PIPShader.tsx	2026-04-02T09:08:44Z
+03	Metric	Are fractal/Hurst/Lyapunov already computed?	Hardcoded defaults	Estimation functions	Code review	Already implemented (lines 465-467)	skip	All estimation functions exist and are called	2026-04-02T09:09:06Z
+04	State	Is symmetry propagation working?	May be stuck	Actual values passed	Code review	Properly implemented (line 871, 476-477)	skip	No issues found in data flow	2026-04-02T09:10:29Z

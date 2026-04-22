@@ -17,15 +17,7 @@ import { EngineResultGrid } from '../components/Workflows/EngineResultGrid';
 import { SacredGeometryOverlay } from '../components/UI/SacredGeometryOverlay';
 import { useState, useMemo } from 'react';
 import type { BirthData, EngineInput } from '../types/selemene';
-
-const WORKFLOW_FALLBACK: Record<string, { name: string; description: string; engines: string[]; requiredPhase: number }> = {
-  'birth-blueprint': { name: 'Birth Blueprint', description: 'Core identity mapping through numerology, human design, and vimshottari', engines: ['numerology', 'human-design', 'vimshottari'], requiredPhase: 0 },
-  'daily-practice': { name: 'Daily Practice', description: 'Daily rhythm optimization with panchanga, vedic clock, and biorhythm', engines: ['panchanga', 'vedic-clock', 'biorhythm'], requiredPhase: 0 },
-  'decision-support': { name: 'Decision Support', description: 'Multi-perspective decision making with tarot, i-ching, and human design', engines: ['tarot', 'i-ching', 'human-design'], requiredPhase: 1 },
-  'self-inquiry': { name: 'Self Inquiry', description: 'Shadow work and type exploration with gene keys and enneagram', engines: ['gene-keys', 'enneagram'], requiredPhase: 2 },
-  'creative-expression': { name: 'Creative Expression', description: 'Generative aesthetic guidance with sigil forge and sacred geometry', engines: ['sigil-forge', 'sacred-geometry'], requiredPhase: 1 },
-  'full-spectrum': { name: 'Full Spectrum', description: 'Complete consciousness toolkit with all 16 engines', engines: ['all'], requiredPhase: 3 },
-};
+import { findFallbackWorkflow } from '../data/selemeneCatalog';
 
 export function WorkflowPage() {
   const { workflowId } = useParams<{ workflowId: string }>();
@@ -49,7 +41,15 @@ export function WorkflowPage() {
         };
       }
     }
-    return workflowId ? WORKFLOW_FALLBACK[workflowId] ?? null : null;
+    const fallback = findFallbackWorkflow(workflowId);
+    return fallback
+      ? {
+          name: fallback.name,
+          description: fallback.description ?? '',
+          engines: fallback.engines,
+          requiredPhase: fallback.required_phase,
+        }
+      : null;
   }, [workflows, workflowId]);
 
   if (!workflowId || !meta) {

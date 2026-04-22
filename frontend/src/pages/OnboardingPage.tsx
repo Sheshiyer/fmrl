@@ -1,14 +1,16 @@
 /**
  * Onboarding Page
- * Handles initial app setup
+ * Handles initial app setup with a shader splash intro
  */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NativeOnboarding } from '../components/Onboarding/NativeOnboarding';
+import { ShaderSplash } from '../components/Onboarding/ShaderSplash';
 import { PageTransition } from '../components/Animations';
 
 export function OnboardingPage() {
   const navigate = useNavigate();
+  const [splashDone, setSplashDone] = useState(false);
 
   useEffect(() => {
     // Check if onboarding is already complete
@@ -33,8 +35,13 @@ export function OnboardingPage() {
   };
 
   return (
-    <PageTransition>
-      <NativeOnboarding onComplete={handleComplete} />
-    </PageTransition>
+    <>
+      {!splashDone && <ShaderSplash onDone={() => setSplashDone(true)} />}
+      {splashDone && (
+        <PageTransition>
+          <NativeOnboarding onComplete={handleComplete} />
+        </PageTransition>
+      )}
+    </>
   );
 }

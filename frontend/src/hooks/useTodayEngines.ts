@@ -1,6 +1,7 @@
 /**
  * useTodayEngines — Fetch timing engine data for the "Today" dashboard section
- * Caches Panchanga daily, polls Vedic Clock every 60s
+ * Caches Panchanga daily, polls Vedic Clock every 60s.
+ * Uses the shared withAuthRecovery from useSelemene for transparent JWT renewal.
  */
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSelemene } from './useSelemene';
@@ -17,7 +18,7 @@ interface TodayEngineState {
 }
 
 export function useTodayEngines() {
-  const { client, isConnected } = useSelemene();
+  const { client, canAccessApi, withAuthRecovery } = useSelemene();
   const { state } = useAppState();
   const birthData = state.birthData;
 
@@ -33,6 +34,11 @@ export function useTodayEngines() {
   const panchangaCacheDate = useRef<string | null>(null);
   const vedicClockInterval = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  const normalizeError = useCallback((reason: unknown): Error => {
+    if (reason instanceof Error) return reason;
+    return new Error(String(reason));
+  }, []);
+
   const buildInput = useCallback((): EngineInput | null => {
     if (!birthData) return null;
     return {
@@ -43,7 +49,7 @@ export function useTodayEngines() {
 
   // Fetch all engines on mount and when birthData changes
   useEffect(() => {
-    if (!isConnected || !birthData) return;
+    if (!canAccessApi || !birthData) return;
     let cancelled = false;
 
     async function fetchAll() {
@@ -58,16 +64,25 @@ export function useTodayEngines() {
 
         const results = await Promise.allSettled([
           needsPanchanga
-            ? client.calculate('panchanga', input)
+            ? withAuthRecovery(() => client.calculate('panchanga', input))
             : Promise.resolve(null),
-          client.calculate('vedic-clock', input),
-          client.calculate('biorhythm', input),
-          client.calculate('numerology', input),
+          withAuthRecovery(() => client.calculate('vedic-clock', input)),
+          withAuthRecovery(() => client.calculate('biorhythm', input)),
+          withAuthRecovery(() => client.calculate('numerology', input)),
         ]);
 
         if (cancelled) return;
 
         const [panchangaRes, vedicClockRes, biorhythmRes, numerologyRes] = results;
+        const fulfilledCount = results.filter((result) => result.status === 'fulfilled').length;
+        const firstRejected = results.find((result) => result.status === 'rejected');
+        const panchangaRejected = needsPanchanga && panchangaRes.status === 'rejected'
+          ? normalizeError(panchangaRes.reason)
+          : null;
+
+        if (panchangaRejected) {
+          console.warn('[useTodayEngines] Panchanga calculation failed:', panchangaRejected.message);
+        }
 
         setData(prev => ({
           panchanga:
@@ -87,7 +102,11 @@ export function useTodayEngines() {
               ? numerologyRes.value
               : prev.numerology,
           isLoading: false,
-          error: null,
+          error:
+            panchangaRejected
+              ?? (fulfilledCount === 0 && firstRejected?.status === 'rejected'
+                ? normalizeError(firstRejected.reason)
+                : null),
         }));
 
         if (needsPanchanga && panchangaRes.status === 'fulfilled' && panchangaRes.value) {
@@ -106,13 +125,13 @@ export function useTodayEngines() {
 
     fetchAll();
 
-    // Poll Vedic Clock every 60s
+    // Poll Vedic Clock every 60s — uses recovery so expired tokens self-heal
     vedicClockInterval.current = setInterval(async () => {
       if (cancelled) return;
       const input = buildInput();
       if (!input) return;
       try {
-        const result = await client.calculate('vedic-clock', input);
+        const result = await withAuthRecovery(() => client.calculate('vedic-clock', input));
         if (!cancelled) {
           setData(prev => ({ ...prev, vedicClock: result }));
         }
@@ -127,7 +146,14 @@ export function useTodayEngines() {
         clearInterval(vedicClockInterval.current);
       }
     };
-  }, [isConnected, birthData, client, buildInput]);
+  }, [
+    canAccessApi,
+    birthData,
+    client,
+    withAuthRecovery,
+    buildInput,
+    normalizeError,
+  ]);
 
   return {
     ...data,

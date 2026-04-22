@@ -74,6 +74,11 @@ export interface AuthActions {
   enableGuestMode: () => void;
   disableGuestMode: () => void;
   
+  // Selemene Engine API key
+  setSelemeneApiKey: (token: string) => void;
+  connectSelemene: () => Promise<{ error: string | null }>;
+  clearSelemeneKey: () => void;
+
   // Profile management
   updateProfile: (updates: Partial<Omit<UserProfile, 'id' | 'user_id' | 'created_at' | 'updated_at'>>) => Promise<{ error: Error | null }>;
   refreshProfile: () => Promise<void>;
@@ -131,6 +136,7 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
   // Refs to prevent memory leaks and duplicate fetches
   const isMounted = useRef(true);
   const profileFetchInProgress = useRef(false);
+  const selemeneAutoConnectKeyRef = useRef<string | null>(null);
 
   // Check for existing session on mount
   useEffect(() => {
@@ -205,6 +211,7 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
             localStorage.removeItem('selemene_onboarding_complete_v2');
             localStorage.removeItem('selemene_guest_mode');
             localStorage.removeItem('fmrl_selemene_bridge');
+            localStorage.removeItem('fmrl_selemene_token');
             setStatus('unauthenticated');
             break;
             
@@ -275,38 +282,77 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
     }
   }, [status, user?.id, dbUser?.id]);
 
-  // Selemene Engine API auth bridge — auto-authenticate when Supabase user signs in
-  // Waits for dbUser so user record is provisioned before Selemene bridge runs
+  // Selemene Engine API auth bridge — deferred (manual key entry or auto-fetch)
+  // Restore saved Selemene token from localStorage on mount
   useEffect(() => {
-    if (status !== 'authenticated' || !user?.email || !dbUser) {
+    const saved = localStorage.getItem('fmrl_selemene_token');
+    if (saved) {
+      setSelemeneToken(saved);
+      setSelemeneStatus('connected');
+    }
+  }, []);
+
+  // Manual key setter — user pastes their Selemene API key
+  const setSelemeneApiKey = useCallback((token: string) => {
+    const trimmed = token.trim();
+    if (!trimmed) return;
+    localStorage.setItem('fmrl_selemene_token', trimmed);
+    setSelemeneToken(trimmed);
+    setSelemeneStatus('connected');
+  }, []);
+
+  // Auto-fetch: attempt bridge authenticate with Selemene API
+  const connectSelemene = useCallback(async (): Promise<{ error: string | null }> => {
+    if (!user?.email) {
+      return { error: 'No authenticated user email available' };
+    }
+
+    setSelemeneStatus('connecting');
+    const client = new SelemeneClient(
+      import.meta.env.VITE_SELEMENE_API_URL ?? 'https://selemene.tryambakam.space'
+    );
+
+    const displayName = user.user_metadata?.full_name
+      || user.user_metadata?.name
+      || user.email?.split('@')[0]
+      || 'FMRL User';
+
+    const result = await bridgeAuthenticate(client, user.email!, displayName);
+
+    setSelemeneToken(result.token);
+    setSelemeneStatus(result.status);
+    if (result.token) {
+      localStorage.setItem('fmrl_selemene_token', result.token);
+    }
+    if (result.error) {
+      console.warn('[Auth] Selemene bridge:', result.error);
+    }
+    return { error: result.error };
+  }, [user?.email, user?.user_metadata?.full_name, user?.user_metadata?.name]);
+
+  // Auto-connect Selemene after auth + profile identity resolution.
+  useEffect(() => {
+    if (status !== 'authenticated') {
+      selemeneAutoConnectKeyRef.current = null;
       return;
     }
 
-    let cancelled = false;
-    const connectSelemene = async () => {
-      setSelemeneStatus('connecting');
-      const client = new SelemeneClient(
-        import.meta.env.VITE_SELEMENE_API_URL ?? 'https://selemene.tryambakam.space'
-      );
+    if (selemeneToken || selemeneStatus === 'connecting') return;
+    if (!dbUser?.id || !user?.email) return;
 
-      const displayName = user.user_metadata?.full_name
-        || user.user_metadata?.name
-        || user.email?.split('@')[0]
-        || 'FMRL User';
+    const key = `${dbUser.id}:${user.email}`;
+    if (selemeneAutoConnectKeyRef.current === key) return;
+    selemeneAutoConnectKeyRef.current = key;
 
-      const result = await bridgeAuthenticate(client, user.email!, displayName);
+    void connectSelemene();
+  }, [status, dbUser?.id, user?.email, selemeneToken, selemeneStatus, connectSelemene]);
 
-      if (cancelled) return;
-      setSelemeneToken(result.token);
-      setSelemeneStatus(result.status);
-      if (result.error) {
-        console.warn('[Auth] Selemene bridge:', result.error);
-      }
-    };
-
-    connectSelemene();
-    return () => { cancelled = true; };
-  }, [status, user?.email, user?.user_metadata?.full_name, user?.user_metadata?.name, dbUser]);
+  // Clear Selemene key
+  const clearSelemeneKey = useCallback(() => {
+    localStorage.removeItem('fmrl_selemene_token');
+    setSelemeneToken(null);
+    setSelemeneStatus('disconnected');
+  }, []);
 
   // Fetch database user and profile when auth user changes
   useEffect(() => {
@@ -519,26 +565,28 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
 
   // Refresh profile - defined before updateProfile to avoid hoisting issues
   const refreshProfile = useCallback(async () => {
-    if (!user?.id) return;
+    const profileUserId = dbUser?.id ?? user?.id;
+    if (!profileUserId) return;
 
     setIsProfileLoading(true);
     const { data, error } = await supabase
       .from('user_profiles')
       .select('*')
-      .eq('user_id', user.id)
+      .eq('user_id', profileUserId)
       .single();
 
     if (!error && data) {
       setProfile(data as unknown as UserProfile);
     }
     setIsProfileLoading(false);
-  }, [user?.id]);
+  }, [dbUser?.id, user?.id]);
 
   // Update profile
   const updateProfile = useCallback(async (
     updates: Partial<Omit<UserProfile, 'id' | 'user_id' | 'created_at' | 'updated_at'>>
   ) => {
-    if (!user?.id) return { error: new Error('No authenticated user') };
+    const profileUserId = dbUser?.id ?? user?.id;
+    if (!profileUserId) return { error: new Error('No authenticated user') };
 
     const { error } = await supabase
       .from('user_profiles')
@@ -546,7 +594,7 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
         ...updates,
         updated_at: new Date().toISOString(),
       } as never)
-      .eq('user_id', user.id);
+      .eq('user_id', profileUserId);
 
     if (!error) {
       // Refresh profile after update
@@ -554,7 +602,7 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
     }
 
     return { error };
-  }, [user?.id, refreshProfile]);
+  }, [dbUser?.id, user?.id, refreshProfile]);
 
 
 
@@ -595,6 +643,9 @@ export function AuthProvider({ children, allowGuest = true }: AuthProviderProps)
     signOut,
     enableGuestMode,
     disableGuestMode,
+    setSelemeneApiKey,
+    connectSelemene,
+    clearSelemeneKey,
     updateProfile,
     refreshProfile,
     resetPassword,

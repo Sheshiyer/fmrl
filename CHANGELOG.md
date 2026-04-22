@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.0.4] - 2026-04-04
+
+### Fixed
+
+- Selemene API connectivity now recovers correctly after login by using Supabase session token fallback when bridge token is unavailable.
+- Dashboard and shell connection state no longer show false-disconnected errors when an effective credential is present.
+- Timing data fetches now handle expired JWTs with reconnect and one retry to reduce manual relogin friction.
+
+### Changed
+
+- Desktop release/version alignment updated to `0.0.4` across frontend and Tauri manifests.
+- Tauri rebuild tooling and release flow improved for cleaner local export and cross-platform release packaging.
+
+---
+
 ## [0.0.1] - 2026-03-18
 
 ### Added — Initial Release
@@ -46,9 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Code-signed and notarization-ready configuration
 
 #### Infrastructure
-- Docker containerization (dev + production)
 - GitHub Actions CI/CD pipeline
-- DigitalOcean deployment automation
 - Domain: `fmrl.tryambakam.space`
 - Supabase integration (PostgreSQL + Auth + Storage)
 
@@ -68,7 +81,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | Backend | Python 3.11, FastAPI, OpenCV |
 | Desktop | Tauri v2, Rust |
 | Database | Supabase (PostgreSQL), Redis |
-| Deploy | Docker, GitHub Actions, DigitalOcean |
+| Deploy | GitHub Actions |
 
 ### Notes
 

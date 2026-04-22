@@ -20,6 +20,9 @@ const START_ATTEMPTS: u8 = 3;
 const RETRY_BACKOFF: Duration = Duration::from_millis(700);
 const LOG_CAPACITY: usize = 500;
 const APP_BUNDLE_ID: &str = "space.tryambakam.fmrl";
+const LEGACY_DEEP_LINK_AUTH_CALLBACK: &str = "fmrl://auth/callback";
+const TAURI_LOCALHOST_AUTH_CALLBACK_HTTPS: &str = "https://tauri.localhost/";
+const TAURI_LOCALHOST_AUTH_CALLBACK_HTTP: &str = "http://tauri.localhost/";
 
 #[derive(Debug)]
 struct BackendState {
@@ -246,6 +249,13 @@ fn resolve_python_executable(
     working_dir: &PathBuf,
     logs: &Arc<Mutex<VecDeque<String>>>,
 ) -> Result<String, String> {
+    if !working_dir.exists() {
+        return Err(format!(
+            "Desktop backend directory is missing at '{}'. This build does not include the packaged backend sidecar yet.",
+            working_dir.display()
+        ));
+    }
+
     for candidate in python_candidates(working_dir) {
         if python_has_backend_deps(&candidate) {
             push_log(logs, format!("[lifecycle] selected python runtime: {candidate}"));
@@ -668,8 +678,13 @@ async fn open_oauth_window(app: tauri::AppHandle, url: String) -> Result<(), Str
         .resizable(true)
         .on_navigation(move |nav_url| {
             let url_str = nav_url.as_str();
-            // Intercept the OAuth callback redirect (fmrl:// is not a loadable scheme)
-            if url_str.starts_with("fmrl://auth/callback") {
+            let is_auth_callback = url_str.starts_with(LEGACY_DEEP_LINK_AUTH_CALLBACK)
+                || url_str.starts_with(TAURI_LOCALHOST_AUTH_CALLBACK_HTTPS)
+                || url_str.starts_with(TAURI_LOCALHOST_AUTH_CALLBACK_HTTP);
+
+            // Intercept the OAuth callback redirect before the WebView fully
+            // navigates into the bundled app origin.
+            if is_auth_callback {
                 // Prefer hash fragment (implicit flow), fall back to query params (PKCE)
                 let token_string = match nav_url.fragment() {
                     Some(f) if !f.is_empty() => f.to_string(),

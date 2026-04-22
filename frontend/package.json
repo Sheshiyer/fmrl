@@ -1,7 +1,7 @@
 {
   "name": "@fmrl/web",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.4",
   "type": "module",
   "scripts": {
     "dev": "vite --strictPort --port 5173",
@@ -24,6 +24,7 @@
     "@supabase/supabase-js": "^2.99.0",
     "@tauri-apps/api": "^2.8.0",
     "@tauri-apps/plugin-deep-link": "^2.4.7",
+    "@tauri-apps/plugin-http": "^2.5.7",
     "@tauri-apps/plugin-opener": "^2.5.3",
     "@tensorflow-models/body-segmentation": "^1.0.2",
     "@tensorflow-models/face-landmarks-detection": "^1.0.6",

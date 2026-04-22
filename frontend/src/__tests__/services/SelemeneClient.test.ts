@@ -10,7 +10,24 @@ import { SelemeneClient, SelemeneApiError } from '../../services/SelemeneClient'
 
 // ---------- Mocks ----------
 
-const mockFetch = vi.fn();
+const {
+  mockFetch,
+  mockIsTauriRuntime,
+  mockTauriFetch,
+} = vi.hoisted(() => ({
+  mockFetch: vi.fn(),
+  mockIsTauriRuntime: vi.fn(() => false),
+  mockTauriFetch: vi.fn(),
+}));
+
+vi.mock('../../utils/runtimeApi', () => ({
+  isTauriRuntime: mockIsTauriRuntime,
+}));
+
+vi.mock('@tauri-apps/plugin-http', () => ({
+  fetch: mockTauriFetch,
+}));
+
 vi.stubGlobal('fetch', mockFetch);
 
 // ---------- Helpers ----------
@@ -21,6 +38,7 @@ function mockResponse(body: unknown, status = 200): Response {
     status,
     statusText: status === 200 ? 'OK' : 'Error',
     json: () => Promise.resolve(body),
+    text: () => Promise.resolve(JSON.stringify(body)),
   } as Response;
 }
 
@@ -40,6 +58,7 @@ describe('SelemeneClient', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    mockIsTauriRuntime.mockReturnValue(false);
     client = new SelemeneClient('https://api.example.com');
   });
 
@@ -85,23 +104,67 @@ describe('SelemeneClient', () => {
   // --- Headers ---
 
   describe('headers', () => {
-    it('includes Authorization when token is set', async () => {
-      client.setToken('bearer-tok');
+    it('includes Authorization bearer when a JWT token is set', async () => {
+      client.setToken('jwt-tok');
       mockFetch.mockResolvedValueOnce(mockResponse([]));
       await client.listEngines();
 
       const callHeaders = mockFetch.mock.calls[0][1].headers;
-      expect(callHeaders['Authorization']).toBe('Bearer bearer-tok');
-      expect(callHeaders['Content-Type']).toBe('application/json');
+      expect(callHeaders.Authorization).toBe('Bearer jwt-tok');
+      expect(callHeaders['X-API-Key']).toBeUndefined();
+      expect(callHeaders['Content-Type']).toBeUndefined();
     });
 
-    it('omits Authorization when token is null', async () => {
+    it('includes X-API-Key when an nk_ API key is set', async () => {
+      client.setToken('nk_test_key');
       mockFetch.mockResolvedValueOnce(mockResponse([]));
       await client.listEngines();
 
       const callHeaders = mockFetch.mock.calls[0][1].headers;
-      expect(callHeaders['Authorization']).toBeUndefined();
+      expect(callHeaders['X-API-Key']).toBe('nk_test_key');
+      expect(callHeaders.Authorization).toBeUndefined();
+      expect(callHeaders['Content-Type']).toBeUndefined();
+    });
+
+    it('omits auth headers when token is null', async () => {
+      mockFetch.mockResolvedValueOnce(mockResponse([]));
+      await client.listEngines();
+
+      const callHeaders = mockFetch.mock.calls[0][1].headers;
+      expect(callHeaders['X-API-Key']).toBeUndefined();
+      expect(callHeaders.Authorization).toBeUndefined();
+      expect(callHeaders['Content-Type']).toBeUndefined();
+    });
+
+    it('includes Content-Type when a request has a JSON body', async () => {
+      mockFetch.mockResolvedValueOnce(mockResponse({ token: 'jwt-xyz', user_id: '1', email: 'a@b.com', tier: 'free' }));
+      await client.login('a@b.com', 'pass123');
+
+      const callHeaders = mockFetch.mock.calls[0][1].headers;
       expect(callHeaders['Content-Type']).toBe('application/json');
+    });
+  });
+
+  describe('transport', () => {
+    it('uses the native Tauri HTTP client in desktop runtime', async () => {
+      mockIsTauriRuntime.mockReturnValue(true);
+      mockTauriFetch.mockResolvedValueOnce(mockResponse([]));
+
+      await client.listEngines();
+
+      expect(mockTauriFetch).toHaveBeenCalledWith(
+        'https://api.example.com/api/v1/engines',
+        expect.any(Object),
+      );
+      expect(mockFetch).not.toHaveBeenCalled();
+    });
+
+    it('surfaces a CORS-specific transport error in browser runtime', async () => {
+      mockFetch.mockRejectedValueOnce(new TypeError('Failed to fetch'));
+
+      await expect(client.listEngines()).rejects.toThrow(
+        'Browser access is currently blocked by CORS',
+      );
     });
   });
 
@@ -130,7 +193,7 @@ describe('SelemeneClient', () => {
 
   describe('listEngines', () => {
     it('GETs /api/v1/engines', async () => {
-      const engines = [{ id: 'panchanga', name: 'Panchanga' }];
+      const engines = [{ engine_id: 'panchanga', engine_name: 'Panchanga', required_phase: 0 }];
       mockFetch.mockResolvedValueOnce(mockResponse(engines));
 
       const result = await client.listEngines();
@@ -139,7 +202,22 @@ describe('SelemeneClient', () => {
         'https://api.example.com/api/v1/engines',
         expect.any(Object),
       );
-      expect(result).toEqual(engines);
+      expect(result).toEqual([
+        expect.objectContaining(engines[0]),
+      ]);
+    });
+
+    it('normalizes wrapped engine-id payloads from the live API', async () => {
+      mockFetch.mockResolvedValueOnce(
+        mockResponse({ engines: ['panchanga', 'transits'] }),
+      );
+
+      const result = await client.listEngines();
+
+      expect(result).toEqual([
+        expect.objectContaining({ engine_id: 'panchanga', engine_name: 'Panchanga' }),
+        expect.objectContaining({ engine_id: 'transits', engine_name: 'Transits' }),
+      ]);
     });
   });
 
@@ -194,7 +272,7 @@ describe('SelemeneClient', () => {
 
   describe('listWorkflows', () => {
     it('GETs /api/v1/workflows', async () => {
-      const workflows = [{ id: 'daily', name: 'Daily Synthesis' }];
+      const workflows = [{ workflow_id: 'daily-practice', name: 'Daily Practice', required_phase: 0, engines: ['panchanga'] }];
       mockFetch.mockResolvedValueOnce(mockResponse(workflows));
 
       const result = await client.listWorkflows();
@@ -203,7 +281,29 @@ describe('SelemeneClient', () => {
         'https://api.example.com/api/v1/workflows',
         expect.any(Object),
       );
-      expect(result).toEqual(workflows);
+      expect(result).toEqual([
+        expect.objectContaining(workflows[0]),
+      ]);
+    });
+
+    it('normalizes wrapped workflow payloads from the live API', async () => {
+      mockFetch.mockResolvedValueOnce(
+        mockResponse({
+          workflows: [
+            { id: 'daily-practice', name: 'Daily Practice', description: 'Daily rhythm', engine_count: 3 },
+          ],
+        }),
+      );
+
+      const result = await client.listWorkflows();
+
+      expect(result).toEqual([
+        expect.objectContaining({
+          workflow_id: 'daily-practice',
+          name: 'Daily Practice',
+          engines: ['panchanga', 'vedic-clock', 'biorhythm'],
+        }),
+      ]);
     });
   });
 
@@ -250,6 +350,15 @@ describe('SelemeneClient', () => {
         'https://api.example.com/api/v1/readings?limit=50',
         expect.any(Object),
       );
+    });
+
+    it('unwraps wrapped reading-history payloads from the live API', async () => {
+      const readings = [{ id: 'r1', created_at: '2026-03-19' }];
+      mockFetch.mockResolvedValueOnce(mockResponse({ readings }));
+
+      const result = await client.listReadings();
+
+      expect(result).toEqual(readings);
     });
   });
 
